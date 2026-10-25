@@ -17,6 +17,32 @@ Or add the marketplace first and install by name:
 /plugin install statamic-kit@mitsol-labs
 ```
 
+### Auto-update
+
+Claude Code doesn't auto-update third-party marketplaces unless you turn it
+on. Either run `/plugin`, open the **Marketplaces** tab, select `mitsol-labs`
+and choose **Enable auto-update**, or add this to `~/.claude/settings.json`:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "mitsol-labs": {
+      "source": { "source": "github", "repo": "mjderoode/mitsol-labs" },
+      "autoUpdate": true
+    }
+  }
+}
+```
+
+For a team, put the same block in the project's `.claude/settings.json` and
+commit it. Everyone who opens and trusts the repository gets the marketplace
+with auto-update on; each person still installs the plugin once.
+
+With auto-update on, Claude Code checks for a new version in the background
+shortly after a session starts. You then see `Plugin updated`, and the next
+session (or `/reload-plugins`) loads it. A release is picked up when
+`version` in `.claude-plugin/plugin.json` changes.
+
 ## Components
 
 | Component | What it does |
