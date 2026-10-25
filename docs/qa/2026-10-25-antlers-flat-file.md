@@ -77,6 +77,8 @@ and it told the user to clear the cache.
 
 ## Findings
 
+All four fixed on 2026-10-25 (RED → GREEN, see `evals/RESULTS.md`).
+
 ### BP-10 — navigation reference not readable
 Profile: A, Antlers
 Severity: minor

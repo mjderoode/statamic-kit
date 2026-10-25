@@ -31,7 +31,7 @@ page-builder blocks; `forms` covers forms and `users` covers roles and groups.
 The references each skill always needs are inlined at the end of its SKILL.md
 by `scripts/inline-references.py` (reading plugin files outside the project
 needs a permission prompt). Merged to `main` on 2026-10-25; last full suite
-49/51, both misses judge variance (3/3 on rerun). Eval history in
+52/53 (2026-10-25), the miss judge variance (3/3 on rerun). Eval history in
 `evals/RESULTS.md`.
 
 Mods (2026-10-25): `mods/yaml-check.ts` (after Write/Edit of Statamic YAML:
@@ -113,8 +113,9 @@ Plan of attack:
 1. ~~Write the QA test protocol~~ (done 2026-10-25: `docs/qa/test-protocol.md`;
    profiles A flat-file, B Eloquent structure, C Eloquent content only).
    Antlers flat-file round done 2026-10-25 (30/31, report
-   `docs/qa/2026-10-25-antlers-flat-file.md`; four findings to turn into
-   RED cases or fixes). Still to run: a Blade/Eloquent site (profile B or C).
+   `docs/qa/2026-10-25-antlers-flat-file.md`); its four findings fixed
+   RED→GREEN the same day (full suite 52/53, the miss 3/3 on rerun). Still to
+   run: a Blade/Eloquent site (profile B or C).
 2. ~~Mods.~~ First two built 2026-10-25 (see Status); more in `IDEAS.md`.
 
 ### Open minors from the reviewer's final review

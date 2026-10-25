@@ -17,9 +17,10 @@ BP = "skills/blueprints/references/"
 
 INLINE = {
     "skills/blueprints/SKILL.md": [BP + "project-detection.md", BP + "blueprint-yaml.md",
-                                   BP + "page-builder.md", BP + "templates.md"],
+                                   BP + "page-builder.md", BP + "templates.md", BP + "fieldtypes.md",
+                                   BP + "entry-blueprints.md", BP + "globals.md", BP + "navigation.md"],
     "skills/forms/SKILL.md": [BP + "project-detection.md", "skills/forms/references/forms.md",
-                              BP + "blueprint-yaml.md"],
+                              BP + "blueprint-yaml.md", BP + "fieldtypes.md"],
     "skills/users/SKILL.md": [BP + "project-detection.md", "skills/users/references/permissions.md"],
 }
 

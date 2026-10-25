@@ -29,10 +29,10 @@ instead of guessing.
 | Fieldsets | `resources/fieldsets/<handle>.yaml` |
 | Collection config | `content/collections/<handle>.yaml` |
 | Taxonomy config | `content/taxonomies/<handle>.yaml` |
-| Navigation config / tree / blueprint | `content/navigation/<handle>.yaml` / `content/trees/navigation/<handle>.yaml` / `resources/blueprints/navigation/<handle>.yaml` (see `navigation.md`) |
+| Navigation config / tree / blueprint | `content/navigation/<handle>.yaml` / `content/trees/navigation/<handle>.yaml` / `resources/blueprints/navigation/<handle>.yaml` (see **Navigation**) |
 | Form config / blueprint | `resources/forms/<handle>.yaml` / `resources/blueprints/forms/<handle>.yaml` (forms skill) |
 | Asset container config / blueprint | `content/assets/<handle>.yaml` / `resources/blueprints/assets/<handle>.yaml`; its disk in `config/filesystems.php` |
-| Global set config / values | `content/globals/<handle>.yaml` / `content/globals/<site>/<handle>.yaml` (see `globals.md`) |
+| Global set config / values | `content/globals/<handle>.yaml` / `content/globals/<site>/<handle>.yaml` (see **Globals**) |
 
 These are only defaults. **Always** check the config, even when the default
 directories exist (a fresh install leaves `resources/blueprints/user.yaml` and

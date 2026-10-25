@@ -1,0 +1,30 @@
+{{#
+    Renders any form: the inputs come from the form's blueprint, so a new form
+    needs no template of its own. Pick it in the block's Form field.
+#}}
+<section class="block block-form">
+    {{ if heading }}
+        <h2>{{ heading }}</h2>
+    {{ /if }}
+
+    {{ form:create :in="form_handle:handle" class="form" }}
+        {{ if success }}<p class="form-success" role="status">Thanks, we have your message.</p>{{ /if }}
+
+        {{ fields }}
+            <div class="form-field">
+                <label for="field-{{ handle }}">{{ display }}</label>
+                {{ if type == 'textarea' }}
+                    <textarea id="field-{{ handle }}" name="{{ handle }}">{{ old }}</textarea>
+                {{ else }}
+                    <input id="field-{{ handle }}" type="{{ input_type ?? 'text' }}" name="{{ handle }}" value="{{ old }}">
+                {{ /if }}
+                {{ if error }}<p class="form-error">{{ error }}</p>{{ /if }}
+            </div>
+        {{ /fields }}
+
+        <div class="hidden" aria-hidden="true">
+            <input type="text" name="{{ honeypot }}" tabindex="-1" autocomplete="off">
+        </div>
+        <button type="submit">Send</button>
+    {{ /form:create }}
+</section>

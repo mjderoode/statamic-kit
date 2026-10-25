@@ -36,6 +36,11 @@ place.
 5. The layout, for site helpers: a structured-data component or
    `@stack('structured-data')`, image components, focus or utility classes.
 
+Open the dispatcher and the layout yourself even when the project's
+`CLAUDE.md`, a README or the caller describes them: descriptions drift, and
+the dispatcher decides which variables the template gets. **What I read**
+lists only files you opened.
+
 **No sibling templates exist:** say so, judge against the blueprint and the
 rules below only, and leave **Bad practice** out.
 
@@ -72,6 +77,11 @@ rules below only, and leave **Bad practice** out.
   `name="{{ honeypot }}"` (Blade: `name="{{ $honeypot }}"`) is the documented
   way to write it and counts as present. The form tag adds the CSRF token
   itself; only a hand-written `<form>` needs `@csrf` / `{{ csrf_field }}`.
+- **Old input in Antlers** (`{{ old }}`, `{{ old:<field> }}`) is echoed
+  unescaped, so it needs `| sanitize`. Inside the form tag that is a
+  **should-fix**, not a must-fix: the tag's CSRF token stops another site
+  from submitting the payload for a visitor, so only self-XSS remains. Say
+  so in the finding. Blade's `{{ old('<field>') }}` is escaped: no finding.
 
 ## Checks
 
@@ -109,8 +119,10 @@ Go through these in order; skip what does not apply.
 ## Severity
 
 - **must-fix** — broken or wrong output: a handle that does not exist, a
-  Blade loop that throws on missing data, raw output of visitor input,
-  invalid markup.
+  Blade loop that throws on missing data, raw output of visitor input that
+  other people see (submissions, comments) or that another site can trigger,
+  invalid markup. Old input echoed back in a form tag is should-fix (see
+  **Language rules**).
 - **should-fix** — robustness, accessibility, a missed site helper, a key all
   siblings have.
 - **suggestion** — optional polish.

@@ -422,3 +422,24 @@ when the site's `CLAUDE.md` describes them; must-fix rating for unescaped old
 input ignores CSRF; `forms` reviews an existing generic template without
 writing one (useful, but outside the skill text). Report:
 `docs/qa/2026-10-25-antlers-flat-file.md`. Cost about $11.70.
+
+## QA round 1 findings — 2026-10-25
+
+Each finding from `docs/qa/2026-10-25-antlers-flat-file.md`:
+
+| Finding | Case | RED | GREEN |
+|---|---|---|---|
+| `navigation.md` (and `globals`, `entry-blueprints`, `fieldtypes`) read from the plugin folder, denied headless | — (eval sandbox allows the read) | — | inlined; cross-references now name sections, not files |
+| Reviewer relied on the site `CLAUDE.md` instead of opening dispatcher and layout | `review-documented-dispatch` | 1/3 | 3/3 |
+| Old input echoed raw in a form tag rated must-fix, CSRF ignored | `review-form-old-input` | 1/3 | 3/3 |
+| New form rendered by a generic template: reviewer not run | `form-generic-review` | 0/3 | 3/3 |
+
+Agent: open the dispatcher and the layout even when documented; Antlers old
+input inside the form tag is should-fix (CSRF limits it to self-XSS), Blade's
+`old()` is escaped. `forms` Verify: review the generic template when a new
+form uses it.
+
+- **Full suite** (`--runs 1`, 53 cases): 52/53. `review-form-old-input` failed
+  its `old-input-rated-should-fix` judge once; rerun 3/3 (6/7 overall).
+  A first attempt stopped on the session limit and is not counted.
+- Cost about $17 (RED $2.27, GREEN $1.92, suite $12.57, rerun ~$0.50).

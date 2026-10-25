@@ -1,0 +1,48 @@
+title: Page
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              validate:
+                - required
+          -
+            handle: page_builder
+            field:
+              type: replicator
+              display: 'Page Builder'
+              sets:
+                blocks:
+                  display: Blocks
+                  sets:
+                    rich_text:
+                      display: 'Rich text'
+                      fields:
+                        -
+                          handle: body
+                          field:
+                            type: bard
+                            display: Body
+                            save_html: true
+                    form:
+                      display: Form
+                      instructions: 'Any form from Tools → Forms. The fields come from the form blueprint.'
+                      fields:
+                        -
+                          handle: heading
+                          field:
+                            type: text
+                            display: Heading
+                        -
+                          handle: form_handle
+                          field:
+                            type: form
+                            display: Form
+                            max_items: 1
+                            required: true

@@ -9,12 +9,9 @@ Create and edit Statamic forms — config, blueprint, email and the front-end
 template — **the way this project already does it**. Detect the existing forms
 and follow them; never impose a structure.
 
-The references this skill always needs are inlined at the end of this file
-(**Inlined references**). Any other reference file named below lives in the
-plugin folder (shared ones in `${CLAUDE_PLUGIN_ROOT}/skills/blueprints/references/`):
-read it with the Read tool, one file per call — not `cd … && cat`, which is
-denied outside the project. If a read is denied, carry on from the project
-files and say in the plan which reference you could not read.
+The references this skill needs are inlined at the end of this file
+(**Inlined references**); the sections named in bold below are there. Do not
+read reference files from the plugin folder — they are all inlined.
 
 ## Workflow
 
@@ -53,7 +50,7 @@ advance"). A YAML mistake breaks the Control Panel.
 - Minimal edits; keep existing order, indentation, comments and quote style.
 - Forms (config, email, blueprint, templates): **Forms** below.
 - YAML shapes: **Blueprint and fieldset YAML** below.
-  Choosing a fieldtype: `${CLAUDE_PLUGIN_ROOT}/skills/blueprints/references/fieldtypes.md`.
+  Choosing a fieldtype: **Picking a fieldtype** below.
 
 ### 5. Verify
 
@@ -66,11 +63,14 @@ advance"). A YAML mistake breaks the Control Panel.
   `php artisan tinker --execute='echo implode(",", \Statamic\Facades\Form::find("<handle>")->blueprint()->fields()->all()->keys()->all());'`
   (read-only). If it cannot run, report **"runtime check not run"** and why.
 
-**Template review** (only if this run wrote or changed a form template; a
-YAML-only change skips it)
+**Template review** — run it when this run wrote or changed a form
+template, **or created a new form that an existing generic template renders**
+(one that loops over the form's fields, so the new form needs no template of
+its own). Any other YAML-only change skips it.
 - Dispatch the read-only reviewer: Agent tool with
   `subagent_type: "statamic-kit:template-reviewer"`, giving the template
-  path(s), the form blueprint path and the form handle.
+  path(s) — for a generic template, that template — the form blueprint path
+  and the form handle.
 - Fix small **must-fix** findings yourself, only in files that were in the
   approved plan, then dispatch the reviewer once more at most. Anything
   larger, or in another file, becomes a question for the user — never edit a
@@ -127,10 +127,10 @@ instead of guessing.
 | Fieldsets | `resources/fieldsets/<handle>.yaml` |
 | Collection config | `content/collections/<handle>.yaml` |
 | Taxonomy config | `content/taxonomies/<handle>.yaml` |
-| Navigation config / tree / blueprint | `content/navigation/<handle>.yaml` / `content/trees/navigation/<handle>.yaml` / `resources/blueprints/navigation/<handle>.yaml` (see `navigation.md`) |
+| Navigation config / tree / blueprint | `content/navigation/<handle>.yaml` / `content/trees/navigation/<handle>.yaml` / `resources/blueprints/navigation/<handle>.yaml` (see **Navigation**) |
 | Form config / blueprint | `resources/forms/<handle>.yaml` / `resources/blueprints/forms/<handle>.yaml` (forms skill) |
 | Asset container config / blueprint | `content/assets/<handle>.yaml` / `resources/blueprints/assets/<handle>.yaml`; its disk in `config/filesystems.php` |
-| Global set config / values | `content/globals/<handle>.yaml` / `content/globals/<site>/<handle>.yaml` (see `globals.md`) |
+| Global set config / values | `content/globals/<handle>.yaml` / `content/globals/<site>/<handle>.yaml` (see **Globals**) |
 
 These are only defaults. **Always** check the config, even when the default
 directories exist (a fresh install leaves `resources/blueprints/user.yaml` and
@@ -306,5 +306,34 @@ File name = handle: `resources/fieldsets/seo.yaml` is imported as `import: seo`.
   or bare) as found.
 - Quote a value when it contains `:`, `#`, a leading special character, or is a
   YAML boolean-ish word (`yes`, `no`, `on`, `off`).
+
+<!-- source: skills/blueprints/references/fieldtypes.md -->
+### Picking a fieldtype
+
+Prefer the fieldtypes and options sibling fields already use (same asset
+`container`, same Bard `buttons`, same `mode`). This table is the fallback.
+
+| Need | Fieldtype | Key options |
+|---|---|---|
+| Short text, heading, label | `text` | `character_limit`, `placeholder`, `input_type` |
+| Plain multi-line text | `textarea` | `character_limit` |
+| Rich text | `bard` | `buttons`, `save_html`, `sets` |
+| Markdown | `markdown` | — |
+| Whole number / decimal | `integer` / `float` | `min`, `max` (hours, counts, prices: never `text`) |
+| Yes/no | `toggle` | `default` |
+| One of a few options | `select`, `button_group`, `radio` | `options`, `default` |
+| Several options | `checkboxes`, `select` with `multiple: true` | `options` |
+| URL or internal link | `link` | `collections` |
+| Image or file | `assets` | `container`, `max_files`, `mode`, `folder` |
+| Repeating rows of the same fields (FAQ items, links) | `grid` | `fields`, `min_rows`, `max_rows`, `mode`, `add_row` |
+| Repeating mixed blocks | `replicator` | `sets` (see **Page builders**) |
+| A named group of fields | `group` | `fields` |
+| Date / date-time | `date` | `time_enabled`, `mode` |
+| Link to entries | `entries` | `collections`, `max_items`, `mode` |
+| Link to taxonomy terms | `terms` | `taxonomies`, `max_items` (omit for many), `mode`, `create` |
+| Slug | `slug` | `from` |
+
+`required: true` marks a field required in the CP; `validate:` takes Laravel
+rules. Copy the project's habit — some sites use both.
 
 <!-- END INLINED REFERENCES -->

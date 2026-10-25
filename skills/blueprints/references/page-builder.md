@@ -68,5 +68,5 @@ Only after the user approves the proposal:
 1. Add a replicator field (e.g. `page_builder`) to the target blueprint, with one
    group and the requested set.
 2. Render it in the collection's template using the project's template language
-   (`templates.md` shows both dispatch patterns).
+   (**Partials and components for sets** shows both dispatch patterns).
 3. Create the first partial/component.

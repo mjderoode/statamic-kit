@@ -1,7 +1,7 @@
 # Partials and components for sets
 
 Each new set needs a template on the project's dispatch path
-(`project-detection.md` §5). Model it on the **closest sibling** partial: same
+(**Project detection** §5). Model it on the **closest sibling** partial: same
 wrapper element and class pattern, same empty-field guards, same comment style.
 No hard-coded sample content; no CSS classes or frameworks the siblings don't use.
 

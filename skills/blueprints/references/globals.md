@@ -12,7 +12,7 @@ A global set is three things. Find the existing sets first and mirror them.
   sites are listed in `resources/sites.yaml`.
 - `content/globals` can be moved via `stores.globals.directory` and
   `stores.global-variables.directory` in `config/statamic/stache.php`
-  (`project-detection.md` §3).
+  (**Project detection** §3).
 
 ## Adding a field to an existing set
 
