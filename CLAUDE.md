@@ -112,8 +112,9 @@ Plan of attack:
 
 1. ~~Write the QA test protocol~~ (done 2026-10-25: `docs/qa/test-protocol.md`;
    profiles A flat-file, B Eloquent structure, C Eloquent content only).
-   Next: run the second real-site QA round with it — ideally once on an
-   Antlers flat-file site and once on a Blade/Eloquent site.
+   Antlers flat-file round done 2026-10-25 (30/31, report
+   `docs/qa/2026-10-25-antlers-flat-file.md`; four findings to turn into
+   RED cases or fixes). Still to run: a Blade/Eloquent site (profile B or C).
 2. ~~Mods.~~ First two built 2026-10-25 (see Status); more in `IDEAS.md`.
 
 ### Open minors from the reviewer's final review

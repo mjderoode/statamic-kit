@@ -80,6 +80,17 @@ run() {  # run <case-id> <turn> "<prompt>" [session-id]
 }
 ```
 
+**PHP binary.** If the site's `CLAUDE.md` or README tells Claude to use a
+specific PHP binary (an absolute path, or a wrapper like `sail`), add it to
+the allowlist too, for example `"Bash(/opt/homebrew/opt/php@8.4/bin/php *)"`.
+Otherwise every runtime check is denied and shows up as "not run".
+
+**Parallel option (macOS/APFS).** Instead of resetting one working tree,
+give each case its own clone: `cp -cR "$SITE" "$RUNS/<case-id>"`, then run
+the case inside the clone. Clones cost no disk space and need no reset, and
+several cases can run at once. Commit the baseline on the QA branch of the
+copy first, so `git status` in each clone shows only that case's changes.
+
 `acceptEdits` lets the subject write. That is intended: the plan gate is
 tested by checking that it **didn't** write in the plan turn. If a flag is
 rejected, check `claude --help` and adjust; record the change under

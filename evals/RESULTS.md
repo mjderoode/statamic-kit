@@ -411,3 +411,14 @@ passed 3/3 on rerun:
 - `fieldset-blade-add-faq`: `offers-should-fix` failed once (FAIL FAIL FAIL); rerun 3/3.
 - `review-antlers-leak`: `explains-fallback` failed once (FAIL PASS FAIL); rerun 3/3,
   but each passing vote was split 2–1. That grader sits close to its threshold.
+
+## Real-site QA round 1 (protocol) — 2026-10-25
+
+`docs/qa/test-protocol.md` run on a real Antlers flat-file site (profile A,
+Statamic 6.31): **30 pass, 1 partial** of 31 turns; no plan turn wrote, no
+write left its plan. Partial: BP-10 could not read `references/navigation.md`
+(not inlined). Minor findings: the reviewer skips the dispatcher and layout
+when the site's `CLAUDE.md` describes them; must-fix rating for unescaped old
+input ignores CSRF; `forms` reviews an existing generic template without
+writing one (useful, but outside the skill text). Report:
+`docs/qa/2026-10-25-antlers-flat-file.md`. Cost about $11.70.
