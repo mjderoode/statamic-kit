@@ -4,11 +4,17 @@ All-in-one Statamic toolkit for Claude Code.
 
 ## Install
 
-Not published to a marketplace yet. Load it from a local clone:
+From the [mitsol-labs](https://github.com/mjderoode/mitsol-labs) marketplace:
 
-```sh
-git clone <this repo> statamic-kit
-claude --plugin-dir /path/to/statamic-kit
+```
+/plugin install statamic-kit --marketplace mjderoode/mitsol-labs
+```
+
+Or add the marketplace first and install by name:
+
+```
+/plugin marketplace add mjderoode/mitsol-labs
+/plugin install statamic-kit@mitsol-labs
 ```
 
 ## Components

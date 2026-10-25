@@ -20,8 +20,10 @@ root, so every path below is relative to the repo root. Until 2026-10-25 the
 plugin lived at `plugins/statamic-kit/` in the `claude-plugins` marketplace
 repo; it moved here with a fresh history. Design specs and implementation plans
 are in `docs/specs/` and `docs/plans/`; the plans predate the move, so read
-their `plugins/statamic-kit/…` paths as the repo root. The plugin is not in a
-marketplace yet — load it with `claude --plugin-dir`.
+their `plugins/statamic-kit/…` paths as the repo root. The plugin is listed in
+the public `mitsol-labs` marketplace (`mjderoode/mitsol-labs`, a separate
+repo) with a `url` source on `main`; bump `version` in `plugin.json` to ship
+a release. For development, load it with `claude --plugin-dir .`.
 
 Status: v0.1 — `blueprints`, `forms`, `users` and `template-review` skills and the `template-reviewer` agent shipped (see `docs/specs/2026-10-19-statamic-kit-blueprints-design.md`). `blueprints` covers blueprints, fieldsets, collections
 (including multiple entry blueprints), taxonomies, global sets, navigations and
