@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en">
+<body>
+    {{ template_content }}
+    <footer>
+        {{ if contact:phone }}<a href="tel:{{ contact:phone }}">{{ contact:phone }}</a>{{ /if }}
+        {{ if contact:email }}<a href="mailto:{{ contact:email }}">{{ contact:email }}</a>{{ /if }}
+    </footer>
+</body>
+</html>

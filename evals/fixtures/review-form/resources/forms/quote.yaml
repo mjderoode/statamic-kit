@@ -1,0 +1,8 @@
+title: 'Quote request'
+honeypot: winnie
+store: true
+email:
+  -
+    to: sales@example.com
+    subject: 'New quote request'
+    reply_to: '{{ email }}'

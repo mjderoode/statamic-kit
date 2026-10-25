@@ -1,0 +1,10 @@
+en:
+  name: Studio
+  url: /
+  locale: en_US
+  lang: en
+nl:
+  name: Studio
+  url: /nl/
+  locale: nl_NL
+  lang: nl

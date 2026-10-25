@@ -1,0 +1,8 @@
+tree:
+  -
+    id: 4f1c2a0e-1111-4c3b-9d1e-000000000001
+    entry: 0b7c8a52-2222-4a6f-8e3d-000000000002
+  -
+    id: 4f1c2a0e-1111-4c3b-9d1e-000000000003
+    title: Blog
+    url: 'https://blog.example.com'

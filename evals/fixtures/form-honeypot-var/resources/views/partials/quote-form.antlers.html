@@ -1,0 +1,22 @@
+{{ form:create in="quote" class="contact-form" }}
+    {{ if success }}<p class="form-success">Thanks, we'll send you a quote.</p>{{ /if }}
+
+    <label for="quote-name">Name</label>
+    <input id="quote-name" type="text" name="name" value="{{ old:name }}" required>
+    {{ if error:name }}<p class="form-error">{{ error:name }}</p>{{ /if }}
+
+    <label for="quote-email">Email</label>
+    <input id="quote-email" type="email" name="email" value="{{ old:email }}" required>
+    {{ if error:email }}<p class="form-error">{{ error:email }}</p>{{ /if }}
+
+    <label for="quote-company">Company</label>
+    <input id="quote-company" type="text" name="company" value="{{ old:company }}">
+    {{ if error:company }}<p class="form-error">{{ error:company }}</p>{{ /if }}
+
+    <label for="quote-details">Project details</label>
+    <textarea id="quote-details" name="details" required>{{ old:details }}</textarea>
+    {{ if error:details }}<p class="form-error">{{ error:details }}</p>{{ /if }}
+
+    <input type="text" name="{{ honeypot }}" class="hidden" tabindex="-1" autocomplete="off">
+    <button type="submit">Request a quote</button>
+{{ /form:create }}

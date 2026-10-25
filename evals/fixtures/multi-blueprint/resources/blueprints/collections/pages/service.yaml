@@ -1,0 +1,28 @@
+title: 'Service page'
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              display: Title
+          -
+            handle: intro
+            field:
+              type: textarea
+              display: Intro
+          -
+            handle: price_from
+            field:
+              type: integer
+              display: 'Price from'
+          -
+            handle: content
+            field:
+              type: markdown
+              display: Content

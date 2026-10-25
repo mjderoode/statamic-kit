@@ -1,0 +1,10 @@
+{{ form:create in="quote" class="contact-form" }}
+    {{ if success }}<p class="form-success">Thanks, we'll send you a quote.</p>{{ /if }}
+
+    <input type="text" name="name" placeholder="Name" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="text" name="company" placeholder="Company">
+    <textarea name="details" placeholder="Project details" required></textarea>
+
+    <button type="submit">Request a quote</button>
+{{ /form:create }}

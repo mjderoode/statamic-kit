@@ -1,0 +1,9 @@
+{{# Quote: pull quote with an optional source. #}}
+<section class="block block-quote">
+    <blockquote>
+        <p>{{ quote }}</p>
+        {{ if source }}
+            <footer>{{ source }}</footer>
+        {{ /if }}
+    </blockquote>
+</section>

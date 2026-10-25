@@ -1,0 +1,68 @@
+title: Page
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              validate:
+                - required
+          # Page builder: keep sets alphabetical inside each group.
+          -
+            handle: page_builder
+            field:
+              type: replicator
+              display: 'Page Builder'
+              instructions: 'Build the page out of blocks.'
+              collapse: accordion
+              sets:
+                blocks:
+                  display: Blocks
+                  sets:
+                    hero:
+                      display: Hero
+                      instructions: 'Full-width banner with a heading and a button.'
+                      icon: hero
+                      fields:
+                        -
+                          handle: heading
+                          field:
+                            type: text
+                            display: Heading
+                            required: true
+                        -
+                          handle: cta_label
+                          field:
+                            type: text
+                            display: 'Button label'
+                        -
+                          handle: cta_url
+                          field:
+                            type: link
+                            display: 'Button link'
+                    rich_text:
+                      display: 'Rich text'
+                      instructions: 'Free-form copy.'
+                      icon: text
+                      fields:
+                        -
+                          handle: body
+                          field:
+                            type: bard
+                            display: Body
+                            save_html: true
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true

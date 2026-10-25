@@ -1,0 +1,60 @@
+title: Page
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+          -
+            handle: page_builder
+            field:
+              type: replicator
+              display: 'Page Builder'
+              sets:
+                blocks:
+                  display: Blocks
+                  sets:
+                    hero:
+                      display: Hero
+                      fields:
+                        -
+                          handle: heading
+                          field:
+                            type: text
+                            display: Heading
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: sidebar
+            field:
+              type: replicator
+              display: 'Sidebar widgets'
+              sets:
+                widgets:
+                  display: Widgets
+                  sets:
+                    links:
+                      display: Links
+                      fields:
+                        -
+                          handle: links
+                          field:
+                            type: grid
+                            display: Links
+                            fields:
+                              -
+                                handle: label
+                                field:
+                                  type: text
+                              -
+                                handle: url
+                                field:
+                                  type: link

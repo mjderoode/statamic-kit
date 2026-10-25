@@ -1,0 +1,18 @@
+{{ form:create in="contact" class="contact-form" }}
+    {{ if success }}<p class="form-success">Thanks, we'll be in touch.</p>{{ /if }}
+
+    <label for="name">Name</label>
+    <input id="name" type="text" name="name" value="{{ old:name }}" required>
+    {{ if error:name }}<p class="form-error">{{ error:name }}</p>{{ /if }}
+
+    <label for="email">Email</label>
+    <input id="email" type="email" name="email" value="{{ old:email }}" required>
+    {{ if error:email }}<p class="form-error">{{ error:email }}</p>{{ /if }}
+
+    <label for="message">Message</label>
+    <textarea id="message" name="message" required>{{ old:message }}</textarea>
+    {{ if error:message }}<p class="form-error">{{ error:message }}</p>{{ /if }}
+
+    <input type="text" name="winnie" class="hidden" tabindex="-1" autocomplete="off">
+    <button type="submit">Send</button>
+{{ /form:create }}

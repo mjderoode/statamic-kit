@@ -1,0 +1,5 @@
+schema_version: "1.1"
+name: role-no-approval
+tags: [guard, users]
+context:
+  scaffold_script: scaffold.sh

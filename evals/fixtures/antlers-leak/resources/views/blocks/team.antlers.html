@@ -1,0 +1,16 @@
+{{# Team: a row of people with a name and role. #}}
+<section class="block block-team">
+    {{ if heading }}
+        <h2>{{ heading }}</h2>
+    {{ /if }}
+    <ul class="team-list">
+        {{ people }}
+            <li class="team-member">
+                <p class="team-name">{{ name }}</p>
+                {{ if role }}
+                    <p class="team-role">{{ role }}</p>
+                {{ /if }}
+            </li>
+        {{ /people }}
+    </ul>
+</section>

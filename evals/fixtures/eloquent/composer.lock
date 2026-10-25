@@ -1,0 +1,9 @@
+{
+    "_readme": ["Fixture lock file: only the packages the skill inspects."],
+    "packages": [
+        { "name": "laravel/framework", "version": "v13.17.0" },
+        { "name": "statamic/cms", "version": "v6.2.0" },
+        { "name": "statamic/eloquent-driver", "version": "v5.0.0" }
+    ],
+    "packages-dev": []
+}

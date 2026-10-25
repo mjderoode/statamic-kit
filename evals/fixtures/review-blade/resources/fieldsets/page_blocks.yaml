@@ -1,0 +1,101 @@
+title: 'Pagina blokken'
+fields:
+  -
+    handle: content
+    field:
+      type: replicator
+      display: Inhoud
+      collapse: accordion
+      button_label: 'Blok toevoegen'
+      sets:
+        content:
+          display: Tekst
+          sets:
+            heading:
+              display: Kop
+              icon: heading
+              fields:
+                -
+                  handle: heading
+                  field:
+                    type: text
+                    display: Kop
+                    required: true
+            intro:
+              display: Introductie
+              icon: text
+              fields:
+                -
+                  handle: text
+                  field:
+                    type: textarea
+                    display: Introductie
+            callout:
+              display: Uitgelicht
+              icon: alert
+              fields:
+                -
+                  handle: label
+                  field:
+                    type: text
+                    display: Label
+                -
+                  handle: text
+                  field:
+                    type: textarea
+                    display: Tekst
+                -
+                  handle: link
+                  field:
+                    type: link
+                    display: Link
+                -
+                  handle: link_label
+                  field:
+                    type: text
+                    display: Linktekst
+            faq:
+              display: 'Veelgestelde vragen'
+              fields:
+                -
+                  handle: label
+                  field:
+                    type: text
+                    display: Label
+                    default: 'Veelgestelde vragen'
+                -
+                  handle: items
+                  field:
+                    type: grid
+                    display: Vragen
+                    min_rows: 1
+                    fields:
+                      -
+                        handle: question
+                        field:
+                          type: text
+                          display: Vraag
+                      -
+                        handle: answer
+                        field:
+                          type: textarea
+                          display: Antwoord
+        media:
+          display: Media
+          sets:
+            image:
+              display: Afbeelding
+              icon: assets
+              fields:
+                -
+                  handle: image
+                  field:
+                    type: assets
+                    display: Afbeelding
+                    container: assets
+                    max_files: 1
+                -
+                  handle: caption
+                  field:
+                    type: text
+                    display: Bijschrift

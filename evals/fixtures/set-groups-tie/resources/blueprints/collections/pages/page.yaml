@@ -1,0 +1,153 @@
+title: Page
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              validate:
+                - required
+          -
+            handle: page_builder
+            field:
+              type: replicator
+              display: 'Page Builder'
+              instructions: 'Build the page out of blocks.'
+              collapse: accordion
+              sets:
+                content:
+                  display: Content
+                  sets:
+                    rich_text:
+                      display: 'Rich text'
+                      icon: text
+                      fields:
+                        -
+                          handle: body
+                          field:
+                            type: bard
+                            display: Body
+                            save_html: true
+                    callout:
+                      display: Callout
+                      icon: text
+                      fields:
+                        -
+                          handle: tone
+                          field:
+                            type: button_group
+                            display: Tone
+                            options:
+                              info: Info
+                              warning: Warning
+                        -
+                          handle: body
+                          field:
+                            type: bard
+                            display: Body
+                            save_html: true
+                editorial:
+                  display: Editorial
+                  sets:
+                    quote:
+                      display: Quote
+                      icon: text
+                      fields:
+                        -
+                          handle: quote
+                          field:
+                            type: textarea
+                            display: Quote
+                        -
+                          handle: author
+                          field:
+                            type: text
+                            display: Author
+                    source:
+                      display: Source
+                      icon: text
+                      fields:
+                        -
+                          handle: label
+                          field:
+                            type: text
+                            display: Label
+                        -
+                          handle: url
+                          field:
+                            type: link
+                            display: Link
+                media:
+                  display: Media
+                  sets:
+                    image:
+                      display: Image
+                      icon: assets
+                      fields:
+                        -
+                          handle: image
+                          field:
+                            type: assets
+                            display: Image
+                            container: assets
+                            max_files: 1
+                        -
+                          handle: caption
+                          field:
+                            type: text
+                            display: Caption
+                    video:
+                      display: Video
+                      icon: assets
+                      fields:
+                        -
+                          handle: url
+                          field:
+                            type: video
+                            display: 'Video URL'
+                layout:
+                  display: Layout
+                  sets:
+                    columns:
+                      display: Columns
+                      icon: layout
+                      fields:
+                        -
+                          handle: left
+                          field:
+                            type: bard
+                            display: 'Left column'
+                            save_html: true
+                        -
+                          handle: right
+                          field:
+                            type: bard
+                            display: 'Right column'
+                            save_html: true
+                    spacer:
+                      display: Spacer
+                      icon: layout
+                      fields:
+                        -
+                          handle: size
+                          field:
+                            type: button_group
+                            display: Size
+                            options:
+                              small: Small
+                              large: Large
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true

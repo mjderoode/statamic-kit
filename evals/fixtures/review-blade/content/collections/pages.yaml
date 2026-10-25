@@ -1,0 +1,3 @@
+title: "Pagina's"
+route: '{slug}'
+template: default

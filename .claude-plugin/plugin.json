@@ -1,0 +1,13 @@
+{
+  "name": "statamic-kit",
+  "version": "0.1.0",
+  "description": "All-in-one Statamic toolkit for Claude Code: skills, agents and mods for building and maintaining Statamic sites.",
+  "author": {
+    "name": "Mitchell de Roode",
+    "email": "developer@mitsol.nl"
+  },
+  "homepage": "https://github.com/mjderoode/statamic-kit",
+  "repository": "https://github.com/mjderoode/statamic-kit",
+  "license": "MIT",
+  "keywords": ["statamic", "laravel", "cms", "antlers", "blueprints"]
+}

@@ -1,0 +1,5 @@
+schema_version: "1.1"
+name: user-add-field
+tags: [write, users]
+context:
+  scaffold_script: scaffold.sh

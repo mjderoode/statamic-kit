@@ -1,0 +1,33 @@
+title: Blocks
+fields:
+  -
+    handle: blocks
+    field:
+      type: replicator
+      display: Blocks
+      sets:
+        content:
+          display: Content
+          sets:
+            text:
+              display: Text
+              fields:
+                -
+                  handle: body
+                  field:
+                    type: bard
+                    display: Body
+                    save_html: true
+            quote:
+              display: Quote
+              fields:
+                -
+                  handle: quote
+                  field:
+                    type: textarea
+                    display: Quote
+                -
+                  handle: cite
+                  field:
+                    type: text
+                    display: Cite

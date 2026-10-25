@@ -1,0 +1,37 @@
+title: Artikel
+tabs:
+  main:
+    display: Inhoud
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              display: Titel
+              required: true
+          -
+            handle: date
+            field:
+              type: date
+              display: Datum
+          -
+            import: page_blocks
+  seo:
+    display: SEO
+    sections:
+      -
+        fields:
+          -
+            handle: meta_title
+            field:
+              type: text
+              display: 'SEO-titel'
+              character_limit: 60
+          -
+            handle: meta_description
+            field:
+              type: textarea
+              display: 'SEO-omschrijving'
+              character_limit: 160

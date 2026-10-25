@@ -1,0 +1,18 @@
+title: Contact
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: phone
+            field:
+              type: text
+              display: Phone
+          -
+            handle: email
+            field:
+              type: text
+              input_type: email
+              display: Email

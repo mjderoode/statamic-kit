@@ -1,0 +1,110 @@
+title: Page
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              validate:
+                - required
+          # Page builder: keep sets alphabetical inside each group.
+          -
+            handle: page_builder
+            field:
+              type: replicator
+              display: 'Page Builder'
+              instructions: 'Build the page out of blocks.'
+              collapse: accordion
+              sets:
+                blocks:
+                  display: Blocks
+                  sets:
+                    hero:
+                      display: Hero
+                      instructions: 'Full-width banner with a heading and a button.'
+                      icon: hero
+                      fields:
+                        -
+                          handle: heading
+                          field:
+                            type: text
+                            display: Heading
+                            required: true
+                        -
+                          handle: cta_label
+                          field:
+                            type: text
+                            display: 'Button label'
+                        -
+                          handle: cta_url
+                          field:
+                            type: link
+                            display: 'Button link'
+                    quote:
+                      display: Quote
+                      instructions: 'A pull quote with an optional source.'
+                      icon: quote
+                      fields:
+                        -
+                          handle: quote
+                          field:
+                            type: textarea
+                            display: Quote
+                            required: true
+                        -
+                          handle: source
+                          field:
+                            type: text
+                            display: Source
+                    rich_text:
+                      display: 'Rich text'
+                      instructions: 'Free-form copy.'
+                      icon: text
+                      fields:
+                        -
+                          handle: body
+                          field:
+                            type: bard
+                            display: Body
+                            save_html: true
+                    team:
+                      display: Team
+                      instructions: 'A row of people with a name and role.'
+                      icon: users
+                      fields:
+                        -
+                          handle: heading
+                          field:
+                            type: text
+                            display: Heading
+                        -
+                          handle: people
+                          field:
+                            type: grid
+                            display: People
+                            fields:
+                              -
+                                handle: name
+                                field:
+                                  type: text
+                                  display: Name
+                              -
+                                handle: role
+                                field:
+                                  type: text
+                                  display: Role
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true

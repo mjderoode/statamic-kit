@@ -1,0 +1,43 @@
+title: 'Pagina blokken'
+fields:
+  -
+    handle: content
+    field:
+      type: replicator
+      display: Inhoud
+      instructions: 'Bouw de pagina op uit losse blokken.'
+      collapse: accordion
+      button_label: 'Blok toevoegen'
+      sets:
+        content:
+          display: Tekst
+          sets:
+            intro:
+              display: Introductie
+              instructions: 'De opening van de pagina.'
+              icon: text
+              fields:
+                -
+                  handle: text
+                  field:
+                    type: textarea
+                    display: Introductie
+        media:
+          display: Media
+          sets:
+            image:
+              display: Afbeelding
+              icon: assets
+              fields:
+                -
+                  handle: image
+                  field:
+                    type: assets
+                    display: Afbeelding
+                    container: assets
+                    max_files: 1
+                -
+                  handle: caption
+                  field:
+                    type: text
+                    display: Bijschrift

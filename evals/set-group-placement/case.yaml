@@ -1,0 +1,5 @@
+schema_version: "1.1"
+name: set-group-placement
+tags: [write, page-builder]
+context:
+  scaffold_script: scaffold.sh

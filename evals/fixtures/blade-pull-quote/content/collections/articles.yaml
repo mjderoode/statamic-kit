@@ -1,0 +1,4 @@
+title: Artikelen
+route: '/artikelen/{slug}'
+dated: true
+template: default

@@ -1,0 +1,30 @@
+title: User
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: name
+            field:
+              type: text
+              display: Name
+          -
+            handle: email
+            field:
+              type: text
+              input_type: email
+              display: 'Email Address'
+          -
+            handle: roles
+            field:
+              type: user_roles
+              mode: select
+              width: 50
+          -
+            handle: groups
+            field:
+              type: user_groups
+              mode: select
+              width: 50

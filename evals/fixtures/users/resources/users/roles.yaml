@@ -1,0 +1,11 @@
+admin:
+  title: Administrator
+  permissions:
+    - super
+author:
+  title: Author
+  permissions:
+    - 'access cp'
+    - 'view blog entries'
+    - 'edit blog entries'
+    - 'create blog entries'
