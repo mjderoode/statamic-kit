@@ -68,7 +68,7 @@ Plan of attack:
 - ~~**Then:** the template review agent~~ (done 2026-10-25: `agents/template-reviewer.md`
   + `skills/template-review/`; design in `docs/specs/2026-10-24-statamic-kit-template-reviewer-design.md`), then mods. The blueprint-mapper agent
   below stays deferred until a large real site shows it is needed.
-- **QA test protocol (open).** Write `docs/qa/test-protocol.md`:
+- ~~**QA test protocol.**~~ (written 2026-10-25) Write `docs/qa/test-protocol.md`:
   a step-by-step script that a fresh Claude session runs
   against a real site with `claude --plugin-dir <path to this repo>`. It
   covers each skill and agent, with a prompt, the expected behaviour, and a
@@ -110,8 +110,10 @@ Plan of attack:
 
 ### Next up (in order)
 
-1. Write the QA test protocol (see Roadmap) and run the second real-site QA
-   round with it, reviewer included; include the two mods.
+1. ~~Write the QA test protocol~~ (done 2026-10-25: `docs/qa/test-protocol.md`;
+   profiles A flat-file, B Eloquent structure, C Eloquent content only).
+   Next: run the second real-site QA round with it — ideally once on an
+   Antlers flat-file site and once on a Blade/Eloquent site.
 2. ~~Mods.~~ First two built 2026-10-25 (see Status); more in `IDEAS.md`.
 
 ### Open minors from the reviewer's final review
