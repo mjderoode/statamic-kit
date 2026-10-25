@@ -34,6 +34,15 @@ needs a permission prompt). Merged to `main` on 2026-10-25; last full suite
 49/51, both misses judge variance (3/3 on rerun). Eval history in
 `evals/RESULTS.md`.
 
+Mods (2026-10-25): `mods/yaml-check.ts` (after Write/Edit of Statamic YAML:
+parse with the site's own Symfony parser via `mods/lib/yaml-parse.php`, report
+parse errors and duplicate field/set handles) and `mods/paired-files.ts`
+(a new set without a partial in the folder its sibling sets use, a new
+partial with no set, a form config without its blueprint or vice versa).
+Both add `context` to the tool result for Claude and stay silent when PHP or
+the site's `vendor/` is missing. Shared code in `mods/lib/statamic.ts`; tests
+in `tests/mods.test.ts` (`claude plugin test .`). Parked mod ideas: `IDEAS.md`.
+
 ## Roadmap
 
 Not yet covered, in order of how often it comes up on real sites:
@@ -102,8 +111,8 @@ Plan of attack:
 ### Next up (in order)
 
 1. Write the QA test protocol (see Roadmap) and run the second real-site QA
-   round with it, reviewer included.
-2. Mods.
+   round with it, reviewer included; include the two mods.
+2. ~~Mods.~~ First two built 2026-10-25 (see Status); more in `IDEAS.md`.
 
 ### Open minors from the reviewer's final review
 

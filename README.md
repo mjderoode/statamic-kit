@@ -27,6 +27,9 @@ Or add the marketplace first and install by name:
 | `/statamic-kit:template-review` | Reviews an Antlers or Blade block or form template on request by handing it to the agent below, and relays the report. Changes nothing. |
 | `statamic-kit:template-reviewer` (agent) | Read-only review of set and form templates against the site's own blueprints and sibling templates: field handles, robustness, escaping, headings and focus, form labels/errors/old input/honeypot, missed site helpers. Findings by severity, plus a separate **Bad practice** list for weaknesses the whole site shares. Runs automatically after `blueprints` or `forms` writes a template. |
 
+| `yaml-check` (mod) | After Claude writes or edits Statamic YAML, parses it with the site's own Symfony YAML parser (the one Statamic uses) and reports parse errors and duplicate field or set handles back to Claude. Needs `php` and the site's `vendor/`; silent without them. |
+| `paired-files` (mod) | After a write, reports a new page-builder set without a partial (in the folder its sibling sets use), a new partial with no matching set, and a form config without its blueprint or the other way round. |
+
 The skill also triggers on plain requests such as "add an FAQ block to the page
 builder" or "create a collection for vacancies".
 
@@ -54,7 +57,10 @@ claude plugin validate .
 python3 scripts/inline-references.py --check
 claude --plugin-dir .
 claude plugin eval . --scaffold --allow-tools Bash Write Edit
+claude plugin test .
 ```
+
+Mod tests live in `tests/` and run against an in-memory site.
 
 Eval cases live in `evals/` and run against synthetic fixture projects in
 `evals/fixtures/`; see `evals/RESULTS.md` for the latest scores.
