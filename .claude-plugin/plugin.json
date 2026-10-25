@@ -1,6 +1,6 @@
 {
   "name": "statamic-kit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "All-in-one Statamic toolkit for Claude Code: skills, agents and mods for building and maintaining Statamic sites.",
   "author": {
     "name": "Mitchell de Roode",

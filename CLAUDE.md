@@ -25,7 +25,7 @@ the public `mitsol-labs` marketplace (`mjderoode/mitsol-labs`, a separate
 repo) with a `url` source on `main`; bump `version` in `plugin.json` to ship
 a release. For development, load it with `claude --plugin-dir .`.
 
-Status: v0.1 — `blueprints`, `forms`, `users` and `template-review` skills and the `template-reviewer` agent shipped (see `docs/specs/2026-10-19-statamic-kit-blueprints-design.md`). `blueprints` covers blueprints, fieldsets, collections
+Status: v0.2 (2026-10-26: QA round 1 fixes) — `blueprints`, `forms`, `users` and `template-review` skills and the `template-reviewer` agent shipped (see `docs/specs/2026-10-19-statamic-kit-blueprints-design.md`). `blueprints` covers blueprints, fieldsets, collections
 (including multiple entry blueprints), taxonomies, global sets, navigations and
 page-builder blocks; `forms` covers forms and `users` covers roles and groups.
 The references each skill always needs are inlined at the end of its SKILL.md
