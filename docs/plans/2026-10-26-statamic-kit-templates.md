@@ -148,7 +148,7 @@ Every prompt ends with "I approve your plan in advance — go ahead without wait
 
 ## Phase 2 — remaining page types
 
-Starts after the 0.3.0 release. Each task follows the same loop on its own:
+Built on the same branch before merging; one release after Task 12 (user decision 2026-10-26). Each task follows the same loop on its own:
 write the cases (fixture overlay via `scaffold.sh` where possible), RED with
 `--runs 1`, check the facts in the docs and add them to the facts file, extend
 SKILL.md/references (and its description triggers), GREEN with `--runs 3`,

@@ -102,3 +102,54 @@ from Statamic's behaviour that a real-site QA round should confirm.
 - So with `collections` on `eloquent`, `template:`/`mount:`/`route:` are set
   in the Control Panel; with `entries` on `eloquent`, the listing page entry is
   created in the CP. This matches the spec's Eloquent rule.
+
+## Phase 2 (checked 2026-10-26)
+
+### Search
+
+- Results: Antlers `{{ search:results index="default" }}` with `{{ if no_results }}`;
+  Blade `<statamic:search:results index="default" as="results">` with
+  `@forelse … @empty`. The query parameter is `q` (`get:q`, `get('q')`).
+  A plain `<form action="/search">` with `<input type="search" name="q">`
+  posts to the page that holds the results tag.
+  <https://statamic.dev/frontend/search>, <https://statamic.dev/tags/search>
+- Indexes in `config/statamic/search.php`: `driver` (`local`), `searchables`
+  (`content`, `collection:*`, `collection:news`, `taxonomy:…`, …), `fields`
+  (default index only `title`), per-site with `sites`. Update with
+  `php please search:update [name|--all]`.
+- With static caching, `?q=` is ignored by default (see Static caching): the
+  results part needs `nocache`, or the URL excluded, or the query string
+  allowed.
+
+### Error pages
+
+- Statamic renders `resources/views/errors/{status}.antlers.html` (404 for
+  unhandled routes); `errors/layout.antlers.html` overrides the layout for
+  errors. 5xx templates are not injected into a layout.
+  <https://statamic.dev/content-modeling/routing>
+- Not in the docs: without `errors/layout`, an Antlers 404 uses the default
+  `layout`; a Blade 404 (`errors/404.blade.php`) `@extends` the site layout
+  like any Blade template.
+
+### SEO and sitemaps
+
+- Statamic core has no SEO meta or sitemap. SEO Pro (first-party addon) sets
+  meta, Open Graph and Twitter data and generates `sitemap.xml`; other addons:
+  Advanced SEO, Aardvark SEO, SEOtamic. Without an addon, meta tags come from
+  the site's own fields and templates.
+  <https://statamic.dev/knowledge-base/from-wordpress-to-statamic>
+- A hand-made sitemap is a route plus template:
+  `Route::statamic('sitemap.xml', 'sitemap', ['content_type' => 'xml'])`
+  (`'xml'` → `text/xml`). Not in the docs: pass `'layout' => null` so the
+  HTML layout is not wrapped around the XML.
+  <https://statamic.dev/content-modeling/routing>
+
+### Language switcher
+
+- `{{ locales }}…{{ /locales }}` lists the current entry's sites: `permalink`,
+  `url`, `locale:name`, `locale:short`, `is_current`, `exists` (false when not
+  localized or a draft); `self="false"` leaves the current one out;
+  `all="true"` lists every site and falls back to the site URL when the entry
+  is missing. Blade: `<s:locales>` with `$locale['permalink']`,
+  `$locale['name']`. Sites are configured in `resources/sites.yaml`.
+  <https://statamic.dev/tags/locales>

@@ -550,3 +550,22 @@ Important got a test first:
 | Trigger guard only one way | `blueprints-not-fired` on `listing-news-antlers`, `detail-news-antlers`, `nav-main-blade` | 1/1 each |
 
 Minors are listed in `CLAUDE.md` under the templates Progress list. Cost $2.76.
+
+## Templates skill phase 2 — RED — 2026-10-27
+
+Nine cases (Tasks 7–11), run against the phase 1 skill (`--runs 1`). Six
+runs and one judge first stopped on the session limit and were rerun.
+
+| Case | RED | What happened |
+|---|---|---|
+| `search-results-antlers` | content FAIL | page built, but no search index: left `search.php` out as "PHP config", so only titles are searched |
+| `search-static-cache` | 1.00 | handled caching of `?q=` |
+| `not-found-blade` | skill not fired | 404 itself fine |
+| `seo-meta-antlers` | 0.00 | skill not fired; edited blueprints, meta judged wrong |
+| `seo-addon-present` | skill not fired | did not duplicate SEO Pro |
+| `seo-missing-fields` | 0.00 | added SEO fields to blueprints unasked |
+| `sitemap-antlers` | skill not fired | sitemap itself fine |
+| `language-switcher-multisite` | 1.00 | |
+| `language-switcher-single-site` | 0.33 | built a switcher on a one-site install |
+
+Cost $3.79.
