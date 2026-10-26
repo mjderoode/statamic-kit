@@ -126,7 +126,7 @@ Plan of attack:
 ### Templates skill — Progress (tick after each task's commit)
 
 - [x] Task 1 — Statamic facts file, fixtures `pages-antlers` + `pages-blade`
-- [ ] Task 2 — page-type cases (7), RED
+- [x] Task 2 — page-type cases (7), RED
 - [ ] Task 3 — gate and boundary cases (7), RED
 - [ ] Task 4 — `skills/templates/` + references, GREEN
 - [ ] Task 5 — reviewer extended to page templates, RED → GREEN

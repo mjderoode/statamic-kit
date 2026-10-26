@@ -443,3 +443,23 @@ form uses it.
   its `old-input-rated-should-fix` judge once; rerun 3/3 (6/7 overall).
   A first attempt stopped on the session limit and is not counted.
 - Cost about $17 (RED $2.27, GREEN $1.92, suite $12.57, rerun ~$0.50).
+
+## Templates skill — RED (page types) — 2026-10-26
+
+Design: `docs/specs/2026-10-26-statamic-kit-templates-design.md`; plan:
+`docs/plans/2026-10-26-statamic-kit-templates.md`; facts:
+`docs/specs/2026-10-26-templates-statamic-facts.md`. New fixtures
+`pages-antlers` (news + topics, card partial, hard-coded header links) and
+`pages-blade` (vacancies on `@blueprint`, `x-card`/`x-picture`, half-measure
+static caching).
+
+RED (`--runs 1`, no templates skill; Claude Code 2.1.310, default model):
+`skill-fired` 0/7 as expected. **Every content grader already passes** in all
+seven cases (listing, detail, `@blueprint` detail, taxonomy archive, Blade
+nav, breadcrumbs, image partial). The listing run wrote the `/news` page
+entry, added it to the tree, mounted `news`, reused `partials/card`, and
+flagged the missing news detail template on its own — in 6 turns, without a
+plan step. So the page-type knowledge needs no reference yet; the skill's
+value has to come from the gates, the boundary and the reviewer (Task 3).
+A first attempt did not load (run settings in `case.yaml` instead of the
+`prompt.md` front matter) and cost nothing. Cost $1.59.
