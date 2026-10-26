@@ -463,3 +463,21 @@ plan step. So the page-type knowledge needs no reference yet; the skill's
 value has to come from the gates, the boundary and the reviewer (Task 3).
 A first attempt did not load (run settings in `case.yaml` instead of the
 `prompt.md` front matter) and cost nothing. Cost $1.59.
+
+## Templates skill — RED (gates and boundary) — 2026-10-26
+
+RED (`--runs 1`, no templates skill), seven cases:
+
+| Case | RED | What happened |
+|---|---|---|
+| `templates-plan-gate` | 0.29 | no approval asked: wrote the overview, page entry and mount straight away |
+| `templates-missing-field` | 0.14 | added an `author` field to the news blueprint unasked, then used it |
+| `templates-route-change-warns` | content pass | planned `/jobs`, named the changing URLs, wrote nothing |
+| `templates-static-cache` | content pass | handled half-measure caching of the query string |
+| `templates-eloquent` | content pass | template file only, pointed to the CP |
+| `templates-multisite` | content pass | `nav:breadcrumbs`, no hard-coded locale |
+| `templates-trigger-guard` | 1.00 | `blueprints` fired, as it should |
+
+So the skill has two jobs the baseline misses: the plan-and-approve gate
+for page work, and stopping at missing structure instead of creating it.
+Cost $1.75.
