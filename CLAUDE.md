@@ -128,7 +128,7 @@ Plan of attack:
 - [x] Task 1 — Statamic facts file, fixtures `pages-antlers` + `pages-blade`
 - [x] Task 2 — page-type cases (7), RED
 - [x] Task 3 — gate and boundary cases (7), RED
-- [ ] Task 4 — `skills/templates/` + references, GREEN
+- [x] Task 4 — `skills/templates/` + references, GREEN
 - [ ] Task 5 — reviewer extended to page templates, RED → GREEN
 - [ ] Task 6 — full suite, README/IDEAS/QA protocol, RESULTS.md; ask before 0.3.0
 - [ ] Task 7 — phase 2: search results page

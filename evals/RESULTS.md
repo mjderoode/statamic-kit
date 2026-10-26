@@ -481,3 +481,24 @@ RED (`--runs 1`, no templates skill), seven cases:
 So the skill has two jobs the baseline misses: the plan-and-approve gate
 for page work, and stopping at missing structure instead of creating it.
 Cost $1.75.
+
+## Templates skill — GREEN — 2026-10-26
+
+`skills/templates/SKILL.md`: detect (layout, sibling page templates, reusable
+partials, collection config, blueprint, static caching, multisite), stop on
+missing structure (offer `blueprints`, never add a field — even when the plan
+is pre-approved), plan gate with wiring lines and changing URLs, write on the
+closest sibling, verify. A short **Page wiring** section holds the facts the
+plan needs; no separate references (RED asked only for the gate and the
+boundary). Project detection is inlined.
+
+- Smoke (`--runs 1`): `templates-plan-gate`, `templates-missing-field`,
+  `listing-news-antlers` 1.00 each, $0.69.
+- **GREEN** (`--runs 3`, 14 cases): 13 cases 3/3. `templates-route-change-warns`
+  scored 0.86 ×3: `blueprints` fired instead of `templates` and warned about
+  the changing URLs every time. A route change with no template work is
+  collection config, so the case now accepts either skill; rerun 1/1.
+- Which fix answers which RED failure: plan gate → `templates-plan-gate`
+  (0.29 → 3/3); missing-structure stop → `templates-missing-field`
+  (0.14 → 3/3).
+- Cost $10.71.
