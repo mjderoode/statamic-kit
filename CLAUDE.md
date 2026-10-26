@@ -28,6 +28,11 @@ a release. For development, load it with `claude --plugin-dir .`.
 Status: v0.2 (2026-10-26: QA round 1 fixes) — `blueprints`, `forms`, `users` and `template-review` skills and the `template-reviewer` agent shipped (see `docs/specs/2026-10-19-statamic-kit-blueprints-design.md`). `blueprints` covers blueprints, fieldsets, collections
 (including multiple entry blueprints), taxonomies, global sets, navigations and
 page-builder blocks; `forms` covers forms and `users` covers roles and groups.
+On branch `templates-skill` (2026-10-26, not yet merged or released): the
+`templates` skill (listing, detail and taxonomy pages, navigation,
+breadcrumbs, image partial; design `docs/specs/2026-10-26-statamic-kit-templates-design.md`)
+and the reviewer extended to page templates; full suite 66/68, both misses
+judge variance (1/1 on rerun).
 The references each skill always needs are inlined at the end of its SKILL.md
 by `scripts/inline-references.py` (reading plugin files outside the project
 needs a permission prompt). Merged to `main` on 2026-10-25; last full suite
@@ -130,7 +135,7 @@ Plan of attack:
 - [x] Task 3 — gate and boundary cases (7), RED
 - [x] Task 4 — `skills/templates/` + references, GREEN
 - [x] Task 5 — reviewer extended to page templates, RED → GREEN
-- [ ] Task 6 — full suite, README/IDEAS/QA protocol, RESULTS.md; ask before 0.3.0
+- [x] Task 6 — full suite, README/IDEAS/QA protocol, RESULTS.md; ask before 0.3.0
 - [ ] Task 7 — phase 2: search results page
 - [ ] Task 8 — phase 2: 404 page
 - [ ] Task 9 — phase 2: SEO meta

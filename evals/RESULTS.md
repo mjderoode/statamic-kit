@@ -520,3 +520,18 @@ dispatches the reviewer like `blueprints` does. New fixture `review-listing`
 - **GREEN** (`--runs 3`): all three cases 3/3. $2.79.
 - **Regression** (`--runs 1`): the 11 existing `review-*` cases pass;
   `review-form` failed its judge once (FAIL ×3 votes), rerun 1/1 — noise. $2.02.
+
+## Templates skill — full suite — 2026-10-26
+
+`--runs 1 --ablation none -j 3`, 68 cases. The first invocation hit the
+session limit after 22 cases (46 runs stopped on the limit, not graded);
+those 46 were rerun one case per invocation after the reset.
+
+- **66/68** pass first time. `breadcrumbs-antlers` failed its `crumbs` judge
+  once (2–1), `review-antlers-leak` its `explains-fallback` judge (2–1, the
+  known split in `CLAUDE.md`); both 1/1 on rerun.
+- `blueprints`, `forms` and `users` `skill-fired` graders all pass: the new
+  skill does not steal their requests.
+- Done means: `claude plugin validate .` passed (existing warnings),
+  inline-references up to date, `claude plugin test .` 17/17.
+- Cost $18.00 (first pass $6.81, rerun $11.03, judge reruns $0.16).
