@@ -117,8 +117,20 @@ Plan of attack:
    RED→GREEN the same day (full suite 52/53, the miss 3/3 on rerun). Still to
    run: a Blade/Eloquent site (profile B or C).
 2. ~~Mods.~~ First two built 2026-10-25 (see Status); more under "Mods" in `IDEAS.md`.
-3. Future ideas: pick the next skill from the suggested order in `IDEAS.md`
-   (`templates` first).
+3. **Templates skill** — in progress. Design:
+   `docs/specs/2026-10-26-statamic-kit-templates-design.md`; plan:
+   `docs/plans/2026-10-26-statamic-kit-templates.md` (its "Resuming after a
+   break" section says how to pick up). After that, the next item from the
+   suggested order in `IDEAS.md`.
+
+### Templates skill — Progress (tick after each task's commit)
+
+- [ ] Task 1 — Statamic facts file, fixtures `pages-antlers` + `pages-blade`
+- [ ] Task 2 — page-type cases (7), RED
+- [ ] Task 3 — gate and boundary cases (7), RED
+- [ ] Task 4 — `skills/templates/` + references, GREEN
+- [ ] Task 5 — reviewer extended to page templates, RED → GREEN
+- [ ] Task 6 — full suite, README/IDEAS/QA protocol, RESULTS.md
 
 ### Open minors from the reviewer's final review
 
