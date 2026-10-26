@@ -64,10 +64,28 @@ context, so a mapper agent would be an extra hop for nothing. Agents are not
 started unasked in Claude Code, so one would need a dispatching skill anyway.
 The agent part already exists: `template-reviewer`, extended to page templates.
 
-## Non-goals (v1)
+## Phase 2 (decided 2026-10-26: in scope, built after phase 1)
 
-- Search results page, 404 page, SEO meta, sitemap, language switcher. Next
-  version; the IDEAS.md entry stays.
+Same skill, same gates, each with its own RED/GREEN cases:
+
+7. **Search results page**: a form and the `search:results` output with an
+   empty state. Adding or adjusting an index in `config/statamic/search.php`
+   counts as wiring (in the plan, like `mount:`).
+8. **404 page** (`errors/404`) on the site's layout.
+9. **SEO meta**: title, description, canonical and Open Graph tags in the
+   layout from existing fields and globals. If an SEO addon is installed, use
+   it and add nothing that duplicates it; missing SEO fields go to
+   `blueprints`.
+10. **Sitemap**: whatever the docs say Statamic 6 offers (core or addon), else a
+    route plus an XML template over the routed collections.
+11. **Language switcher** on multisite sites, linking each page to its
+    localized version.
+
+Phase 1 is released (0.3.0) before phase 2 starts; phase 2 is its own
+release.
+
+## Non-goals
+
 - Styling and visual design beyond copying the site's existing markup and
   classes; JavaScript filtering, Livewire, Alpine behaviour.
 - Custom controllers or PHP beyond a `Route::statamic` line (the future
@@ -95,8 +113,9 @@ the skill reuses `references/project-detection.md`.
 - **Eloquent driver.** Collections or entries in the database: templates are
   files and may still be written, but wiring in YAML is not possible — the plan
   says to set `template:` / `mount:` / the listing page in the Control Panel
-  instead. (My call; the `blueprints` skill stops entirely, but a template on
-  its own is not half a feature here.)
+  instead. (My call, approved on condition that the docs confirm views stay
+  files under the Eloquent driver; checked in plan Task 1. The `blueprints`
+  skill stops entirely, but a template on its own is not half a feature here.)
 - **Template resolution.** Entry `template:` beats the collection's
   `template:`; `template: '@blueprint'` resolves to
   `resources/views/{collection}/{blueprint}`, remappable with

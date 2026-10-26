@@ -51,7 +51,7 @@ Every task ends in a commit and a ticked line in the **Progress** list in
 **Interfaces:**
 - Produces: fixture names `pages-antlers`, `pages-blade`; the facts file that graders (Tasks 2–3) and references (Task 4) cite.
 
-- [ ] **Step 1: Verify against the Statamic 6 docs** (context7 `/websites/statamic_dev`, else statamic.dev) and write each fact with its source URL: template resolution order (entry → collection, `@blueprint`, `blueprint_templates`); mount and the index-route rule (Statamic creates no listing page); `collection` tag `paginate`/`as`/`sort`/`no_results` and the `paginate` pair (Antlers) and the Blade equivalents in Statamic 6; filtering by term (`taxonomy:` parameter or the term's `entries`); taxonomy term route and `show`/`index` templates when attached to a collection; `nav` tag with `children`, `is_current`/`is_parent`; `nav:breadcrumbs`; `glide` tag/pair for `srcset`, asset `alt`; `nocache` tag and Blade equivalent; static caching strategies and query strings.
+- [ ] **Step 1: Verify against the Statamic 6 docs** (context7 `/websites/statamic_dev`, else statamic.dev) and write each fact with its source URL: template resolution order (entry → collection, `@blueprint`, `blueprint_templates`); mount and the index-route rule (Statamic creates no listing page); `collection` tag `paginate`/`as`/`sort`/`no_results` and the `paginate` pair (Antlers) and the Blade equivalents in Statamic 6; filtering by term (`taxonomy:` parameter or the term's `entries`); taxonomy term route and `show`/`index` templates when attached to a collection; `nav` tag with `children`, `is_current`/`is_parent`; `nav:breadcrumbs`; `glide` tag/pair for `srcset`, asset `alt`; `nocache` tag and Blade equivalent; static caching strategies and query strings; **Eloquent driver**: confirm that views stay files and that collection `template:`/`mount:`/`route:` live in the database (so they are set in the CP) — if the docs say otherwise, stop and bring it to the user before Task 3 (the approval of the Eloquent rule depends on it).
 - [ ] **Step 2: Build `pages-antlers`** (flat file, `composer.lock` with `statamic/cms` 6.x, no `vendor/`): structured `pages` collection with a `home` entry and tree; dated `news` collection, `route: '/news/{slug}'`, no `mount`, no `template`, three entries; news blueprint with `title`, `date`, `intro` (textarea), `image` (assets, max 1), `topics` (terms), `content` (markdown); `topics` taxonomy attached to `news` with three terms; `main` navigation with a two-level tree; `layout.antlers.html` with a header that hard-codes three links; `partials/card.antlers.html` used by the home page; a `page.antlers.html` sibling. No image partial, no breadcrumbs, no news templates.
 - [ ] **Step 3: Build `pages-blade`** (same base, Blade): `vacancies` collection with `route: '/vacancies/{slug}'`, `template: '@blueprint'`, blueprint `vacancy` (`title`, `location`, `hours` integer, `image`, `content` bard) and three entries; `layouts/default.blade.php`; `components/card.blade.php` and `components/picture.blade.php` (Glide `srcset`); `main` navigation with a two-level tree; `config/statamic/static_caching.php` with `'strategy' => 'half'`.
 - [ ] **Step 4: Check** every YAML file in both fixtures parses (`python3 -c 'import yaml,sys;[yaml.safe_load(open(f)) for f in sys.argv[1:]]' $(find evals/fixtures/pages-* -name '*.yaml')`) → no output.
@@ -142,4 +142,39 @@ Every prompt ends with "I approve your plan in advance — go ahead without wait
 - [ ] **Step 1: Full suite once** — `claude plugin eval . --scaffold --allow-tools Bash Write Edit --runs 1 --ablation none -j 3 --trust-plugin`. Expected: every case 1.00; in particular the `blueprints` and `forms` `skill-fired` graders still pass. Rerun infrastructure stops one case at a time; a single judge-only miss gets one rerun.
 - [ ] **Step 2: Done means** — `claude plugin validate .` → "Validation passed"; `python3 scripts/inline-references.py --check` → up to date; `claude plugin test .` → passes.
 - [ ] **Step 3: Update the docs** listed above.
-- [ ] **Step 4: Commit**; tick Task 6. Ask the user before bumping `version` in `.claude-plugin/plugin.json` (that ships a release).
+- [ ] **Step 4: Commit**; tick Task 6. Ask the user before bumping `version` in `.claude-plugin/plugin.json` to 0.3.0 (that ships a release).
+
+---
+
+## Phase 2 — remaining page types
+
+Starts after the 0.3.0 release. Each task follows the same loop on its own:
+write the cases (fixture overlay via `scaffold.sh` where possible), RED with
+`--runs 1`, check the facts in the docs and add them to the facts file, extend
+SKILL.md/references (and its description triggers), GREEN with `--runs 3`,
+RESULTS.md entry, commit, tick. Every case has `skill-fired` and the
+no-blueprint-written grader from Task 2.
+
+### Task 7: Search results page
+
+- Cases: `search-results-antlers` (pages-antlers, "Add a search page for the news.", pre-approved): llm: a search form, `search:results` (or the Blade equivalent) with an empty state, results link to entries; an index in `config/statamic/search.php` added or reused and named in the plan. `search-static-cache` (pages-blade, pre-approved): the results part is not frozen by static caching (`nocache` or an explicit note).
+
+### Task 8: 404 page
+
+- Case: `not-found-blade` (pages-blade, "Make a 404 page.", pre-approved): file at `resources/views/errors/404.blade.php` (or the path the facts file names), uses the site layout, links home; no route or config change.
+
+### Task 9: SEO meta
+
+- Cases: `seo-meta-antlers` (pages-antlers overlay with `seo_title`/`seo_description` fields and a site-name global, "Add SEO meta tags to the site.", pre-approved): title, description, canonical and OG tags in the layout from those fields with fallbacks to `title`; no blueprint written. `seo-addon-present` (overlay with an SEO addon in `composer.lock` and its tag in the layout): adds nothing that duplicates the addon and says so. `seo-missing-fields` (pages-antlers, no SEO fields): stops and offers `blueprints`.
+
+### Task 10: Sitemap
+
+- Case: `sitemap-antlers` (pages-antlers, "Add an XML sitemap.", pre-approved): follows what the facts file says Statamic 6 offers; when it is a route plus template, lists only routed, published entries with `loc` and `lastmod`, and the plan names the route line.
+
+### Task 11: Language switcher
+
+- Cases: `language-switcher-multisite` (multisite, "Add a language switcher to the header.", pre-approved): uses the `locales` tag (or Blade equivalent), links to the current page's localized URL, marks the current site, no hard-coded locales. `language-switcher-single-site` (pages-antlers): says the site has one locale and writes nothing.
+
+### Task 12: Phase 2 full suite and docs
+
+- Same steps as Task 6: full suite once, Done means, README/IDEAS/QA protocol (a row per new page type), RESULTS.md, commit, tick. Ask before bumping `version` to 0.4.0.
