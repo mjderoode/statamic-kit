@@ -1,0 +1,5 @@
+title: Vacancies
+route: '/vacancies/{slug}'
+template: '@blueprint'
+sort_field: title
+sort_dir: asc
