@@ -41,7 +41,7 @@ parse errors and duplicate field/set handles) and `mods/paired-files.ts`
 partial with no set, a form config without its blueprint or vice versa).
 Both add `context` to the tool result for Claude and stay silent when PHP or
 the site's `vendor/` is missing. Shared code in `mods/lib/statamic.ts`; tests
-in `tests/mods.test.ts` (`claude plugin test .`). Parked mod ideas: `IDEAS.md`.
+in `tests/mods.test.ts` (`claude plugin test .`). Future ideas (new skills, agents and mods, with a suggested order): `IDEAS.md`.
 
 ## Roadmap
 
@@ -116,7 +116,9 @@ Plan of attack:
    `docs/qa/2026-10-25-antlers-flat-file.md`); its four findings fixed
    RED→GREEN the same day (full suite 52/53, the miss 3/3 on rerun). Still to
    run: a Blade/Eloquent site (profile B or C).
-2. ~~Mods.~~ First two built 2026-10-25 (see Status); more in `IDEAS.md`.
+2. ~~Mods.~~ First two built 2026-10-25 (see Status); more under "Mods" in `IDEAS.md`.
+3. Future ideas: pick the next skill from the suggested order in `IDEAS.md`
+   (`templates` first).
 
 ### Open minors from the reviewer's final review
 
