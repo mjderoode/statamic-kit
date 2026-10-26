@@ -502,3 +502,21 @@ boundary). Project detection is inlined.
   (0.29 → 3/3); missing-structure stop → `templates-missing-field`
   (0.14 → 3/3).
 - Cost $10.71.
+
+## Templates skill — reviewer on page templates — 2026-10-26
+
+`template-reviewer` now covers page templates (listings, detail and term
+pages, navigation, breadcrumbs, image partials) with a new check 7: page
+links on paginated listings, an empty state, one `<h1>` counting the layout,
+image alt and dimensions, `nocache` or allowed query strings under static
+caching, current-item marking, reuse of the site's partials. The
+`template-review` skill triggers on page templates; `templates` Verify
+dispatches the reviewer like `blueprints` does. New fixture `review-listing`
+(news overview with five seeded defects).
+
+- **RED** (`--runs 1`): `reviewer-fired` 0/1 on `review-listing`,
+  `listing-news-antlers` and `detail-blueprint-mapped` (the main model
+  reviewed `review-listing` itself and found the defects). $0.71.
+- **GREEN** (`--runs 3`): all three cases 3/3. $2.79.
+- **Regression** (`--runs 1`): the 11 existing `review-*` cases pass;
+  `review-form` failed its judge once (FAIL ×3 votes), rerun 1/1 — noise. $2.02.

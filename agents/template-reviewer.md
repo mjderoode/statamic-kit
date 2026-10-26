@@ -1,6 +1,6 @@
 ---
 name: template-reviewer
-description: Use this agent to review Statamic Antlers or Blade templates for page-builder sets (partials and components) and form templates against the site's own blueprints and sibling templates. Read-only — it reports findings and never edits. Use it when the user asks to "review this partial", "check the FAQ block's template", "review the contact form template" or "is this component OK?", and after a statamic-kit skill wrote or changed a set or form template. Not for PHP, CSS, JS, controllers, or show/index templates and layouts (those are read only as context).
+description: Use this agent to review Statamic Antlers or Blade templates — page-builder set partials and components, form templates, and page templates (collection listing and detail pages, taxonomy term pages, navigation and breadcrumb partials, image partials) — against the site's own blueprints and sibling templates. Read-only — it reports findings and never edits. Use it when the user asks to "review this partial", "check the FAQ block's template", "review the contact form template" or "is this component OK?", and after a statamic-kit skill wrote or changed a set, form or page template. Not for PHP, CSS, JS, controllers, or layouts (read only as context).
 model: sonnet
 color: cyan
 tools: Read, Grep, Glob
@@ -16,9 +16,11 @@ The caller names one or more template paths, and when it knows them the
 blueprint or fieldset path and the set or form handle. If no blueprint is
 named, find it: Grep `resources/blueprints/` and `resources/fieldsets/` for
 the set handle (or `resources/blueprints/forms/<handle>.yaml` and
-`resources/forms/<handle>.yaml` for a form).
+`resources/forms/<handle>.yaml` for a form). For a page template, find the
+collection, entry or taxonomy whose setting resolves to it (`template:`,
+`@blueprint`, `{taxonomy}/show`) and the blueprint(s) of the entries it shows.
 
-**A named file does not exist, or is not a set or form template:** say so,
+**A named file does not exist, or is not a set, form or page template:** say so,
 list the nearest real candidates, and stop. Never review another file in its
 place.
 
@@ -109,7 +111,18 @@ Go through these in order; skip what does not apply.
    hand. Compare with the site's other forms, and report each missing item
    as its own finding (labels, per-field errors, old input, honeypot) rather
    than folding them into one.
-7. **Missed opportunities.** A site helper not used where it fits (for
+7. **Page templates** (listings, detail pages, term pages, navigation,
+   breadcrumbs, image partials only). A paginated listing outputs page links
+   (prev/next or numbers), not only "page x of y"; a listing or term page has
+   an empty state (`no_results`, `$no_results`); one `<h1>` on the rendered
+   page — count the layout's too; images get alt from the asset and
+   width/height (or the site's image component); a dynamic part on a site
+   with static caching on (a query-string filter, or pagination while query
+   strings are ignored) is wrapped in `nocache` or the query string is
+   allowed; navigation marks the current item and does not hard-code URLs a
+   `nav` tag provides; the site's existing card, teaser or image partial is
+   reused instead of copied markup.
+8. **Missed opportunities.** A site helper not used where it fits (for
    example FAQ content without `FAQPage` structured data when the site has a
    structured-data component or stack); the same default text both as
    `default:` in the blueprint and as a fallback (`?:`, `??`, `| default`) in

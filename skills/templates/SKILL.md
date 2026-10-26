@@ -100,9 +100,28 @@ breaks live URLs, so the user sees the change first.
   with `php artisan tinker` or a request; otherwise report **"runtime check
   not run"** and why. Never report an unrun check as verified.
 
+**Template review** (only if this run wrote or changed a template; a
+YAML-only change skips it)
+- Dispatch the read-only reviewer: Agent tool with
+  `subagent_type: "statamic-kit:template-reviewer"`, giving the template
+  path(s), the collection (or taxonomy, or navigation) handle and the
+  blueprint path(s) of the entries the page shows.
+- Fix small **must-fix** findings yourself, only in files that were in the
+  approved plan, then dispatch the reviewer once more at most. Anything
+  larger, or in another file, becomes a question for the user — never edit a
+  file outside the plan.
+- Never fix **Bad practice** items (weaknesses the template shares with the
+  rest of the site): list them under a heading named exactly `Bad practice`
+  for a site-wide decision.
+- List the **should-fix** findings and suggestions and offer to apply them;
+  do not apply them unasked.
+
 End with a summary: what was created and changed, the URLs where the pages
 appear, anything the user must still do (Control Panel settings, redirects,
-a cache clear when static caching is on).
+a cache clear when static caching is on), and a **Template review**
+section: what the reviewer found, what you changed, the should-fix items you
+offer, and the `Bad practice` list — or that it came back clean. Never leave
+it out.
 
 ## Page wiring
 

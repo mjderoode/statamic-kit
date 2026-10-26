@@ -1,0 +1,12 @@
+{{# Teaser card for an entry: image, title and intro. #}}
+<article class="card">
+    <a class="card__link" href="{{ url }}">
+        {{ if image }}
+            <img class="card__image" src="{{ image:url }}" alt="{{ image:alt }}">
+        {{ /if }}
+        <h3 class="card__title">{{ title }}</h3>
+        {{ if intro }}
+            <p class="card__intro">{{ intro }}</p>
+        {{ /if }}
+    </a>
+</article>
