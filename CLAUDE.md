@@ -136,6 +136,16 @@ Plan of attack:
 - [x] Task 4 — `skills/templates/` + references, GREEN
 - [x] Task 5 — reviewer extended to page templates, RED → GREEN
 - [x] Task 6 — full suite, README/IDEAS/QA protocol, RESULTS.md; ask before 0.3.0
+
+Deferred minors from the phase 1 review (pick up when touching that area):
+the mount/collection-URL rule is stated as a docs fact but is not in the docs;
+Detect does not read `blueprint_templates`; no full-measure `nocache` caveat;
+"blueprint field or system variable" omits tag-provided variables; inlined
+Project detection §4–5 is noise for `templates`; `templates-multisite`'s
+locale regex checks only the layout; `detail-news-antlers/resolves` accepts a
+new site-wide `default` template; `blueprints` has no "not page templates"
+exclusion and there is no footer-nav guard case.
+
 - [ ] Task 7 — phase 2: search results page
 - [ ] Task 8 — phase 2: 404 page
 - [ ] Task 9 — phase 2: SEO meta

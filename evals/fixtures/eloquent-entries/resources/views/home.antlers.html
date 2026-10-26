@@ -1,0 +1,11 @@
+{{# Home: welcome text and the three latest news items. #}}
+<section class="container home">
+    <h1 class="page__title">{{ title }}</h1>
+    <div class="prose">{{ content }}</div>
+    <h2 class="section-title">Latest news</h2>
+    <div class="card-grid">
+        {{ collection:news limit="3" }}
+            {{ partial:card }}
+        {{ /collection:news }}
+    </div>
+</section>

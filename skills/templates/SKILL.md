@@ -31,10 +31,17 @@ paths and the Eloquent driver. Then read:
 - `config/statamic/static_caching.php` (`strategy`, `ignore_query_strings`)
   and `resources/sites.yaml` (multisite).
 
-**Eloquent driver.** Templates are files and can still be written. If
-collections or entries live in the database, YAML wiring has no effect: write
-the template, and tell the user which setting (`template:`, `mount:`, the
-listing page entry) to set in the Control Panel. Write no YAML.
+**Eloquent driver.** For this skill, this replaces the Eloquent stop in
+**Project detection**: templates are files and can still be written.
+- **Collections in the database:** YAML wiring has no effect. Write the
+  template and tell the user which collection setting (`template:`,
+  `mount:`) to set in the Control Panel. Write no YAML.
+- **Blueprints in the database:** you cannot see the field handles. Plan the
+  template and ask for the handles (or read them with `php artisan tinker`
+  when the app runs) before writing it.
+- **Only entries in the database:** collection YAML still works. Wire
+  `template:` and `mount:` as usual; the listing page entry is created in the
+  Control Panel.
 
 ### 2. Stop on missing structure or real ambiguity
 
@@ -162,7 +169,9 @@ Facts checked against the Statamic 6 docs.
 ## Out of scope
 
 Creating or changing blueprints, fieldsets, fields, collections, taxonomies
-and navigations (the `blueprints` skill); forms (the `forms` skill);
+and navigations (the `blueprints` skill) — except the wiring lines in
+**Page wiring** (`template:`, `layout:`, `mount:`, `route:`) when a page
+needs them; forms (the `forms` skill);
 page-builder set partials (`blueprints`); styling beyond following existing
 markup; JavaScript filtering; controllers and PHP beyond a `Route::statamic`
 line.

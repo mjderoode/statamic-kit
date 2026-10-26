@@ -535,3 +535,18 @@ those 46 were rerun one case per invocation after the reset.
 - Done means: `claude plugin validate .` passed (existing warnings),
   inline-references up to date, `claude plugin test .` 17/17.
 - Cost $18.00 (first pass $6.81, rerun $11.03, judge reruns $0.16).
+
+## Templates skill — final review — 2026-10-26
+
+Fresh whole-branch review: no Critical, five Important, nine Minor. Each
+Important got a test first:
+
+| Finding | Test | Result on the current skill |
+|---|---|---|
+| Eloquent rule contradicts Project detection; entries-only sites can still wire YAML | new `templates-eloquent-entries` (fixture `eloquent-entries`) | 1/1 — wording fixed anyway (contradiction in the text); 1/1 after, `templates-eloquent` 1/1 |
+| Entry-level `template:` overrides not looked for | new `detail-entry-override` | 1/1 — not reproduced, kept as guard |
+| Reviewer refuses layouts (nav/breadcrumbs) | `reviewer-fired` + `reviewed-not-refused` on `nav-main-blade`, `breadcrumbs-antlers` | 1/1 each — not reproduced |
+| Route/mount ownership unclear | Out of scope now carves out the wiring lines; `templates-route-change-warns` 1/1 | — |
+| Trigger guard only one way | `blueprints-not-fired` on `listing-news-antlers`, `detail-news-antlers`, `nav-main-blade` | 1/1 each |
+
+Minors are listed in `CLAUDE.md` under the templates Progress list. Cost $2.76.
