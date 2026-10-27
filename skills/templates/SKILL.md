@@ -1,13 +1,13 @@
 ---
 name: templates
-description: This skill should be used when the user asks to build or change a Statamic page template — an overview or listing page for a collection, a detail (show) page for its entries, a page per taxonomy term, the main or footer navigation, a menu with dropdowns, breadcrumbs, or a reusable responsive image partial — "build an overview page for the news", "make the detail page for vacancies", "add a page per topic", "build the main navigation with dropdowns", "add breadcrumbs", "make a responsive image partial", or Dutch phrasing such as "maak een overzichtspagina voor het nieuws" or "bouw het hoofdmenu". Applies to Statamic sites with Antlers or Blade templates. Creating or changing blueprints, fields, collections or taxonomies is the blueprints skill.
+description: This skill should be used when the user asks to build or change a Statamic page template — an overview or listing page for a collection, a detail (show) page for its entries, a page per taxonomy term, the main or footer navigation, a menu with dropdowns, breadcrumbs, a reusable responsive image partial, a search page, a 404 page, SEO meta tags, an XML sitemap or a language switcher — "build an overview page for the news", "make the detail page for vacancies", "add a page per topic", "build the main navigation with dropdowns", "add breadcrumbs", "make a responsive image partial", "add a search page", "make a 404 page", "add SEO meta tags", "add an XML sitemap", "add a language switcher", or Dutch phrasing such as "maak een overzichtspagina voor het nieuws", "bouw het hoofdmenu", "maak een zoekpagina" or "voeg een taalkeuze toe". Applies to Statamic sites with Antlers or Blade templates. Creating or changing blueprints, fields, collections or taxonomies is the blueprints skill.
 ---
 
 # Statamic templates
 
 Build page templates — listings, detail pages, taxonomy term pages,
-navigation, breadcrumbs, image partials — **the way this site already does
-it**, and wire them to the existing structure so Statamic actually uses them.
+navigation, breadcrumbs, image partials, search, 404, SEO meta, sitemap,
+language switcher — **the way this site already does it**, and wire them to the existing structure so Statamic actually uses them.
 
 The references this skill needs are inlined at the end of this file
 (**Inlined references**); the sections named in bold below are there. Do not
@@ -29,7 +29,10 @@ paths and the Eloquent driver. Then read:
   `taxonomies:`) and the blueprint(s) of the entries the page shows — every
   field the template outputs must exist there;
 - `config/statamic/static_caching.php` (`strategy`, `ignore_query_strings`)
-  and `resources/sites.yaml` (multisite).
+  and `resources/sites.yaml` (multisite);
+- for search, SEO and sitemaps: `config/statamic/search.php`, `routes/web.php`,
+  globals, and `composer.lock` for an SEO addon (`statamic/seo-pro`, Advanced
+  SEO, Aardvark SEO, SEOtamic) and whether the layout already outputs it.
 
 **Eloquent driver.** For this skill, this replaces the Eloquent stop in
 **Project detection**: templates are files and can still be written.
@@ -56,6 +59,17 @@ Ask, and change no files (by any tool) until answered, when:
   structure.
 - **Several collections, navigations or layouts** could be meant. Name them
   and recommend one.
+- **A language switcher on a single-site install.** There is nothing to
+  switch to: say so, write nothing, and explain that a second site has to be
+  configured first.
+
+**SEO.** If an SEO addon is installed, it owns the meta tags and sitemap: add
+nothing that duplicates its output; point to its settings instead. Without an
+addon, build meta from fields that exist (`seo_*` fields if the blueprints
+have them, else `title`, an intro or excerpt field, `permalink`, an image)
+with fallbacks, and the site name from a global if one holds it. Missing
+dedicated SEO fields are not a reason to add them: mention that they would be
+a `blueprints` change and offer it.
 
 ### 3. Present the plan — hard gate
 
@@ -165,6 +179,23 @@ Facts checked against the Statamic 6 docs.
   (`ignore_query_strings => false`, `allowed_query_strings`), and say which.
 - **Multisite**: links from `url`/`permalink`, never a hard-coded locale
   prefix; `collection` and `nav` tags already scope to the current site.
+- **Search**: the results tag (`{{ search:results index="…" }}` with
+  `no_results`; Blade `<s:search:results as="results">` with `@forelse`)
+  reads `?q=`. The index in `config/statamic/search.php` is wiring, planned
+  like `mount:`: `searchables` covering the collection (`collection:news`,
+  `content`) and `fields` beyond `title` (the default index searches titles
+  only). Tell the user to run `php please search:update`. Under static
+  caching, wrap the results in `nocache`, exclude the URL or allow `q`.
+- **404**: `resources/views/errors/404.{antlers.html|blade.php}`, no route.
+  Antlers uses `errors/layout` if it exists, else the default layout; Blade
+  `@extends` the site layout.
+- **Sitemap**: core has none (SEO Pro generates one). By hand:
+  `Route::statamic('sitemap.xml', 'sitemap', ['content_type' => 'xml', 'layout' => null])`
+  and a template with `<urlset>` over routed collections only, absolute
+  `<loc>` from `permalink`, `<lastmod>`.
+- **Language switcher**: `{{ locales }}` (Blade `<s:locales>`) with
+  `permalink`, `locale:name`, `is_current`; `exists` is false for pages not
+  localized — link those to the site home (`all="true"` falls back to it).
 
 ## Out of scope
 

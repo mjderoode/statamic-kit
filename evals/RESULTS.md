@@ -569,3 +569,20 @@ runs and one judge first stopped on the session limit and were rerun.
 | `language-switcher-single-site` | 0.33 | built a switcher on a one-site install |
 
 Cost $3.79.
+
+## Templates skill phase 2 — GREEN — 2026-10-27
+
+`skills/templates/SKILL.md`: description triggers on search, 404, SEO meta,
+sitemap and language switcher; Detect reads `search.php`, `routes/web.php`,
+globals and SEO addons; stop on a language switcher for a single-site
+install; an SEO rule (an addon owns meta and sitemap; else existing fields
+with fallbacks, never new fields); Page wiring facts for search (the index
+is wiring), 404, sitemap and `locales`.
+
+- **GREEN** (`--runs 3`, 9 cases): 27/27. A first attempt stopped on the
+  weekly limit before grading anything ($0.69) and was rerun.
+- Fixes per RED failure: search index as wiring → `search-results-antlers`;
+  SEO rule → `seo-meta-antlers`, `seo-missing-fields`; single-site stop →
+  `language-switcher-single-site`; triggers → `not-found-blade`,
+  `seo-addon-present`, `sitemap-antlers`.
+- Cost $9.59.
