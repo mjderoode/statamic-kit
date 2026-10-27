@@ -30,7 +30,7 @@ Status: v0.2 (2026-10-26: QA round 1 fixes) — `blueprints`, `forms`, `users` a
 page-builder blocks; `forms` covers forms and `users` covers roles and groups.
 On branch `templates-skill` (2026-10-26, not yet merged or released): the
 `templates` skill (listing, detail and taxonomy pages, navigation,
-breadcrumbs, image partial; design `docs/specs/2026-10-26-statamic-kit-templates-design.md`)
+breadcrumbs, image partial, search, 404, SEO meta, sitemap, language switcher; design `docs/specs/2026-10-26-statamic-kit-templates-design.md`)
 and the reviewer extended to page templates; full suite 66/68, both misses
 judge variance (1/1 on rerun).
 The references each skill always needs are inlined at the end of its SKILL.md
@@ -146,11 +146,11 @@ locale regex checks only the layout; `detail-news-antlers/resolves` accepts a
 new site-wide `default` template; `blueprints` has no "not page templates"
 exclusion and there is no footer-nav guard case.
 
-- [ ] Task 7 — phase 2: search results page
-- [ ] Task 8 — phase 2: 404 page
-- [ ] Task 9 — phase 2: SEO meta
-- [ ] Task 10 — phase 2: sitemap
-- [ ] Task 11 — phase 2: language switcher
+- [x] Task 7 — phase 2: search results page
+- [x] Task 8 — phase 2: 404 page
+- [x] Task 9 — phase 2: SEO meta
+- [x] Task 10 — phase 2: sitemap
+- [x] Task 11 — phase 2: language switcher
 - [ ] Task 12 — phase 2 full suite and docs; ask before 0.4.0
 
 ### Open minors from the reviewer's final review

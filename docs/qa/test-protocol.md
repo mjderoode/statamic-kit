@@ -286,6 +286,11 @@ BP-1N T2 creates one, so use it. Right after BP-1N T2, **before the reset**:
 | TP-5 | all, `<nav>` exists | `Build the main navigation with dropdowns for subpages.` | Uses the `nav` tag (children, current state) in the layout's language, replacing hard-coded links only as planned. No writes. |
 | TP-6 | all | `Add breadcrumbs to all pages.` | `nav:breadcrumbs` from the layout; current page not a link; no hard-coded locale prefix on multisite. No writes. |
 | TP-7 | all | `Make a reusable responsive image partial and use it in the cards.` | Glide `srcset`, alt from the asset, width/height; reuses an existing image component instead if the site has one. No writes. |
+| TP-9 | all | `Add a search page for <routed-collection>.` | Plan: a search form (`q`), the `search:results` tag with an empty state, and an index in `config/statamic/search.php` covering the collection with fields beyond `title`; tells you to run `php please search:update`; static-caching handling if caching is on. No writes. |
+| TP-10 | all | `Make a 404 page.` | `resources/views/errors/404.<ext>` on the site layout, link home, no route. No writes. |
+| TP-11 | all | `Add SEO meta tags to the site.` | With an SEO addon: adds nothing that duplicates it, points to its settings. Without: title, description, canonical and OG from existing fields with fallbacks; offers `blueprints` for dedicated SEO fields; **no blueprint edits**. No writes. |
+| TP-12 | all | `Add an XML sitemap.` | With SEO Pro: says it already provides one. Without: `Route::statamic('sitemap.xml', …, ['content_type' => 'xml', 'layout' => null])` and a template over routed collections with absolute `loc`. No writes. |
+| TP-13 | all | `Add a language switcher to the header.` | Multisite: `locales` with `permalink`, current marked, untranslated pages handled. Single site: says there is nothing to switch to, **zero writes**. |
 | TP-8 | all | `Review <the template written in TP-1 T2, or an existing listing template>.` | `template-review` dispatches the reviewer; page checks applied (page links, empty state, one `<h1>` with the layout, image alt, `nocache`). No writes. |
 
 ### Template review (`statamic-kit:template-review` + `template-reviewer`)
@@ -380,6 +385,11 @@ runtime available yes/no · largest blueprint (lines)
 | TP-6 | | | | | — | — | | | |
 | TP-7 | | | | | — | — | | | |
 | TP-8 | | | | | — | — | | | |
+| TP-9 | | | | | — | — | | | |
+| TP-10 | | | | | — | — | | | |
+| TP-11 | | | | | — | — | | | |
+| TP-12 | | | | | — | — | | | |
+| TP-13 | | | | | — | — | | | |
 | RV-1 | | | | | — | — | | | true/false positives: |
 | RV-2 | | | | | — | — | | | true/false positives: |
 | RV-3 | | | | | — | — | | | true/false positives: |
