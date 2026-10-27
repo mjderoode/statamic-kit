@@ -586,3 +586,24 @@ is wiring), 404, sitemap and `locales`.
   `language-switcher-single-site`; triggers → `not-found-blade`,
   `seo-addon-present`, `sitemap-antlers`.
 - Cost $9.59.
+
+## Templates skill phase 2 — full suite — 2026-10-27
+
+`--runs 1`, 79 cases, one case per invocation (`-P 3`). The session limit
+stopped runs twice (55, then 11 runs and one judge, all ungraded); those were
+rerun after each reset.
+
+- **76/79** pass first time.
+  - `review-documented-dispatch` (judge) and `templates-static-cache`
+    (`filter-works` judge): 1/1 on rerun.
+  - `two-builders-asks` failed its `asks` judge twice (FAIL ×3 both times).
+    The reply names both replicators, recommends one, asks which, and writes
+    nothing — what the grader's PASS line asks for. Neither the case nor the
+    `blueprints` skill changed on this branch; the judge seems to read the
+    full plan for the recommended option as "picks one". Left open (see
+    `CLAUDE.md`).
+- All `skill-fired` graders pass, including `blueprints-not-fired` on the
+  template cases and `templates-not-fired` on the blueprint guard.
+- Done means: validate passed (existing warnings), inline-references up to
+  date, `claude plugin test .` 17/17.
+- Cost $22.71 ($7.42 + $11.90 + $2.66 + $0.73).
