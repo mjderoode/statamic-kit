@@ -231,6 +231,36 @@ partials, not a guess from the file tree.
 - **Existing handles:** if the requested set or field handle already exists, say
   so and offer to extend it.
 
+#### 7. Edition (Core or Pro)
+
+Some features only work on **Statamic Pro**. Determine the edition:
+
+- `config/statamic/editions.php` → `'pro'`. A literal `true` / `false` is
+  the answer. `env('STATAMIC_PRO_ENABLED', <default>)` → the value of
+  `STATAMIC_PRO_ENABLED` in `.env`, or the default when `.env` does not set
+  it.
+- No `editions.php` → the edition is **unknown**; do not warn about it.
+
+Pro-only on **Core** (the free edition):
+
+| Feature | Core limit |
+|---|---|
+| User roles and permissions (and the groups that grant roles) | Not enforced |
+| Forms | One form |
+| Multisite (more than one site in `resources/sites.yaml`) | One site |
+| Revisions, REST API, GraphQL, Git automation | Not available |
+| Control Panel users | One admin account |
+
+**Core stop.** When the edition is Core and the request needs a Pro-only
+feature (a role or group, a second form, a new site), say so in the plan:
+the site runs Core, what the limit is, and how to lift it — `php please
+pro:enable` (or `'pro' => true` / `STATAMIC_PRO_ENABLED=true`), free in
+development, with a license for production. Then **ask how to proceed and
+change no files** until answered, even when the plan was pre-approved; for a
+form, offer extending the existing form as the alternative. Never enable Pro
+yourself. A Core site that already uses a Pro feature (two forms, several
+sites): mention it in the plan and continue.
+
 <!-- source: skills/blueprints/references/blueprint-yaml.md -->
 ### Blueprint and fieldset YAML
 

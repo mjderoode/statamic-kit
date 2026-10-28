@@ -615,3 +615,20 @@ read a recommendation with a plan sketch as "picks one". The grader now says a
 recommendation or plan sketch still passes as long as the reply asks the user
 to choose and does not go ahead. Neither the case prompt nor the skill
 changed. Rerun of this case only: 3/3 (judge PASS ×3 every run), $0.72.
+
+## Edition check (Core vs Pro) — 2026-10-28
+
+New §7 **Edition** in `project-detection.md` (inlined into all four writing
+skills) plus a **Core edition** stop in `users` and `forms`; `templates`
+mentions the edition for a language switcher.
+
+| Case | What it checks | RED (1 run) | GREEN (3 runs) |
+|---|---|---|---|
+| `form-core-second-form` | Core (`'pro' => false`) with one form: no second form, explains the limit, asks | 0.50 (wrote the form) | 3/3 |
+| `role-core-edition` | Core via `.env` `STATAMIC_PRO_ENABLED=false`: no role written, explains Pro, asks | 1.00 (unprompted) | 3/3 |
+| `role-pro-edition` | Guard: Pro via `.env`: role written as usual | 1.00 | 3/3 |
+
+Cost: RED about $0.70, GREEN about $1.60. Full suite not run (the user now
+decides when it runs); cases without `editions.php` are unaffected by design
+(edition unknown → no warning).
+

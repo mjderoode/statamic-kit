@@ -1,0 +1,5 @@
+schema_version: "1.1"
+name: form-core-second-form
+tags: [write, forms, edition]
+context:
+  scaffold_script: scaffold.sh

@@ -87,9 +87,10 @@ Reviewer (final review):
 
 ## Workflow for every change
 
-RED → fix → GREEN → full suite. Write the eval case(s) first and see them
-fail, change the skill/agent/reference, see them pass, then run the full
-suite and log it in `evals/RESULTS.md`. Keep client names and local paths out
+RED → fix → GREEN. Write the eval case(s) first and see them
+fail, change the skill/agent/reference, see them pass, and log it in
+`evals/RESULTS.md`. The full suite costs a lot of usage: **ask the user before
+running it**; GREEN on the specific cases is enough to finish an item. Keep client names and local paths out
 of fixtures, docs and commits. For bigger work, write a design in
 `docs/specs/` and a plan in `docs/plans/` first, and keep a progress
 checklist in the plan (a session may be cut off mid-step).

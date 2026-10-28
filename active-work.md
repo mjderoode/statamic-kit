@@ -2,9 +2,9 @@
 
 The list we work from now, top to bottom. Tick an item when it is committed;
 move longer-term ideas to `IDEAS.md`. Every item follows the RED → fix →
-GREEN → full-suite loop in `CLAUDE.md`.
+GREEN loop in `CLAUDE.md` (full suite only after asking).
 
-1. [ ] **Pro edition check.** Roles and groups, multisite, revisions and the
+1. [x] **Pro edition check.** (done 2026-10-28) Roles and groups, multisite, revisions and the
    REST/GraphQL API are Pro features, but no skill reads
    `config/statamic/editions.php`. On a Solo site `users` writes roles that
    do nothing. Add the edition to project detection and stop or warn when a

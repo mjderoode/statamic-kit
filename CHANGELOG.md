@@ -2,6 +2,13 @@
 
 Releases ship when `version` in `.claude-plugin/plugin.json` changes.
 
+## Unreleased
+
+- Edition check: project detection reads `config/statamic/editions.php`
+  (and `STATAMIC_PRO_ENABLED` in `.env`). On Statamic Core, `users` stops
+  before writing roles or groups and `forms` stops before a second form; both
+  explain how to enable Pro and ask how to proceed.
+
 ## 0.3.0 — 2026-10-28
 
 - New `templates` skill: collection overview pages with pagination, detail
