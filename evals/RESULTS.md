@@ -607,3 +607,11 @@ rerun after each reset.
 - Done means: validate passed (existing warnings), inline-references up to
   date, `claude plugin test .` 17/17.
 - Cost $22.71 ($7.42 + $11.90 + $2.66 + $0.73).
+
+## `two-builders-asks` grader — 2026-10-28
+
+The `asks` judge failed a correct reply twice in the 2026-10-27 full suite: it
+read a recommendation with a plan sketch as "picks one". The grader now says a
+recommendation or plan sketch still passes as long as the reply asks the user
+to choose and does not go ahead. Neither the case prompt nor the skill
+changed. Rerun of this case only: 3/3 (judge PASS ×3 every run), $0.72.

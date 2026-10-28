@@ -32,9 +32,8 @@ Shipped in 0.3.0 (merged 2026-10-28): the
 `templates` skill (listing, detail and taxonomy pages, navigation,
 breadcrumbs, image partial, search, 404, SEO meta, sitemap, language switcher; design `docs/specs/2026-10-26-statamic-kit-templates-design.md`)
 and the reviewer extended to page templates; full suite 76/79 (2026-10-27),
-two misses judge variance (1/1 on rerun), and `two-builders-asks` failing its
-`asks` judge 0/2 although the reply does what the grader asks — check that
-grader before the next suite.
+two misses judge variance (1/1 on rerun); `two-builders-asks` failed its
+`asks` judge, fixed 2026-10-28 by sharpening that grader (3/3).
 The references each skill always needs are inlined at the end of its SKILL.md
 by `scripts/inline-references.py` (reading plugin files outside the project
 needs a permission prompt). Merged to `main` on 2026-10-25; last full suite
