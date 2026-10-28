@@ -18,145 +18,62 @@ It bundles three kinds of components:
 This repo is the plugin itself: `.claude-plugin/plugin.json` sits at the
 root, so every path below is relative to the repo root. Until 2026-10-25 the
 plugin lived at `plugins/statamic-kit/` in the `claude-plugins` marketplace
-repo; it moved here with a fresh history. Design specs and implementation plans
-are in `docs/specs/` and `docs/plans/`; the plans predate the move, so read
-their `plugins/statamic-kit/…` paths as the repo root. The plugin is listed in
-the public `mitsol-labs` marketplace (`mjderoode/mitsol-labs`, a separate
-repo) with a `url` source on `main`; bump `version` in `plugin.json` to ship
-a release. For development, load it with `claude --plugin-dir .`.
+repo; it moved here with a fresh history. Design specs and implementation
+plans are in `docs/specs/` and `docs/plans/`; plans from before the move use
+`plugins/statamic-kit/…` paths, read those as the repo root.
 
-Status: v0.3 (2026-10-28: templates skill released) — `blueprints`, `forms`, `users` and `template-review` skills and the `template-reviewer` agent shipped (see `docs/specs/2026-10-19-statamic-kit-blueprints-design.md`). `blueprints` covers blueprints, fieldsets, collections
-(including multiple entry blueprints), taxonomies, global sets, navigations and
-page-builder blocks; `forms` covers forms and `users` covers roles and groups.
-Shipped in 0.3.0 (merged 2026-10-28): the
-`templates` skill (listing, detail and taxonomy pages, navigation,
-breadcrumbs, image partial, search, 404, SEO meta, sitemap, language switcher; design `docs/specs/2026-10-26-statamic-kit-templates-design.md`)
-and the reviewer extended to page templates; full suite 76/79 (2026-10-27),
-two misses judge variance (1/1 on rerun); `two-builders-asks` failed its
-`asks` judge, fixed 2026-10-28 by sharpening that grader (3/3).
-The references each skill always needs are inlined at the end of its SKILL.md
-by `scripts/inline-references.py` (reading plugin files outside the project
-needs a permission prompt). Merged to `main` on 2026-10-25; last full suite
-52/53 (2026-10-25), the miss judge variance (3/3 on rerun). Eval history in
-`evals/RESULTS.md`.
+The plugin is listed in the public `mitsol-labs` marketplace
+(`mjderoode/mitsol-labs`, a separate repo) with a `url` source on `main`.
+To ship a release: bump `version` in `plugin.json` and add an entry to
+`CHANGELOG.md`. For development, load it with `claude --plugin-dir .`.
 
-Mods (2026-10-25): `mods/yaml-check.ts` (after Write/Edit of Statamic YAML:
-parse with the site's own Symfony parser via `mods/lib/yaml-parse.php`, report
-parse errors and duplicate field/set handles) and `mods/paired-files.ts`
-(a new set without a partial in the folder its sibling sets use, a new
-partial with no set, a form config without its blueprint or vice versa).
-Both add `context` to the tool result for Claude and stay silent when PHP or
-the site's `vendor/` is missing. Shared code in `mods/lib/statamic.ts`; tests
-in `tests/mods.test.ts` (`claude plugin test .`). Future ideas (new skills, agents and mods, with a suggested order): `IDEAS.md`.
+## Status
 
-## Roadmap
+v0.3.0 (released 2026-10-28). What ships is listed in `README.md` and
+`CHANGELOG.md`; eval history is in `evals/RESULTS.md` (last full suite 76/79
+on 2026-10-27, misses judge variance).
 
-Not yet covered, in order of how often it comes up on real sites:
+- Skills: `blueprints` (structure: blueprints, fieldsets, collections incl.
+  multiple entry blueprints, taxonomies, globals, navigations, asset
+  containers, user blueprint, page-builder blocks), `forms`, `users` (roles
+  and groups), `templates` (page templates), `template-review`.
+- Agent: `template-reviewer` (read-only; sets, forms and page templates).
+- Mods: `yaml-check` and `paired-files`; shared code in
+  `mods/lib/statamic.ts`, tests in `tests/mods.test.ts`.
 
-1. ~~**Multiple blueprints per collection.**~~ Done 2026-10-20
-   (`references/entry-blueprints.md`).
-2. ~~**Multisite.**~~ Done 2026-10-20 — already handled without changes; five
-   guard cases (`multisite-*`).
-3. ~~**Asset containers.**~~ Done 2026-10-20 (trigger fix + paths).
-4. ~~**Users.**~~ Done 2026-10-20 — user blueprint in `blueprints`; roles and
-   groups in their own `users` skill (without it, Claude edited `roles.yaml`
-   without a plan).
+Design decisions that still hold:
 
-Plan of attack:
+- Each new area gets its own skill with a narrow description, rather than
+  widening an existing one.
+- Agents are not started unasked in Claude Code, so every agent needs a skill
+  (or a skill step) that dispatches it.
+- Page-builder blocks stay in `blueprints`; revisit only if the skills grow
+  too large.
 
-- ~~**Step 1 — item 1**~~ (done) inside the `blueprints` skill, same loop as before: fixture,
-  RED cases, reference/SKILL.md change, GREEN, full suite.
-- ~~**Step 2 — split the skill before adding more.**~~ (done: `forms` split off; `blueprints`
-  keeps structure). Keep each description narrow: a new area that is not
-  structure gets its own skill rather than widening `blueprints`.
-- ~~**Step 3 — items 2–4**~~ (done), each in whichever skill fits after the split, each with
-  its own fixture and RED/GREEN cases.
-- ~~**Then:** the template review agent~~ (done 2026-10-25: `agents/template-reviewer.md`
-  + `skills/template-review/`; design in `docs/specs/2026-10-24-statamic-kit-template-reviewer-design.md`), then mods. The blueprint-mapper agent
-  below stays deferred until a large real site shows it is needed.
-- ~~**QA test protocol.**~~ (written 2026-10-25) Write `docs/qa/test-protocol.md`:
-  a step-by-step script that a fresh Claude session runs
-  against a real site with `claude --plugin-dir <path to this repo>`. It
-  covers each skill and agent, with a prompt, the expected behaviour, and a
-  results table to fill in. The results come back here: each finding becomes
-  a RED case or a fix. This replaces the manual "Done means" step 4 check.
-  Keep client names and local paths out of the file itself.
-- ~~**Open decision:** split page-builder blocks out of `blueprints`~~ —
-  decided not now: the reviewer works on templates whichever skill wrote
-  them. Revisit if the skills grow too large.
-- **Next QA round** covers the reviewer too; reference files are inlined, so
-  no `--add-dir` is needed. Agents are not started unasked in Claude Code, so
-  every agent needs a skill (or a skill step) that dispatches it.
+## Next up
 
-### Progress (update after every phase; a session may be cut off mid-step)
+1. **QA round on a Blade/Eloquent site** (profile B or C in
+   `docs/qa/test-protocol.md`), covering `templates` and the reviewer. Only
+   one real-site round has run so far (Antlers flat file, 2026-10-25, before
+   `templates` existed). Each finding becomes a RED case or a fix.
+2. The next item from the suggested order in `IDEAS.md`.
 
-- [x] Step 1 — multiple blueprints per collection: fixture + RED cases (RED: new-entry-blueprint default-kept 0/2; GREEN 6/6 after references/entry-blueprints.md)
-- [x] Step 1 — fix + GREEN + full suite (21/21) + RESULTS.md, committed
-- [x] Step 2 — split design decided: new `skills/forms/` (own SKILL.md with the
-      same gates; `forms.md` moves into `skills/forms/references/`); shared
-      references stay in `skills/blueprints/references/` and are read via
-      `${CLAUDE_PLUGIN_ROOT}/skills/blueprints/references/…`; navigations stay in
-      `blueprints`; `form-add-field`/`new-form` expect the `forms` skill; new
-      guard case that a form request does not fire `blueprints`.
-- [x] Step 2 — split done + full suite (21/21) + RESULTS.md, committed
-- [x] Step 3a — multisite: fixture + RED (no RED: 5 cases pass unchanged, traces checked)
-- [x] Step 3a — no fix needed; cases kept as guards, RESULTS.md, committed
-- [x] Step 3b — asset containers: fixture + RED (asset-add-field skill-fired 1/2; GREEN 6/6 after trigger + paths)
-- [x] Step 3b — fix + GREEN (6/6) + full suite (28/28) + RESULTS.md, committed
-- [x] Step 3c — users: fixture + RED (skill fired 1/6; content correct in all runs). Decision: user blueprint → blueprints trigger fix (GREEN 3/3); roles/groups stay out of blueprints, cases kept as content guards without skill-fired
-- [x] Step 3c — fix + GREEN + full suite (31/31) + RESULTS.md, committed
-- [x] Step 3d — `users` skill: 5 cases, RED with skill parked (no-approval: wrote roles.yaml unasked 2/2; skill-fired 0/10), GREEN 15/15
-- [x] Step 3d — skill written + GREEN + full suite (34/34) + RESULTS.md/README/roadmap, committed
-- [x] Reviewer Task 1 — fixtures + 6 RED cases (reviewer-fired 0/6), committed
-- [x] Reviewer Task 2 — agent + template-review skill + GREEN (6 cases 3/3)
-- [x] Reviewer Task 3 — wired into blueprints/forms Verify + GREEN
-- [x] Reviewer Task 4 — docs + full suite (44/46, two fixed and rechecked 3/3)
-- [x] Reviewer final review — 4 Important + 1 upgraded Minor fixed RED→GREEN (3/3 each), committed
-- [x] Reviewer merged to `main` 2026-10-25 — pre-merge full suite 49/51, both misses 3/3 on rerun
-
-### Next up (in order)
-
-1. ~~Write the QA test protocol~~ (done 2026-10-25: `docs/qa/test-protocol.md`;
-   profiles A flat-file, B Eloquent structure, C Eloquent content only).
-   Antlers flat-file round done 2026-10-25 (30/31, report
-   `docs/qa/2026-10-25-antlers-flat-file.md`); its four findings fixed
-   RED→GREEN the same day (full suite 52/53, the miss 3/3 on rerun). Still to
-   run: a Blade/Eloquent site (profile B or C).
-2. ~~Mods.~~ First two built 2026-10-25 (see Status); more under "Mods" in `IDEAS.md`.
-3. ~~**Templates skill**~~ — done, released in 0.3.0 (2026-10-28). Design:
-   `docs/specs/2026-10-26-statamic-kit-templates-design.md`; plan:
-   `docs/plans/2026-10-26-statamic-kit-templates.md` (its "Resuming after a
-   break" section says how to pick up). After that, the next item from the
-   suggested order in `IDEAS.md`.
-
-### Templates skill — Progress (tick after each task's commit)
-
-- [x] Task 1 — Statamic facts file, fixtures `pages-antlers` + `pages-blade`
-- [x] Task 2 — page-type cases (7), RED
-- [x] Task 3 — gate and boundary cases (7), RED
-- [x] Task 4 — `skills/templates/` + references, GREEN
-- [x] Task 5 — reviewer extended to page templates, RED → GREEN
-- [x] Task 6 — full suite, README/IDEAS/QA protocol, RESULTS.md; ask before 0.3.0
-
-Deferred minors from the phase 1 review (pick up when touching that area):
-the mount/collection-URL rule is stated as a docs fact but is not in the docs;
-Detect does not read `blueprint_templates`; no full-measure `nocache` caveat;
-"blueprint field or system variable" omits tag-provided variables; inlined
-Project detection §4–5 is noise for `templates`; `templates-multisite`'s
-locale regex checks only the layout; `detail-news-antlers/resolves` accepts a
-new site-wide `default` template; `blueprints` has no "not page templates"
-exclusion and there is no footer-nav guard case.
-
-- [x] Task 7 — phase 2: search results page
-- [x] Task 8 — phase 2: 404 page
-- [x] Task 9 — phase 2: SEO meta
-- [x] Task 10 — phase 2: sitemap
-- [x] Task 11 — phase 2: language switcher
-- [x] Task 12 — phase 2 full suite and docs (76/79; see RESULTS.md); one release for both phases after the user's OK
-
-### Open minors from the reviewer's final review
+## Open minors
 
 Not fixed on purpose; pick up when touching that area.
+
+`templates` (phase 1 review):
+
+- The mount/collection-URL rule is stated as a docs fact but is not in the docs.
+- Detect does not read `blueprint_templates`.
+- No full-measure `nocache` caveat.
+- "Blueprint field or system variable" omits tag-provided variables.
+- The inlined Project detection §4–5 is noise for `templates`.
+- `templates-multisite`'s locale regex checks only the layout.
+- `detail-news-antlers/resolves` accepts a new site-wide `default` template.
+- `blueprints` has no "not page templates" exclusion; no footer-nav guard case.
+
+Reviewer (final review):
 
 - Review cases still allow Bash (`allowed_tools`); the reviewer itself has no Bash.
 - Several "unchanged" graders check one pattern only; `review-missing-file`
@@ -168,9 +85,14 @@ Not fixed on purpose; pick up when touching that area.
 - `review-antlers-leak`'s `explains-fallback` judge splits 2–1 on most runs;
   expect an occasional fail without a regression.
 
-For every step: follow the RED → fix → GREEN → full-suite loop, log it in
-`evals/RESULTS.md`, and keep client names and local paths out of fixtures and
-commits.
+## Workflow for every change
+
+RED → fix → GREEN → full suite. Write the eval case(s) first and see them
+fail, change the skill/agent/reference, see them pass, then run the full
+suite and log it in `evals/RESULTS.md`. Keep client names and local paths out
+of fixtures, docs and commits. For bigger work, write a design in
+`docs/specs/` and a plan in `docs/plans/` first, and keep a progress
+checklist in the plan (a session may be cut off mid-step).
 
 ## Caveat: mods must be wired up by name
 
@@ -201,30 +123,22 @@ Every mod therefore goes through that file.
 
 ## Deferred: a read-only mapper agent for large blueprints
 
-The blueprints skill reads the project's blueprints and fieldsets itself. On
-sites with big inline page builders (one real-world `page.yaml` is 440+ lines
-of Replicator sets) that can flood the main context.
+On sites with big inline page builders (one real-world `page.yaml` is 440+
+lines of Replicator sets) reading blueprints could flood the main context. A
+read-only `blueprint-mapper` agent (Read/Grep/Glob) could return a compact map
+instead: builder pattern, paths, set groups and sets, naming and language
+conventions, template language.
 
-If that turns out to hurt in practice, add a read-only `blueprint-mapper`
-agent (`agents/blueprint-mapper.md`, tools limited to Read/Grep/Glob) that
-scans the project and returns a compact map instead: the page-builder pattern
-(inline vs fieldset), file paths, existing set groups and sets, naming and
-language conventions, and the template language. The skill then works from
-that map. Measure on a large real site before building it — on small sites the
-extra hop is pure overhead.
-
-Measured 2026-10-20 (QA, real Statamic 6 Blade site; largest fieldset 345
-lines, 13 sets): 41–52k peak context for plan-only runs, 60k when executing;
-skill + references add about 5–8k, and the big fieldset was read with
-`grep`/`sed`, not whole. No pressure — still deferred. Re-measure on a site
-with 1000+ line blueprints.
+Measured 2026-10-20 (real Statamic 6 Blade site, largest fieldset 345 lines,
+13 sets): 41–52k peak context plan-only, 60k executing; skills add about
+5–8k, and the big fieldset was read with `grep`/`sed`, not whole. No
+pressure — still deferred. Re-measure on a site with 1000+ line blueprints.
 
 ## Conventions
 
 - References a skill always needs are inlined into its SKILL.md by
   `scripts/inline-references.py` (reads of plugin files outside the user's
   project need approval). Edit `references/*.md`, never the inlined block.
-
 - Author everything that ships (skills, agents, mods, README, output) in **English**.
 - Build against the live spec, not memory: follow the `building-plugins-to-spec`
   skill and the official `plugin-dev` skills; use the `plugin-authoring` skill for mods.
@@ -238,6 +152,6 @@ with 1000+ line blueprints.
 ```sh
 claude plugin validate .                          # must print "Validation passed"
 python3 scripts/inline-references.py --check      # inlined references current
-claude plugin test .                              # once mods have *.test.ts files
+claude plugin test .                              # mod tests
 claude --plugin-dir .                             # smoke-test the real invocation
 ```

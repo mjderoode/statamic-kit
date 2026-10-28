@@ -5,7 +5,7 @@ covers structure (blueprints, forms, users) and template review; the gaps are
 before and after that: building pages, extending in PHP, debugging, upgrades
 and deploys.
 
-Every new area gets its own skill with a narrow description (see the roadmap
+Every new area gets its own skill with a narrow description (see "Design decisions"
 in `CLAUDE.md`), and every agent needs a skill that dispatches it.
 
 ## Suggested order
