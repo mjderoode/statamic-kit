@@ -17,6 +17,33 @@ Each item under `email:` sends one mail: `to` (required), optional `from`,
 `reply_to` (often `'{{ email }}'`), `subject`, and `html` / `text` (view names) or
 `markdown: true`. Copy the shape of existing entries.
 
+Without `html` / `text` Statamic sends a plain list of every field.
+
+## Email templates
+
+- **View names** in `html:` / `text:` use dot notation relative to
+  `resources/views`, without extension: `html: emails.contact` →
+  `resources/views/emails/contact.antlers.html` (or `.blade.php`). Follow the
+  site's existing email views and folder; otherwise use `emails/<form>`, in the
+  site's template language. `text:` is a plain-text view.
+- **Variables:** every submitted field by handle (augmented: an `assets` field
+  is an asset, checkboxes a list), a `fields` list (`display`, `handle`,
+  `value`, `fieldtype`, `config`), plus `site_url`, `date`, `now`, `config`,
+  `email_config` and global sets.
+- **`message` is reserved.** Laravel puts its mail `Message` object in the
+  view data as `message`, so `{{ message }}` / `{{ $message }}` never shows a
+  field named `message`. Show that field through `fields` — Antlers
+  `{{ fields }}{{ if handle == 'message' }}{{ value }}{{ /if }}{{ /fields }}`,
+  Blade `collect($fields)->firstWhere('handle', 'message')['value'] ?? ''` —
+  or loop over all `fields`. Say why in the plan. Renaming the field is the
+  user's call: stored submissions keep the old handle.
+- **Markdown mail** (`markdown: true`): the `html:` view must be **Blade**,
+  wrapped in `<x-mail::message>` (with `<x-mail::panel>`,
+  `<x-mail::button :url="…">`, `<x-mail::table>` as needed). **Do not indent**
+  anything inside it: Laravel's Markdown parser renders a line indented four
+  spaces or more as a code block. Write every line flush left, even nested
+  components.
+
 ## Fields
 
 - Put front-end validation in `validate:` (`required`, `email`, `max:…`).

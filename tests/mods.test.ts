@@ -456,3 +456,68 @@ test('the form tag and forms without a file input get no note', async ($, on) =>
 
   expect(result.context).toBeUndefined()
 })
+
+// --- email views (template check) ---------------------------------------
+
+const MAIL_VIEW = `${ROOT}/resources/views/emails/application.blade.php`
+
+test('indented Markdown inside a mail message is reported', async ($, on) => {
+  const files = baseFiles()
+  site(on, files)
+
+  const content = `<x-mail::message>
+# New application from {{ $name }}
+
+    <x-mail::panel>
+        {{ $motivation }}
+    </x-mail::panel>
+</x-mail::message>`
+  const result = await $.tool.call({ tool: 'Write', file_path: MAIL_VIEW, content })
+
+  expect(notes(result)).toContain('indented')
+  expect(notes(result)).toContain('4, 5, 6')
+})
+
+test('a flush Markdown mail gets no note', async ($, on) => {
+  const files = baseFiles()
+  site(on, files)
+
+  const content = `<x-mail::message>
+# New application from {{ $name }}
+
+<x-mail::panel>
+{{ $motivation }}
+</x-mail::panel>
+</x-mail::message>`
+  const result = await $.tool.call({ tool: 'Write', file_path: MAIL_VIEW, content })
+
+  expect(result.context).toBeUndefined()
+})
+
+test('the message variable in a form email view is reported', async ($, on) => {
+  const files = baseFiles()
+  files[`${ROOT}/resources/forms/contact.yaml`] = "title: Contact\nemail:\n  -\n    to: a@example.com\n    html: emails.contact\n"
+  site(on, files)
+
+  const result = await $.tool.call({
+    tool: 'Write',
+    file_path: `${ROOT}/resources/views/emails/contact.antlers.html`,
+    content: '<table><tr><td>{{ name }}</td><td>{{ message }}</td></tr></table>',
+  })
+
+  expect(notes(result)).toContain('`message`')
+  expect(notes(result)).toContain('fields')
+})
+
+test('the message variable outside an email view is left alone', async ($, on) => {
+  const files = baseFiles()
+  site(on, files)
+
+  const result = await $.tool.call({
+    tool: 'Write',
+    file_path: `${ROOT}/resources/views/partials/flash.antlers.html`,
+    content: '<p>{{ message }}</p>',
+  })
+
+  expect(result.context).toBeUndefined()
+})

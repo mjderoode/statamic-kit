@@ -15,8 +15,9 @@ GREEN loop in `CLAUDE.md` (full suite only after asking).
    - [x] Mods for the same mistakes (done 2026-10-28): `yaml-check` flags
      size-like `max:`/`min:` on upload fields; new `template-check` flags a
      file input in a `<form>` without `enctype`.
-   - [ ] HTML template for the notification email (`html`/`text` views,
-     `markdown: true`).
+   - [x] HTML template for the notification email (done 2026-10-28):
+     view names, variables, Markdown in Blade without indentation, the
+     reserved `message` handle; `template-check` flags the last two.
    - [ ] Submitting without a page reload (AJAX or Precognition).
    - [ ] Spam protection with a captcha addon next to the honeypot.
 3. [ ] **Live preview and redirects.** Preview targets per collection, and

@@ -646,3 +646,16 @@ posting to `statamic.forms.submit`).
 Cost: RED about $0.75, GREEN about $1.90. Full suite deferred to the end of
 the `active-work` branch.
 
+## Forms: email templates — 2026-10-28
+
+New **Email templates** section in `skills/forms/references/forms.md`
+(inlined).
+
+| Case | What it checks | RED (1 run) | GREEN (3 runs) |
+|---|---|---|---|
+| `form-email-markdown-blade` | `markdown: true`, a Blade view at the `html:` path with `<x-mail::message>`/`panel`, nothing indented | 1.00 | 3/3 |
+| `form-email-message-field` | Contact form with a `message` field: the view shows it through `fields`, not `{{ message }}`, and says why | 0.67 (`{{ message }}`) | 3/3 |
+
+Cost: RED about $0.65, GREEN about $1.80. Mod tests 30/30 (four new for the
+`template-check` email checks).
+
