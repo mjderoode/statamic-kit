@@ -38,7 +38,7 @@ on 2026-10-27, misses judge variance).
   containers, user blueprint, page-builder blocks), `forms`, `users` (roles
   and groups), `templates` (page templates), `template-review`.
 - Agent: `template-reviewer` (read-only; sets, forms and page templates).
-- Mods: `yaml-check` and `paired-files`; shared code in
+- Mods: `yaml-check`, `paired-files` and `template-check`; shared code in
   `mods/lib/statamic.ts`, tests in `tests/mods.test.ts`.
 
 Design decisions that still hold:

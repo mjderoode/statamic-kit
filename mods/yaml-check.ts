@@ -12,8 +12,10 @@ import {
 
 // After Claude writes or edits Statamic YAML, parse it with the site's own
 // Symfony parser (the one Statamic uses) and check blueprints and fieldsets
-// for duplicate handles. Problems go back to Claude as context on the tool
-// result; the user sees nothing unless Claude acts on it.
+// for duplicate handles, and for `max:`/`min:` rules that read like a size on
+// upload fields (`assets`, `files`), where Laravel counts files instead.
+// Problems go back to Claude as context on the tool result; the user sees
+// nothing unless Claude acts on it.
 
 const isStatamicYaml = (project: Project, path: string) =>
   isYaml(path) &&
@@ -40,13 +42,29 @@ export async function checkYaml($: EngineInterface, path: string): Promise<strin
 
   if (!looksLikeBlueprint(parsed.data)) return undefined
 
-  const { duplicates } = analyse(parsed.data)
+  const { duplicates, uploads } = analyse(parsed.data)
+  const notes: string[] = []
 
-  if (duplicates.length === 0) return undefined
+  if (duplicates.length > 0) {
+    notes.push(
+      `statamic-kit: \`${file}\` has duplicate handles, so one silently overrides the other in Statamic:\n${duplicates
+        .map(line => `- ${line}`)
+        .join('\n')}`,
+    )
+  }
 
-  return `statamic-kit: \`${file}\` has duplicate handles, so one silently overrides the other in Statamic:\n${duplicates
-    .map(line => `- ${line}`)
-    .join('\n')}`
+  if (uploads.length > 0) {
+    notes.push(
+      `statamic-kit: \`${file}\` limits upload fields with \`max:\`/\`min:\`, which count files there, not size, so no size limit applies:\n${uploads
+        .map(
+          u =>
+            `- \`${u.path}\` (${u.type}): \`${u.rule}\` allows ${u.kind === 'max' ? 'up to' : 'at least'} ${u.value} files; for size use \`${u.kind}_filesize:${u.value}\` (kilobytes); for a file count use \`max_files\` in the field config`,
+        )
+        .join('\n')}`,
+    )
+  }
+
+  return notes.length > 0 ? notes.join('\n\n') : undefined
 }
 
 const withContext = (result: ToolCallResult, note: string | undefined): ToolCallResult =>

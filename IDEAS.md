@@ -96,7 +96,8 @@ edits) are built in `mods/`.
 
 ### Handle check (new)
 
-After a template edit, report any `{{ field }}` or `$field` that is not in the
+Belongs in `mods/template-check.ts` (built 2026-10-28 for the upload
+`enctype` check). After a template edit, report any `{{ field }}` or `$field` that is not in the
 blueprint. A quick, cheap version of what the template reviewer does.
 
 ### Hard Eloquent stop (hook before an edit)

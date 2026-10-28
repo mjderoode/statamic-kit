@@ -12,6 +12,10 @@ Releases ship when `version` in `.claude-plugin/plugin.json` changes.
   `assets` (kept in a container), limits size with `max_filesize` (in KB)
   rather than `max:` (which counts files), sets `attachments: true`, and adds
   `enctype="multipart/form-data"` to hand-written forms.
+- `yaml-check` mod: flags `max:`/`min:` above 20 on `assets`/`files` fields,
+  where they count files rather than limit size.
+- New `template-check` mod: flags a hand-written `<form>` with a file input
+  but no `enctype="multipart/form-data"`.
 
 ## 0.3.0 — 2026-10-28
 

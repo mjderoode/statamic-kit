@@ -12,6 +12,9 @@ GREEN loop in `CLAUDE.md` (full suite only after asking).
 2. [ ] **Forms extensions.**
    - [x] File uploads (done 2026-10-28): `files` vs `assets`, `max_filesize`
      instead of `max:`, `attachments: true`, `enctype` on hand-written forms.
+   - [x] Mods for the same mistakes (done 2026-10-28): `yaml-check` flags
+     size-like `max:`/`min:` on upload fields; new `template-check` flags a
+     file input in a `<form>` without `enctype`.
    - [ ] HTML template for the notification email (`html`/`text` views,
      `markdown: true`).
    - [ ] Submitting without a page reload (AJAX or Precognition).

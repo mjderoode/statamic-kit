@@ -326,3 +326,133 @@ test('custom blueprint paths from config are followed', async ($, on) => {
 
   expect(notes(result)).toContain('cms/blueprints/forms/quote.yaml')
 })
+
+// --- upload rules (yaml check) ------------------------------------------
+
+const upload = (handle: string, type: 'assets' | 'files', validate: unknown) => ({
+  handle,
+  field: { type, display: handle, validate },
+})
+
+const FORM_BLUEPRINT = `${ROOT}/resources/blueprints/forms/contact.yaml`
+
+// A site with the contact form's config, so only the upload rule can speak.
+const formSite = (): Files => ({ ...baseFiles(), [`${ROOT}/resources/forms/contact.yaml`]: json({ title: 'Contact' }) })
+
+test('max: as a size on an assets field is reported', async ($, on) => {
+  const files = baseFiles()
+  site(on, files)
+
+  const content = blueprint([field('name'), upload('photos', 'assets', ['image', 'max:5120'])])
+  const result = await $.tool.call({ tool: 'Write', file_path: FORM_BLUEPRINT, content })
+
+  expect(notes(result)).toContain('`photos`')
+  expect(notes(result)).toContain('max:5120')
+  expect(notes(result)).toContain('max_filesize:5120')
+})
+
+test('a pipe-separated min: on a files field is reported', async ($, on) => {
+  const files = baseFiles()
+  site(on, files)
+
+  const content = blueprint([upload('cv', 'files', 'required|min:100|mimes:pdf')])
+  const result = await $.tool.call({ tool: 'Write', file_path: FORM_BLUEPRINT, content })
+
+  expect(notes(result)).toContain('min:100')
+  expect(notes(result)).toContain('min_filesize')
+})
+
+test('an upload field inside a set is checked too', async ($, on) => {
+  const files = baseFiles()
+  site(on, files)
+
+  const content = blueprint([builder({ gallery: set([upload('images', 'assets', ['max:2048'])]) })])
+  const result = await $.tool.call({ tool: 'Write', file_path: PAGE, content })
+
+  expect(notes(result)).toContain('`page_builder.gallery.images`')
+})
+
+test('a small max: on an upload field (a file count) gets no note', async ($, on) => {
+  const files = formSite()
+  site(on, files)
+
+  const content = blueprint([upload('photos', 'assets', ['max:3', 'max_filesize:5120'])])
+  const result = await $.tool.call({ tool: 'Write', file_path: FORM_BLUEPRINT, content })
+
+  expect(result.context).toBeUndefined()
+})
+
+test('max: on a text field gets no note', async ($, on) => {
+  const files = formSite()
+  site(on, files)
+
+  const content = blueprint([{ handle: 'message', field: { type: 'textarea', validate: ['max:5000'] } }])
+  const result = await $.tool.call({ tool: 'Write', file_path: FORM_BLUEPRINT, content })
+
+  expect(result.context).toBeUndefined()
+})
+
+// --- template check -----------------------------------------------------
+
+const FORM_VIEW = `${ROOT}/resources/views/partials/application-form.blade.php`
+
+test('a hand-written form with a file input and no enctype is reported', async ($, on) => {
+  const files = baseFiles()
+  site(on, files)
+
+  const content = `<form method="POST" action="{{ route('statamic.forms.submit', 'application') }}">
+    @csrf
+    <input type="file" name="cv">
+</form>`
+  const result = await $.tool.call({ tool: 'Write', file_path: FORM_VIEW, content })
+
+  expect(notes(result)).toContain('enctype="multipart/form-data"')
+  expect(notes(result)).toContain('resources/views/partials/application-form.blade.php')
+})
+
+test('a file input added by Edit to a form without enctype is reported', async ($, on) => {
+  const files = baseFiles()
+  files[FORM_VIEW] = `<form method="POST" action="/!/forms/application">
+    <input type="text" name="name">
+</form>`
+  site(on, files)
+
+  const result = await $.tool.call({
+    tool: 'Edit',
+    file_path: FORM_VIEW,
+    old_string: '<input type="text" name="name">',
+    new_string: '<input type="text" name="name">\n    <input type=file name="cv[]" multiple>',
+  })
+
+  expect(notes(result)).toContain('enctype')
+})
+
+test('a form with enctype gets no note', async ($, on) => {
+  const files = baseFiles()
+  site(on, files)
+
+  const content = `<form method="POST" enctype="multipart/form-data" action="/!/forms/application">
+    <input type="file" name="cv">
+</form>`
+  const result = await $.tool.call({ tool: 'Write', file_path: FORM_VIEW, content })
+
+  expect(result.context).toBeUndefined()
+})
+
+test('the form tag and forms without a file input get no note', async ($, on) => {
+  const files = baseFiles()
+  site(on, files)
+
+  const content = `{{ form:create in="contact" }}
+    <input type="file" name="photos[]" multiple>
+{{ /form:create }}
+<s:form:create in="quote"><input type="file" name="plan"></s:form:create>
+<form method="GET" action="/search"><input type="search" name="q"></form>`
+  const result = await $.tool.call({
+    tool: 'Write',
+    file_path: `${ROOT}/resources/views/contact.antlers.html`,
+    content,
+  })
+
+  expect(result.context).toBeUndefined()
+})
