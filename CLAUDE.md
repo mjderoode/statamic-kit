@@ -25,10 +25,10 @@ the public `mitsol-labs` marketplace (`mjderoode/mitsol-labs`, a separate
 repo) with a `url` source on `main`; bump `version` in `plugin.json` to ship
 a release. For development, load it with `claude --plugin-dir .`.
 
-Status: v0.2 (2026-10-26: QA round 1 fixes) — `blueprints`, `forms`, `users` and `template-review` skills and the `template-reviewer` agent shipped (see `docs/specs/2026-10-19-statamic-kit-blueprints-design.md`). `blueprints` covers blueprints, fieldsets, collections
+Status: v0.3 (2026-10-28: templates skill released) — `blueprints`, `forms`, `users` and `template-review` skills and the `template-reviewer` agent shipped (see `docs/specs/2026-10-19-statamic-kit-blueprints-design.md`). `blueprints` covers blueprints, fieldsets, collections
 (including multiple entry blueprints), taxonomies, global sets, navigations and
 page-builder blocks; `forms` covers forms and `users` covers roles and groups.
-On branch `templates-skill` (2026-10-26, not yet merged or released): the
+Shipped in 0.3.0 (merged 2026-10-28): the
 `templates` skill (listing, detail and taxonomy pages, navigation,
 breadcrumbs, image partial, search, 404, SEO meta, sitemap, language switcher; design `docs/specs/2026-10-26-statamic-kit-templates-design.md`)
 and the reviewer extended to page templates; full suite 76/79 (2026-10-27),
@@ -124,7 +124,7 @@ Plan of attack:
    RED→GREEN the same day (full suite 52/53, the miss 3/3 on rerun). Still to
    run: a Blade/Eloquent site (profile B or C).
 2. ~~Mods.~~ First two built 2026-10-25 (see Status); more under "Mods" in `IDEAS.md`.
-3. **Templates skill** — in progress. Design:
+3. ~~**Templates skill**~~ — done, released in 0.3.0 (2026-10-28). Design:
    `docs/specs/2026-10-26-statamic-kit-templates-design.md`; plan:
    `docs/plans/2026-10-26-statamic-kit-templates.md` (its "Resuming after a
    break" section says how to pick up). After that, the next item from the
