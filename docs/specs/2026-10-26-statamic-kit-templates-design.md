@@ -81,8 +81,8 @@ Same skill, same gates, each with its own RED/GREEN cases:
 11. **Language switcher** on multisite sites, linking each page to its
     localized version.
 
-Phase 1 is released (0.3.0) before phase 2 starts; phase 2 is its own
-release.
+Both phases are built on one branch and released together after phase 2
+(user decision 2026-10-26).
 
 ## Non-goals
 

@@ -1,0 +1,26 @@
+{{# News overview: all articles, 10 per page. #}}
+<section class="container news-index">
+    <h1 class="page__title">{{ title }}</h1>
+    {{ if intro }}
+        <p class="page__intro">{{ intro }}</p>
+    {{ /if }}
+
+    {{ collection:news paginate="10" as="posts" }}
+        <h1 class="section-title">All articles</h1>
+        <div class="card-grid">
+            {{ posts }}
+                <article class="card">
+                    <a class="card__link" href="{{ url }}">
+                        <img class="card__image" src="{{ image:url }}">
+                        <h3 class="card__title">{{ title }}</h3>
+                        <p class="card__intro">{{ summary }}</p>
+                    </a>
+                </article>
+            {{ /posts }}
+        </div>
+
+        {{ paginate }}
+            <p class="pagination">Page {{ current_page }} of {{ total_pages }}</p>
+        {{ /paginate }}
+    {{ /collection:news }}
+</section>

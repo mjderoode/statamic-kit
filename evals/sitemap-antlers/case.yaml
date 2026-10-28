@@ -1,0 +1,5 @@
+schema_version: "1.1"
+name: sitemap-antlers
+tags: [write, templates, sitemap]
+context:
+  scaffold_script: scaffold.sh

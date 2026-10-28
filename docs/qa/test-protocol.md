@@ -199,6 +199,8 @@ real names in the results; describe them generically.
 | `<blueprint-file>` | A collection blueprint or fieldset file with a few fields |
 | `<builder-file>` | The file that defines the page builder's sets |
 | `<partial-folder>` | The folder where the builder's set templates live |
+| `<routed-collection>` | A collection with a `route:` and entries, ideally without a listing page (news, events, …) |
+| `<nav>` | An existing navigation's handle (else `n/a`) |
 | `<missing-collection>` | A plausible collection name that doesn't exist (e.g. `news`, `events`) |
 
 ---
@@ -271,6 +273,25 @@ BP-1N T2 creates one, so use it. Right after BP-1N T2, **before the reset**:
 | US-3 | roles in files | `Create a Marketing user group that gets the editor role.` | If `editor` doesn't exist: it asks, or offers to create it. If it does: a plan for `groups.yaml`. No writes. |
 | US-5 | roles in files, **no `roles.yaml`** (or the file is empty) | Prompt US-1. → T2 `Approved.` | T1: it says no roles file exists yet. The plan creates it at the path resolved from `config/statamic/users.php` (default `resources/users/roles.yaml`), with the full YAML and the permission list as in US-1. It doesn't assume a different location. No writes. T2: file created; parse check; runtime check or "not run". Diff check. (Without `groups.yaml`, run US-3 too **before the reset**: it should plan to create `groups.yaml` the same way.) |
 | US-4 | roles in DB | Prompt US-1 plus ` I approve your plan in advance.` | Stops for roles, points to the Control Panel. Zero writes. |
+
+### Templates (`statamic-kit:templates`)
+
+| ID | Applies | Prompt | Expected |
+|---|---|---|---|
+| TP-1 | A, C | `Build an overview page for <routed-collection>, 10 per page.` | `templates` fires. Plan: the listing template in the site's language, a listing page entry (added to the pages tree) and `mount:` on the collection — or the site's own `Route::statamic` pattern — and the reuse of an existing card/teaser partial. Pagination with links and an empty state in the outline; the static-caching consequence named if caching is on. **No writes**; ends with a question. In profile B: template only, wiring pointed to the Control Panel. |
+| TP-1 T2 | A, C | `Approved, go ahead.` | Only the planned files. `mount:` id matches the new entry's `id`. YAML parse check; runtime check (render the URL) or "not run". `template-reviewer` runs; **Template review** section. Diff check. |
+| TP-2 | all | `Make the detail page for <routed-collection>.` | The plan puts the template where the collection resolves (`template:`, `@blueprint`, `blueprint_templates`), sets `template:` only if needed, and outputs only fields of the blueprint. No writes. |
+| TP-3 | all | `Show the author's name on the <routed-collection> detail page.` (pick a field that does **not** exist) | It says the field doesn't exist and offers the `blueprints` skill. **Zero writes**, no blueprint edit. |
+| TP-4 | A, C | `Put <routed-collection> under /qa-moved.` | `blueprints` or `templates` fires. The plan names the URLs that change and asks about redirects. No writes. |
+| TP-5 | all, `<nav>` exists | `Build the main navigation with dropdowns for subpages.` | Uses the `nav` tag (children, current state) in the layout's language, replacing hard-coded links only as planned. No writes. |
+| TP-6 | all | `Add breadcrumbs to all pages.` | `nav:breadcrumbs` from the layout; current page not a link; no hard-coded locale prefix on multisite. No writes. |
+| TP-7 | all | `Make a reusable responsive image partial and use it in the cards.` | Glide `srcset`, alt from the asset, width/height; reuses an existing image component instead if the site has one. No writes. |
+| TP-9 | all | `Add a search page for <routed-collection>.` | Plan: a search form (`q`), the `search:results` tag with an empty state, and an index in `config/statamic/search.php` covering the collection with fields beyond `title`; tells you to run `php please search:update`; static-caching handling if caching is on. No writes. |
+| TP-10 | all | `Make a 404 page.` | `resources/views/errors/404.<ext>` on the site layout, link home, no route. No writes. |
+| TP-11 | all | `Add SEO meta tags to the site.` | With an SEO addon: adds nothing that duplicates it, points to its settings. Without: title, description, canonical and OG from existing fields with fallbacks; offers `blueprints` for dedicated SEO fields; **no blueprint edits**. No writes. |
+| TP-12 | all | `Add an XML sitemap.` | With SEO Pro: says it already provides one. Without: `Route::statamic('sitemap.xml', …, ['content_type' => 'xml', 'layout' => null])` and a template over routed collections with absolute `loc`. No writes. |
+| TP-13 | all | `Add a language switcher to the header.` | Multisite: `locales` with `permalink`, current marked, untranslated pages handled. Single site: says there is nothing to switch to, **zero writes**. |
+| TP-8 | all | `Review <the template written in TP-1 T2, or an existing listing template>.` | `template-review` dispatches the reviewer; page checks applied (page links, empty state, one `<h1>` with the layout, image alt, `nocache`). No writes. |
 
 ### Template review (`statamic-kit:template-review` + `template-reviewer`)
 
@@ -355,6 +376,20 @@ runtime available yes/no · largest blueprint (lines)
 | US-3 | | | | | — | — | | | |
 | US-4 | | | | | — | — | | | |
 | US-5 | | | | | | | | | |
+| TP-1 | | | | | — | — | | | |
+| TP-1 T2 | | | | | | | | | |
+| TP-2 | | | | | — | — | | | |
+| TP-3 | | | | | — | — | | | |
+| TP-4 | | | | | — | — | | | |
+| TP-5 | | | | | — | — | | | |
+| TP-6 | | | | | — | — | | | |
+| TP-7 | | | | | — | — | | | |
+| TP-8 | | | | | — | — | | | |
+| TP-9 | | | | | — | — | | | |
+| TP-10 | | | | | — | — | | | |
+| TP-11 | | | | | — | — | | | |
+| TP-12 | | | | | — | — | | | |
+| TP-13 | | | | | — | — | | | |
 | RV-1 | | | | | — | — | | | true/false positives: |
 | RV-2 | | | | | — | — | | | true/false positives: |
 | RV-3 | | | | | — | — | | | true/false positives: |

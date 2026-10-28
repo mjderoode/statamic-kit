@@ -1,0 +1,6 @@
+title: News
+route: '/news/{slug}'
+dated: true
+sort_dir: desc
+taxonomies:
+  - topics

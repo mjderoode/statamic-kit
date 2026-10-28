@@ -1,6 +1,6 @@
 ---
 name: template-review
-description: This skill should be used when the user asks to review or check a Statamic Antlers or Blade template for a page-builder block (set partial or component) or a form — "review the FAQ block's template", "check this partial", "is this component OK?", "review the contact form template", "check the template against the rest of the site", or Dutch phrasing such as "review dit template" or "klopt deze partial?". Not for writing or changing templates (that is the blueprints or forms skill), and not for PHP, CSS, JS, layouts or show/index templates.
+description: This skill should be used when the user asks to review or check a Statamic Antlers or Blade template for a page-builder block (set partial or component), a form, or a page (listing, detail, taxonomy term page, navigation, breadcrumbs, image partial) — "review the FAQ block's template", "check this partial", "is this component OK?", "review the contact form template", "review the news overview template", "check the template against the rest of the site", or Dutch phrasing such as "review dit template" or "klopt deze partial?". Not for writing or changing templates (that is the blueprints, forms or templates skill), and not for PHP, CSS, JS or layouts.
 ---
 
 # Review a Statamic template
@@ -21,8 +21,8 @@ result.
    `Bad practice` (the user's name for it), even when you rephrase the rest:
    those are weaknesses the template shares with the rest of the site, for a
    site-wide decision.
-3. **Change nothing.** Offer to apply fixes; edits go through the `blueprints`
-   or `forms` skill's plan-and-approve flow.
+3. **Change nothing.** Offer to apply fixes; edits go through the `blueprints`,
+   `forms` or `templates` skill's plan-and-approve flow.
 
 If the agent says a named file does not exist, pass that on and offer the
 candidates it listed. Do not review another file instead.

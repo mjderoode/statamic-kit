@@ -1,0 +1,5 @@
+schema_version: "1.1"
+name: templates-eloquent
+tags: [guard, templates, eloquent]
+context:
+  scaffold_script: scaffold.sh

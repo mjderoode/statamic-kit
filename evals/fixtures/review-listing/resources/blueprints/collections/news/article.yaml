@@ -1,0 +1,53 @@
+title: Article
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              display: Title
+              required: true
+          -
+            handle: intro
+            field:
+              type: textarea
+              display: Intro
+              instructions: 'Short summary for cards and the overview.'
+          -
+            handle: image
+            field:
+              type: assets
+              display: Image
+              container: assets
+              max_files: 1
+          -
+            handle: content
+            field:
+              type: markdown
+              display: Content
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+          -
+            handle: date
+            field:
+              type: date
+              display: Date
+          -
+            handle: topics
+            field:
+              type: terms
+              display: Topics
+              taxonomies:
+                - topics

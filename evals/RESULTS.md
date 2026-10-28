@@ -443,3 +443,167 @@ form uses it.
   its `old-input-rated-should-fix` judge once; rerun 3/3 (6/7 overall).
   A first attempt stopped on the session limit and is not counted.
 - Cost about $17 (RED $2.27, GREEN $1.92, suite $12.57, rerun ~$0.50).
+
+## Templates skill — RED (page types) — 2026-10-26
+
+Design: `docs/specs/2026-10-26-statamic-kit-templates-design.md`; plan:
+`docs/plans/2026-10-26-statamic-kit-templates.md`; facts:
+`docs/specs/2026-10-26-templates-statamic-facts.md`. New fixtures
+`pages-antlers` (news + topics, card partial, hard-coded header links) and
+`pages-blade` (vacancies on `@blueprint`, `x-card`/`x-picture`, half-measure
+static caching).
+
+RED (`--runs 1`, no templates skill; Claude Code 2.1.310, default model):
+`skill-fired` 0/7 as expected. **Every content grader already passes** in all
+seven cases (listing, detail, `@blueprint` detail, taxonomy archive, Blade
+nav, breadcrumbs, image partial). The listing run wrote the `/news` page
+entry, added it to the tree, mounted `news`, reused `partials/card`, and
+flagged the missing news detail template on its own — in 6 turns, without a
+plan step. So the page-type knowledge needs no reference yet; the skill's
+value has to come from the gates, the boundary and the reviewer (Task 3).
+A first attempt did not load (run settings in `case.yaml` instead of the
+`prompt.md` front matter) and cost nothing. Cost $1.59.
+
+## Templates skill — RED (gates and boundary) — 2026-10-26
+
+RED (`--runs 1`, no templates skill), seven cases:
+
+| Case | RED | What happened |
+|---|---|---|
+| `templates-plan-gate` | 0.29 | no approval asked: wrote the overview, page entry and mount straight away |
+| `templates-missing-field` | 0.14 | added an `author` field to the news blueprint unasked, then used it |
+| `templates-route-change-warns` | content pass | planned `/jobs`, named the changing URLs, wrote nothing |
+| `templates-static-cache` | content pass | handled half-measure caching of the query string |
+| `templates-eloquent` | content pass | template file only, pointed to the CP |
+| `templates-multisite` | content pass | `nav:breadcrumbs`, no hard-coded locale |
+| `templates-trigger-guard` | 1.00 | `blueprints` fired, as it should |
+
+So the skill has two jobs the baseline misses: the plan-and-approve gate
+for page work, and stopping at missing structure instead of creating it.
+Cost $1.75.
+
+## Templates skill — GREEN — 2026-10-26
+
+`skills/templates/SKILL.md`: detect (layout, sibling page templates, reusable
+partials, collection config, blueprint, static caching, multisite), stop on
+missing structure (offer `blueprints`, never add a field — even when the plan
+is pre-approved), plan gate with wiring lines and changing URLs, write on the
+closest sibling, verify. A short **Page wiring** section holds the facts the
+plan needs; no separate references (RED asked only for the gate and the
+boundary). Project detection is inlined.
+
+- Smoke (`--runs 1`): `templates-plan-gate`, `templates-missing-field`,
+  `listing-news-antlers` 1.00 each, $0.69.
+- **GREEN** (`--runs 3`, 14 cases): 13 cases 3/3. `templates-route-change-warns`
+  scored 0.86 ×3: `blueprints` fired instead of `templates` and warned about
+  the changing URLs every time. A route change with no template work is
+  collection config, so the case now accepts either skill; rerun 1/1.
+- Which fix answers which RED failure: plan gate → `templates-plan-gate`
+  (0.29 → 3/3); missing-structure stop → `templates-missing-field`
+  (0.14 → 3/3).
+- Cost $10.71.
+
+## Templates skill — reviewer on page templates — 2026-10-26
+
+`template-reviewer` now covers page templates (listings, detail and term
+pages, navigation, breadcrumbs, image partials) with a new check 7: page
+links on paginated listings, an empty state, one `<h1>` counting the layout,
+image alt and dimensions, `nocache` or allowed query strings under static
+caching, current-item marking, reuse of the site's partials. The
+`template-review` skill triggers on page templates; `templates` Verify
+dispatches the reviewer like `blueprints` does. New fixture `review-listing`
+(news overview with five seeded defects).
+
+- **RED** (`--runs 1`): `reviewer-fired` 0/1 on `review-listing`,
+  `listing-news-antlers` and `detail-blueprint-mapped` (the main model
+  reviewed `review-listing` itself and found the defects). $0.71.
+- **GREEN** (`--runs 3`): all three cases 3/3. $2.79.
+- **Regression** (`--runs 1`): the 11 existing `review-*` cases pass;
+  `review-form` failed its judge once (FAIL ×3 votes), rerun 1/1 — noise. $2.02.
+
+## Templates skill — full suite — 2026-10-26
+
+`--runs 1 --ablation none -j 3`, 68 cases. The first invocation hit the
+session limit after 22 cases (46 runs stopped on the limit, not graded);
+those 46 were rerun one case per invocation after the reset.
+
+- **66/68** pass first time. `breadcrumbs-antlers` failed its `crumbs` judge
+  once (2–1), `review-antlers-leak` its `explains-fallback` judge (2–1, the
+  known split in `CLAUDE.md`); both 1/1 on rerun.
+- `blueprints`, `forms` and `users` `skill-fired` graders all pass: the new
+  skill does not steal their requests.
+- Done means: `claude plugin validate .` passed (existing warnings),
+  inline-references up to date, `claude plugin test .` 17/17.
+- Cost $18.00 (first pass $6.81, rerun $11.03, judge reruns $0.16).
+
+## Templates skill — final review — 2026-10-26
+
+Fresh whole-branch review: no Critical, five Important, nine Minor. Each
+Important got a test first:
+
+| Finding | Test | Result on the current skill |
+|---|---|---|
+| Eloquent rule contradicts Project detection; entries-only sites can still wire YAML | new `templates-eloquent-entries` (fixture `eloquent-entries`) | 1/1 — wording fixed anyway (contradiction in the text); 1/1 after, `templates-eloquent` 1/1 |
+| Entry-level `template:` overrides not looked for | new `detail-entry-override` | 1/1 — not reproduced, kept as guard |
+| Reviewer refuses layouts (nav/breadcrumbs) | `reviewer-fired` + `reviewed-not-refused` on `nav-main-blade`, `breadcrumbs-antlers` | 1/1 each — not reproduced |
+| Route/mount ownership unclear | Out of scope now carves out the wiring lines; `templates-route-change-warns` 1/1 | — |
+| Trigger guard only one way | `blueprints-not-fired` on `listing-news-antlers`, `detail-news-antlers`, `nav-main-blade` | 1/1 each |
+
+Minors are listed in `CLAUDE.md` under the templates Progress list. Cost $2.76.
+
+## Templates skill phase 2 — RED — 2026-10-27
+
+Nine cases (Tasks 7–11), run against the phase 1 skill (`--runs 1`). Six
+runs and one judge first stopped on the session limit and were rerun.
+
+| Case | RED | What happened |
+|---|---|---|
+| `search-results-antlers` | content FAIL | page built, but no search index: left `search.php` out as "PHP config", so only titles are searched |
+| `search-static-cache` | 1.00 | handled caching of `?q=` |
+| `not-found-blade` | skill not fired | 404 itself fine |
+| `seo-meta-antlers` | 0.00 | skill not fired; edited blueprints, meta judged wrong |
+| `seo-addon-present` | skill not fired | did not duplicate SEO Pro |
+| `seo-missing-fields` | 0.00 | added SEO fields to blueprints unasked |
+| `sitemap-antlers` | skill not fired | sitemap itself fine |
+| `language-switcher-multisite` | 1.00 | |
+| `language-switcher-single-site` | 0.33 | built a switcher on a one-site install |
+
+Cost $3.79.
+
+## Templates skill phase 2 — GREEN — 2026-10-27
+
+`skills/templates/SKILL.md`: description triggers on search, 404, SEO meta,
+sitemap and language switcher; Detect reads `search.php`, `routes/web.php`,
+globals and SEO addons; stop on a language switcher for a single-site
+install; an SEO rule (an addon owns meta and sitemap; else existing fields
+with fallbacks, never new fields); Page wiring facts for search (the index
+is wiring), 404, sitemap and `locales`.
+
+- **GREEN** (`--runs 3`, 9 cases): 27/27. A first attempt stopped on the
+  weekly limit before grading anything ($0.69) and was rerun.
+- Fixes per RED failure: search index as wiring → `search-results-antlers`;
+  SEO rule → `seo-meta-antlers`, `seo-missing-fields`; single-site stop →
+  `language-switcher-single-site`; triggers → `not-found-blade`,
+  `seo-addon-present`, `sitemap-antlers`.
+- Cost $9.59.
+
+## Templates skill phase 2 — full suite — 2026-10-27
+
+`--runs 1`, 79 cases, one case per invocation (`-P 3`). The session limit
+stopped runs twice (55, then 11 runs and one judge, all ungraded); those were
+rerun after each reset.
+
+- **76/79** pass first time.
+  - `review-documented-dispatch` (judge) and `templates-static-cache`
+    (`filter-works` judge): 1/1 on rerun.
+  - `two-builders-asks` failed its `asks` judge twice (FAIL ×3 both times).
+    The reply names both replicators, recommends one, asks which, and writes
+    nothing — what the grader's PASS line asks for. Neither the case nor the
+    `blueprints` skill changed on this branch; the judge seems to read the
+    full plan for the recommended option as "picks one". Left open (see
+    `CLAUDE.md`).
+- All `skill-fired` graders pass, including `blueprints-not-fired` on the
+  template cases and `templates-not-fired` on the blueprint guard.
+- Done means: validate passed (existing warnings), inline-references up to
+  date, `claude plugin test .` 17/17.
+- Cost $22.71 ($7.42 + $11.90 + $2.66 + $0.73).

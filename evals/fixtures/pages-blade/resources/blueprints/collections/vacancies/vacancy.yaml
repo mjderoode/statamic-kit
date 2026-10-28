@@ -1,0 +1,44 @@
+title: Vacancy
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              display: Title
+              required: true
+          -
+            handle: location
+            field:
+              type: text
+              display: Location
+          -
+            handle: hours
+            field:
+              type: integer
+              display: 'Hours per week'
+          -
+            handle: image
+            field:
+              type: assets
+              display: Image
+              container: assets
+              max_files: 1
+          -
+            handle: content
+            field:
+              type: bard
+              display: Content
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug

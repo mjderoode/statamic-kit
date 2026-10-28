@@ -10,7 +10,7 @@ in `CLAUDE.md`), and every agent needs a skill that dispatches it.
 
 ## Suggested order
 
-1. **`templates` skill** — most common request and the biggest gap.
+1. ~~**`templates` skill**~~ — built 2026-10-26/27 (both phases).
 2. **`troubleshoot` skill + "Make it visible" toast** — small, felt daily.
 3. **`extend` skill** — covers the PHP side.
 4. Then `blueprint-reviewer`, `upgrade` and `deploy`.
@@ -24,7 +24,14 @@ in `CLAUDE.md`), and every agent needs a skill that dispatches it.
   (`config/statamic/assets.php`), search indexes, static caching, revisions,
   collection routes and mounts, preview targets.
 
-## 2. Templates and pages (biggest gap)
+## 2. Templates and pages
+
+**Built 2026-10-26/27** (`skills/templates/`, plan
+`docs/plans/2026-10-26-statamic-kit-templates.md`): listing and detail pages,
+taxonomy term pages, navigation, breadcrumbs, the responsive image partial,
+search results, 404, SEO meta, sitemap and language switcher.
+
+Original idea:
 
 The kit only writes partials for page-builder sets. A **`templates`** (or
 `pages`) skill would build the rest:

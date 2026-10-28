@@ -1,0 +1,5 @@
+schema_version: "1.1"
+name: language-switcher-single-site
+tags: [guard, templates, multisite]
+context:
+  scaffold_script: scaffold.sh
