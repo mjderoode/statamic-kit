@@ -15,6 +15,11 @@ Releases ship when `version` in `.claude-plugin/plugin.json` changes.
 - `forms`: email templates. View names in dot notation, the variables a
   view gets, Markdown mails in Blade with nothing indented, and the reserved
   `message` handle (shown through `fields` instead).
+- `forms`: submitting without a page reload — plain `fetch` (the form's
+  `FormData` to its action, the `X-Requested-With` header, field errors from
+  the 400 response's `error` object) or live validation with Precognition
+  through `js="alpine_precognition"`, including the Alpine plugin. The skill
+  now also triggers on uploads, email templates, AJAX and live validation.
 - `yaml-check` mod: flags `max:`/`min:` above 20 on `assets`/`files` fields,
   where they count files rather than limit size.
 - New `template-check` mod: flags a hand-written `<form>` with a file input

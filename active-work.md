@@ -18,7 +18,9 @@ GREEN loop in `CLAUDE.md` (full suite only after asking).
    - [x] HTML template for the notification email (done 2026-10-28):
      view names, variables, Markdown in Blade without indentation, the
      reserved `message` handle; `template-check` flags the last two.
-   - [ ] Submitting without a page reload (AJAX or Precognition).
+   - [x] Submitting without a page reload (done 2026-10-28): plain `fetch`
+     (FormData to the form's action, `X-Requested-With`, 400 with `error`
+     per field) and Precognition through `js="alpine_precognition"`.
    - [ ] Spam protection with a captcha addon next to the honeypot.
 3. [ ] **Live preview and redirects.** Preview targets per collection, and
    redirects from old URLs after a rebuild or migration. May fold into the

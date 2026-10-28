@@ -659,3 +659,25 @@ New **Email templates** section in `skills/forms/references/forms.md`
 Cost: RED about $0.65, GREEN about $1.80. Mod tests 30/30 (four new for the
 `template-check` email checks).
 
+## Forms: submitting without a reload — 2026-10-28
+
+New **Submitting without a page reload** section in
+`skills/forms/references/forms.md` (inlined); `forms` description gains
+triggers for uploads, email templates, AJAX and live validation.
+
+| Case | What it checks | RED (1 run) | GREEN (3 runs) |
+|---|---|---|---|
+| `form-ajax-fetch` | `FormData` to the form's action with `X-Requested-With`; 400 handled, messages from `error`; thank-you; no-JS path kept | 0.50 (guessed between `error`/`errors`, reviewer had to fix the key) | 3/3 |
+| `form-precognition-alpine` | `js="alpine_precognition"` (no hand-built `$form`), fields bound and validated, plugin registered before `Alpine.start()` | 0.50 (own `x-data="$form(…)"`) | 3/3 |
+
+Grader notes: the first GREEN attempt failed on correct code — the fixture
+loaded no JavaScript (the layout had no Vite tag, `app.js` imported a missing
+`./bootstrap`) and one long Haiku rubric judged the transcript. Fixed by
+loading `app.js` in the scaffold, splitting each rubric into focused judges
+on the files, and naming `resources/js/app.js` in the prompt. One run then
+missed `skill-fired` (content correct): fixed by the description triggers,
+AJAX 3/3 after.
+
+Cost: RED about $1.00, GREEN attempts about $7.10 (three attempts incl. the
+grader fix).
+

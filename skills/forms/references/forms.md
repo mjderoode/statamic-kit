@@ -102,3 +102,49 @@ the uploads.
   `name="<handle>[]" multiple` for several. Add `accept=` matching the
   allowed types (`.pdf,.doc,.docx`, `image/*`). Label and error output like
   the sibling fields; there is no `old` value for a file.
+
+## Submitting without a page reload
+
+Keep the normal form working without JavaScript (server-rendered errors and
+success message stay); the script only improves it. Check how the layout
+loads JavaScript (a `{{ vite }}` / `@vite` tag, `resources/js/app.js`) and
+whether the site uses Alpine (`package.json`); say in the plan if the layout
+loads no script at all.
+
+**Plain AJAX (no Alpine, or the user wants no Precognition):**
+
+- `fetch(form.action, { method: 'POST', body: new FormData(form), headers: {
+  'X-Requested-With': 'XMLHttpRequest', Accept: 'application/json' } })`.
+  Post the form's own `action` (the `/!/forms/` prefix is configurable in
+  `config/statamic/routes.php`) and `FormData` from the form: it carries
+  `_token`, `_params` (both required), the honeypot and any files. Without the
+  header Statamic answers with a redirect, not JSON.
+- **Success:** status 200, `{ success: true, submission_created, submission,
+  redirect }`. A tripped honeypot also returns `success: true` (with
+  `submission_created: false`) — show the thank-you message either way.
+- **Validation error:** status **400**, `{ error: { <handle>: '<first
+  message>' }, errors: ['<all messages>'] }`. **`error` is the per-field
+  object, `errors` the flat list** — read field messages from `error`.
+  `fetch` does not reject on a 400: branch on `response.status === 400` /
+  `response.ok`, and treat other failures (network, 419 expired token, 500)
+  as a general error.
+- Clear old errors before each submit; put each message where the
+  server-rendered error for that field goes, with the same markup.
+
+**Precognition (live validation, site already uses Alpine):**
+
+- Use Statamic's driver on the form tag: `{{ form:create in="<handle>"
+  js="alpine_precognition" }}` (Blade: `<s:form:create … js="alpine_precognition">`).
+  It builds the Alpine `$form('post', <action>, {…})` object under `form`,
+  including the errors of a failed normal submit. Do **not** write your own
+  `x-data="… $form(…)"` instead, and plain `js="alpine"` is not Precognition.
+- Hand-written inputs: `x-model="form.<handle>"` and
+  `@change="form.validate('<handle>')"`; errors from
+  `form.invalid('<handle>')` / `form.errors.<handle>`.
+- For submit-by-AJAX as well: `js="alpine_precognition:form:<component>"`
+  with `@submit.prevent="submit"`, and an `Alpine.data('<component>', data =>
+  ({ ...data, submit() { this.form.submit().then(() => this.form.reset()) } }))`.
+- Install: `laravel-precognition-alpine` in `package.json`, then
+  `import Precognition from 'laravel-precognition-alpine'` and
+  `Alpine.plugin(Precognition)` **before** `Alpine.start()`. Tell the user to
+  run `npm install` and rebuild assets.
