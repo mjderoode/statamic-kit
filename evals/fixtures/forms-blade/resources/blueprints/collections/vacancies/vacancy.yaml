@@ -1,0 +1,19 @@
+title: Vacancy
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              display: Title
+              validate:
+                - required
+          -
+            handle: intro
+            field:
+              type: textarea
+              display: Intro

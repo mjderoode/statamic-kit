@@ -632,3 +632,17 @@ Cost: RED about $0.70, GREEN about $1.60. Full suite not run (the user now
 decides when it runs); cases without `editions.php` are unaffected by design
 (edition unknown → no warning).
 
+## Forms: file uploads — 2026-10-28
+
+New **File uploads** section in `skills/forms/references/forms.md` (inlined).
+New fixture `forms-blade` (application form, hand-written Blade `<form>`
+posting to `statamic.forms.submit`).
+
+| Case | What it checks | RED (1 run) | GREEN (3 runs) |
+|---|---|---|---|
+| `form-upload-cv-blade` | Email-only CV: `files`, `max_files: 1`, `max_filesize:5120`, `mimes`, `attachments: true`, `enctype` on the Blade form | 1.00 | 3/3 |
+| `form-upload-photos-antlers` | Kept photos: `assets` with `container: uploads`, `max_files: 3`, image rule, `name="photos[]" multiple` | 0.67 (`max:5120` as a size limit) | 3/3 |
+
+Cost: RED about $0.75, GREEN about $1.90. Full suite deferred to the end of
+the `active-work` branch.
+

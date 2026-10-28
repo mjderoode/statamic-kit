@@ -268,6 +268,45 @@ and the honeypot input.
   from `$errors->getBag('form.<handle>')`, success from
   `session('form.<handle>.success')`.
 
+#### File uploads
+
+**Pick the fieldtype by what happens to the file afterwards:**
+
+| Fieldtype | Use when | What happens |
+|---|---|---|
+| `files` | The file only has to reach someone by email (a CV, an attachment) | Attached to the email, then **deleted**; a stored submission keeps no file. Held meanwhile on `file_uploads_disk` / `file_uploads_path` (`config/statamic/system.php`, default the private `local` disk) |
+| `assets` | The file must be kept and seen in the Control Panel | Stored in an asset container: `container: <handle>` (must exist), optional `folder:` |
+
+When the request does not say whether files are kept, propose `files`.
+Personal uploads (CVs, IDs, photos of people) in an `assets` container on a
+public disk are reachable by URL: say so in the plan and propose a private
+container.
+
+**Count, size and type — never `max:`/`min:` for size.** On upload fields
+`max:` and `min:` count *files*, so `max:5120` allows 5120 files and limits
+nothing.
+
+| Want | Write |
+|---|---|
+| One file / up to N | `max_files: 1` / `max_files: N` (field config, not `validate:`) |
+| Max size | `max_filesize:<kilobytes>` in `validate:` (5 MB = `max_filesize:5120`) |
+| Min size | `min_filesize:<kilobytes>` |
+| File types | `mimes:pdf,doc,docx` (or `mimetypes:application/pdf`); images: `image`, optionally `dimensions:…` |
+
+**Email.** Add `attachments: true` to each `email:` entry that should carry
+the uploads.
+
+**Template.**
+
+- The form tag (`{{ form:create }}`, `<s:form:create>`) adds
+  `enctype="multipart/form-data"` itself once the form has an upload field. A
+  hand-written `<form>` (Blade posting to `statamic.forms.submit`) does
+  **not**: add `enctype="multipart/form-data"` or the upload never arrives.
+- `<input type="file" name="<handle>">` for one file;
+  `name="<handle>[]" multiple` for several. Add `accept=` matching the
+  allowed types (`.pdf,.doc,.docx`, `image/*`). Label and error output like
+  the sibling fields; there is no `old` value for a file.
+
 <!-- source: skills/blueprints/references/blueprint-yaml.md -->
 ### Blueprint and fieldset YAML
 

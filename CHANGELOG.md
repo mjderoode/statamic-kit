@@ -8,6 +8,10 @@ Releases ship when `version` in `.claude-plugin/plugin.json` changes.
   (and `STATAMIC_PRO_ENABLED` in `.env`). On Statamic Core, `users` stops
   before writing roles or groups and `forms` stops before a second form; both
   explain how to enable Pro and ask how to proceed.
+- `forms`: file uploads. Picks `files` (email-only, deleted after sending) or
+  `assets` (kept in a container), limits size with `max_filesize` (in KB)
+  rather than `max:` (which counts files), sets `attachments: true`, and adds
+  `enctype="multipart/form-data"` to hand-written forms.
 
 ## 0.3.0 — 2026-10-28
 

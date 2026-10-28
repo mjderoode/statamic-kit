@@ -9,10 +9,13 @@ GREEN loop in `CLAUDE.md` (full suite only after asking).
    `config/statamic/editions.php`. On a Solo site `users` writes roles that
    do nothing. Add the edition to project detection and stop or warn when a
    request needs Pro. Small; one or more RED cases.
-2. [ ] **Forms extensions.** Submitting without a page reload (AJAX or
-   Precognition), file uploads (`files` field plus an asset container), an
-   HTML template for the notification email, and spam protection with a
-   captcha addon next to the honeypot.
+2. [ ] **Forms extensions.**
+   - [x] File uploads (done 2026-10-28): `files` vs `assets`, `max_filesize`
+     instead of `max:`, `attachments: true`, `enctype` on hand-written forms.
+   - [ ] HTML template for the notification email (`html`/`text` views,
+     `markdown: true`).
+   - [ ] Submitting without a page reload (AJAX or Precognition).
+   - [ ] Spam protection with a captcha addon next to the honeypot.
 3. [ ] **Live preview and redirects.** Preview targets per collection, and
    redirects from old URLs after a rebuild or migration. May fold into the
    config skill in `IDEAS.md`.
