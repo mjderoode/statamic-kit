@@ -2,8 +2,13 @@
 
 ## Where we are (2026-11-12)
 
-Items 1 and 2 are done and merged to `main`. **Next session: start with
-item 3.** For each item, give an agent/mod estimate at the start and the end
+Items 1 and 2 are done on branch `active-work` (**not merged yet**).
+Full suite 2026-11-12: 49/49 finished cases passed; the other 41 stopped
+on the usage limit (infrastructure, no real failures). **Next session:**
+rerun those 41 (`--runs 1 -j 3`, one `--case` each or a glob), then merge
+`active-work` into `main` and push, then start item 3. Cases to rerun:
+`not-found-blade`, `no-builder-proposes`, `pull-quote-exists`, `review-antlers-leak`, `review-antlers-clean`, `review-bad-practice`, `review-bad-practice-mixed`, `review-blade-defects`, `review-documented-dispatch`, `review-form`, `review-form-honeypot-var`, `review-form-old-input`, `review-listing`, `review-missing-file`, `review-no-siblings`, `role-core-edition`, `role-eloquent-users`, `role-no-approval`, `role-pro-edition`, `role-unknown-collection`, `search-results-antlers`, `search-static-cache`, `seo-addon-present`, `seo-meta-antlers`, `seo-missing-fields`, `set-group-placement`, `set-group-plan`, `set-group-tie`, `sitemap-antlers`, `taxonomy-archive-topics`, `templates-eloquent`, `templates-eloquent-entries`, `templates-missing-field`, `templates-multisite`, `templates-plan-gate`, `templates-route-change-warns`, `templates-static-cache`, `templates-trigger-guard`, `trigger-negative-migration`, `two-builders-asks`, `user-add-field`
+ For each item, give an agent/mod estimate at the start and the end
 (a deterministic check is a mod candidate; a context-heavy read-only review
 is an agent candidate).
 
