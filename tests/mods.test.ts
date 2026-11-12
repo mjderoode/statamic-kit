@@ -521,3 +521,52 @@ test('the message variable outside an email view is left alone', async ($, on) =
 
   expect(result.context).toBeUndefined()
 })
+
+// --- captcha forms list (paired files) ----------------------------------
+
+const CAPTCHA = `${ROOT}/config/captcha.php`
+const captchaConfig = (forms: string) => `<?php\n\nreturn [\n    'service' => env('CAPTCHA_SERVICE', 'Turnstile'),\n    'forms' => ${forms},\n];\n`
+
+const newForm = ($: Parameters<TestBody>[0], handle: string) =>
+  $.tool.call({ tool: 'Write', file_path: `${ROOT}/resources/forms/${handle}.yaml`, content: json({ title: handle }) })
+
+const withBlueprint = (files: Files, handle: string) => {
+  files[`${ROOT}/resources/blueprints/forms/${handle}.yaml`] = blueprint([field('email')])
+}
+
+test('a new form missing from the captcha forms list is reported', async ($, on) => {
+  const files = baseFiles()
+  files[CAPTCHA] = captchaConfig("['contact']")
+  withBlueprint(files, 'newsletter')
+  site(on, files)
+
+  const result = await newForm($, 'newsletter')
+
+  expect(notes(result)).toContain('`newsletter`')
+  expect(notes(result)).toContain('config/captcha.php')
+})
+
+test('a new form already in the captcha list gets no note', async ($, on) => {
+  const files = baseFiles()
+  files[CAPTCHA] = captchaConfig("['contact', 'newsletter']")
+  withBlueprint(files, 'newsletter')
+  site(on, files)
+
+  const result = await newForm($, 'newsletter')
+
+  expect(result.context).toBeUndefined()
+})
+
+test("captcha forms set to 'all' or no captcha config gets no note", async ($, on) => {
+  const files = baseFiles()
+  files[CAPTCHA] = captchaConfig("'all'")
+  withBlueprint(files, 'newsletter')
+  withBlueprint(files, 'quote')
+  site(on, files)
+
+  expect((await newForm($, 'newsletter')).context).toBeUndefined()
+
+  delete files[CAPTCHA]
+
+  expect((await newForm($, 'quote')).context).toBeUndefined()
+})

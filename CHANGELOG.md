@@ -26,6 +26,8 @@ Releases ship when `version` in `.claude-plugin/plugin.json` changes.
   invented.
 - `yaml-check` mod: flags `max:`/`min:` above 20 on `assets`/`files` fields,
   where they count files rather than limit size.
+- `paired-files` mod: flags a new form that the Captcha addon's `forms`
+  list in `config/captcha.php` leaves out.
 - New `template-check` mod: flags a hand-written `<form>` with a file input
   but no `enctype="multipart/form-data"`, indented Markdown inside
   `<x-mail::message>`, and `message` output in a form's email view.

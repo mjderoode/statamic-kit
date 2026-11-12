@@ -1,5 +1,26 @@
 # Active work
 
+## Where we are (2026-11-12)
+
+Items 1 and 2 are done and merged to `main`. **Next session: start with
+item 3.** For each item, give an agent/mod estimate at the start and the end
+(a deterministic check is a mod candidate; a context-heavy read-only review
+is an agent candidate).
+
+How we work, briefly:
+
+- RED → fix → GREEN per sub-item: new cases with `--runs 1` for RED,
+  `--runs 3` for GREEN, one `--case` per invocation, at most 3 in parallel.
+- **Ask before running the full suite** (it costs a lot of usage).
+- Prefer graders that check files (`regex` on a path, or `llm` with
+  `focus: { source: file, path: … }`); the default Haiku judge is unreliable
+  on long rubrics over the transcript. Give a prompt a fixed path when the
+  file location is not what is being tested.
+- Work on a branch; log every round in `evals/RESULTS.md` and every change
+  under "Unreleased" in `CHANGELOG.md`. Releasing = bump `version` in
+  `plugin.json`, move "Unreleased" to that version.
+- Usage-limit or auth stops are infrastructure: rerun just those runs.
+
 The list we work from now, top to bottom. Tick an item when it is committed;
 move longer-term ideas to `IDEAS.md`. Every item follows the RED → fix →
 GREEN loop in `CLAUDE.md` (full suite only after asking).
@@ -23,7 +44,9 @@ GREEN loop in `CLAUDE.md` (full suite only after asking).
      per field) and Precognition through `js="alpine_precognition"`.
    - [x] Captcha (done 2026-11-12): the `aryehraber/statamic-captcha` addon
      instead of hand-written verification; new forms added to its `forms`.
-3. [ ] **Live preview and redirects.** Preview targets per collection, and
+   - [x] Mod (done 2026-11-12): `paired-files` flags a new form left out of
+     the Captcha addon's `forms` list.
+3. [ ] **Live preview and redirects.** ← next Preview targets per collection, and
    redirects from old URLs after a rebuild or migration. May fold into the
    config skill in `IDEAS.md`.
 4. [ ] **Writing content.** No skill writes entries: "put 5 FAQ items on the

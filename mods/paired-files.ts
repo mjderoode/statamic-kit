@@ -22,7 +22,9 @@ import {
 //   where the builder's other sets keep theirs;
 // - a new partial in such a folder needs a set with its name;
 // - a form needs its config (`resources/forms/<handle>.yaml`) and its
-//   blueprint (`resources/blueprints/forms/<handle>.yaml`).
+//   blueprint (`resources/blueprints/forms/<handle>.yaml`);
+// - a new form on a site whose Captcha addon (`config/captcha.php`) lists
+//   the forms it checks needs its handle in that list.
 //
 // The folder is learned from the site itself, so a builder whose sets have no
 // partials (rendered inline, say) is never flagged. Gaps go back to Claude as
@@ -172,6 +174,29 @@ export async function checkForm(
   )}\`). ${IF_NEXT}`
 }
 
+/** A new form left out of the Captcha addon's `forms` list. */
+export async function checkCaptcha(
+  $: EngineInterface,
+  project: Project,
+  path: string,
+): Promise<string | undefined> {
+  if (dirname(path) !== project.forms) return undefined
+
+  const config = await $.fs.read(`${project.root}/config/captcha.php`).catch(() => '')
+  const list = config.match(/'forms'\s*=>\s*\[([^\]]*)\]/)
+
+  if (!list) return undefined
+
+  const listed = [...(list[1] ?? '').matchAll(/['"]([^'"]+)['"]/g)].map(match => match[1])
+  const handle = normalize(basename(path))
+
+  if (listed.includes(handle)) return undefined
+
+  return `${NOTE}: new form \`${handle}\` is not in \`forms\` in \`config/captcha.php\` (${
+    listed.length > 0 ? listed.map(name => `\`${name}\``).join(', ') : 'empty'
+  }), so the Captcha addon never checks it. If this form should be protected, add its handle there.`
+}
+
 async function check($: EngineInterface, path: string, existed: boolean, before: string) {
   const project = await findProject($, path)
 
@@ -183,6 +208,7 @@ async function check($: EngineInterface, path: string, existed: boolean, before:
         ? await checkSets($, project, path, before)
         : undefined,
       await checkForm($, project, path),
+      existed ? undefined : await checkCaptcha($, project, path),
     ].filter(note => note !== undefined)
 
     return notes.length > 0 ? notes.join('\n\n') : undefined
