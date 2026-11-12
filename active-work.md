@@ -9,7 +9,7 @@ GREEN loop in `CLAUDE.md` (full suite only after asking).
    `config/statamic/editions.php`. On a Solo site `users` writes roles that
    do nothing. Add the edition to project detection and stop or warn when a
    request needs Pro. Small; one or more RED cases.
-2. [ ] **Forms extensions.**
+2. [x] **Forms extensions.** (done 2026-11-12)
    - [x] File uploads (done 2026-10-28): `files` vs `assets`, `max_filesize`
      instead of `max:`, `attachments: true`, `enctype` on hand-written forms.
    - [x] Mods for the same mistakes (done 2026-10-28): `yaml-check` flags
@@ -21,7 +21,8 @@ GREEN loop in `CLAUDE.md` (full suite only after asking).
    - [x] Submitting without a page reload (done 2026-10-28): plain `fetch`
      (FormData to the form's action, `X-Requested-With`, 400 with `error`
      per field) and Precognition through `js="alpine_precognition"`.
-   - [ ] Spam protection with a captcha addon next to the honeypot.
+   - [x] Captcha (done 2026-11-12): the `aryehraber/statamic-captcha` addon
+     instead of hand-written verification; new forms added to its `forms`.
 3. [ ] **Live preview and redirects.** Preview targets per collection, and
    redirects from old URLs after a rebuild or migration. May fold into the
    config skill in `IDEAS.md`.

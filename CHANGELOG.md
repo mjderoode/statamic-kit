@@ -20,6 +20,10 @@ Releases ship when `version` in `.claude-plugin/plugin.json` changes.
   the 400 response's `error` object) or live validation with Precognition
   through `js="alpine_precognition"`, including the Alpine plugin. The skill
   now also triggers on uploads, email templates, AJAX and live validation.
+- `forms`: captchas through the `aryehraber/statamic-captcha` addon, never
+  hand-written verification or a new `config/services.php`. New forms are
+  added to the addon's `forms` list; keys come from `.env` and are never
+  invented.
 - `yaml-check` mod: flags `max:`/`min:` above 20 on `assets`/`files` fields,
   where they count files rather than limit size.
 - New `template-check` mod: flags a hand-written `<form>` with a file input

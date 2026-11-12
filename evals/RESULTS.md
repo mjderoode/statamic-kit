@@ -681,3 +681,18 @@ AJAX 3/3 after.
 Cost: RED about $1.00, GREEN attempts about $7.10 (three attempts incl. the
 grader fix).
 
+## Forms: captcha — 2026-10-28 / 2026-11-12
+
+New **Spam protection and captchas** section in
+`skills/forms/references/forms.md` (inlined); captcha trigger added to the
+`forms` description.
+
+| Case | What it checks | RED (1 run) | GREEN (3 runs) |
+|---|---|---|---|
+| `form-captcha-installed` | Addon present: new `newsletter` form added to `forms` in `config/captcha.php`, `{{ captcha }}` + `error:captcha` in its template, honeypot kept | 1.00 | 3/3 |
+| `form-captcha-none` | No addon: proposes `aryehraber/statamic-captcha`, `config/captcha.php` with Turnstile and env keys, `{{ captcha:head }}` / `{{ captcha }}` / error, honeypot kept, tells how to install and get keys | 0.43 (own Turnstile listener and a new `config/services.php`) | 3/3 |
+
+GREEN ran 1/1 each on 2026-10-28; runs 2–3 stopped on the usage limit
+(infrastructure) and were rerun on 2026-11-12 (2/2 each).
+Cost: RED about $0.75, GREEN about $2.60.
+

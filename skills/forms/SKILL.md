@@ -1,6 +1,6 @@
 ---
 name: forms
-description: This skill should be used when the user asks to create or change a Statamic form — "create a newsletter signup form", "add a phone field to the contact form", "make the message field required", "email form submissions to sales@…", "store the submissions", "add a form to the contact page", "add a file upload to the form", "give the notification email a custom template", "submit the form without a page reload", "add live validation to the form", or Dutch phrasing such as "maak een contactformulier" or "voeg een veld toe aan het formulier" or "formulier versturen zonder te herladen". Applies to Statamic sites with Antlers or Blade templates.
+description: This skill should be used when the user asks to create or change a Statamic form — "create a newsletter signup form", "add a phone field to the contact form", "make the message field required", "email form submissions to sales@…", "store the submissions", "add a form to the contact page", "add a file upload to the form", "give the notification email a custom template", "submit the form without a page reload", "add live validation to the form", "add a captcha to the contact form", or Dutch phrasing such as "maak een contactformulier" or "voeg een veld toe aan het formulier" or "formulier versturen zonder te herladen". Applies to Statamic sites with Antlers or Blade templates.
 ---
 
 # Statamic forms
@@ -379,6 +379,41 @@ loads no script at all.
   `import Precognition from 'laravel-precognition-alpine'` and
   `Alpine.plugin(Precognition)` **before** `Alpine.start()`. Tell the user to
   run `npm install` and rebuild assets.
+
+#### Spam protection and captchas
+
+Keep the honeypot in every case; a captcha adds to it.
+
+Statamic has no built-in captcha. Use an addon — **never hand-write captcha
+verification** (no own listener, middleware or `siteverify` call), and never
+create a config file that may already exist in the real project
+(`config/services.php`): add to it, or use the addon's own config.
+
+1. **Detect** in `composer.lock` / `composer.json`: `aryehraber/statamic-captcha`
+   (reCAPTCHA v2, hCaptcha, Cloudflare Turnstile, ALTCHA) is the common one;
+   follow any other captcha addon the site already uses the same way.
+2. **Addon installed:** read `config/captcha.php`. A form is verified only
+   when its handle is in `forms` (or `forms` is `'all'`) — **add every new
+   protected form's handle**, or its captcha is never checked. Copy the
+   template markup of a form that already has the captcha.
+3. **No addon:** propose `aryehraber/statamic-captcha` in the plan. Steps:
+   `composer require aryehraber/statamic-captcha` (run it only when the
+   environment can; otherwise tell the user), then `php please vendor:publish
+   --tag=captcha-config` or write `config/captcha.php`:
+   `'service' => env('CAPTCHA_SERVICE', '<Turnstile|Recaptcha|Hcaptcha|Altcha>')`,
+   `'sitekey' => env('CAPTCHA_SITEKEY', '')`,
+   `'secret' => env('CAPTCHA_SECRET', '')`, `'forms' => ['<handle>']`.
+   Add the env names (empty) to `.env.example` if the site has one. **Never
+   invent keys**: tell the user to create them (Cloudflare dashboard for
+   Turnstile, Google reCAPTCHA admin, hCaptcha dashboard) and set
+   `CAPTCHA_SITEKEY` / `CAPTCHA_SECRET` in `.env`.
+4. **Templates:** `{{ captcha:head }}` in the layout's `<head>` (once);
+   inside the form tag `{{ captcha }}` plus the error like the other fields:
+   Antlers `{{ if error:captcha }}…{{ error:captcha }}…{{ /if }}`; Blade
+   `<s:captcha />` / `<s:captcha:head />` and
+   `$errors->getBag('form.<handle>')->first('captcha')`. Shared form
+   templates: wrap it in `{{ if {captcha:is_enabled form="<handle>"} }}`.
+   AJAX submissions carry the token in `FormData` automatically.
 
 <!-- source: skills/blueprints/references/blueprint-yaml.md -->
 ### Blueprint and fieldset YAML
