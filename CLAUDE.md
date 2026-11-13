@@ -29,7 +29,7 @@ To ship a release: bump `version` in `plugin.json` and add an entry to
 
 ## Status
 
-v0.4.0 (released 2026-11-13). What ships is listed in `README.md` and
+v0.4.1 (released 2026-11-13). What ships is listed in `README.md` and
 `CHANGELOG.md`; eval history is in `evals/RESULTS.md` (last full suite 90/90
 on 2026-11-12/13). Current work list: `active-work.md`.
 

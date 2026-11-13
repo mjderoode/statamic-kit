@@ -2,6 +2,11 @@
 
 Releases ship when `version` in `.claude-plugin/plugin.json` changes.
 
+## 0.4.1 — 2026-11-13
+
+- README: new "What you can do" overview, components split into skills,
+  agents and mods, and descriptions checked against what the plugin does.
+
 ## 0.4.0 — 2026-11-13
 
 - Edition check: project detection reads `config/statamic/editions.php`
