@@ -1,6 +1,6 @@
 # Active work
 
-## Where we are (2026-11-12)
+## Where we are (2026-11-13)
 
 Items 1 and 2 are done and merged to `main` (full suite 90/90 on
 2026-11-12/13). **Next session: start with item 3.**
