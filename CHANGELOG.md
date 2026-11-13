@@ -2,7 +2,7 @@
 
 Releases ship when `version` in `.claude-plugin/plugin.json` changes.
 
-## Unreleased
+## 0.4.0 — 2026-11-13
 
 - Edition check: project detection reads `config/statamic/editions.php`
   (and `STATAMIC_PRO_ENABLED` in `.env`). On Statamic Core, `users` stops

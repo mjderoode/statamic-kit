@@ -29,9 +29,9 @@ To ship a release: bump `version` in `plugin.json` and add an entry to
 
 ## Status
 
-v0.3.0 (released 2026-10-28). What ships is listed in `README.md` and
-`CHANGELOG.md`; eval history is in `evals/RESULTS.md` (last full suite 76/79
-on 2026-10-27, misses judge variance).
+v0.4.0 (released 2026-11-13). What ships is listed in `README.md` and
+`CHANGELOG.md`; eval history is in `evals/RESULTS.md` (last full suite 90/90
+on 2026-11-12/13). Current work list: `active-work.md`.
 
 - Skills: `blueprints` (structure: blueprints, fieldsets, collections incl.
   multiple entry blueprints, taxonomies, globals, navigations, asset
@@ -56,7 +56,7 @@ Design decisions that still hold:
    `docs/qa/test-protocol.md`), covering `templates` and the reviewer. Only
    one real-site round has run so far (Antlers flat file, 2026-10-25, before
    `templates` existed). Each finding becomes a RED case or a fix.
-2. The next item from the suggested order in `IDEAS.md`.
+2. The open items in `active-work.md` (item 3 next), then `IDEAS.md`.
 
 ## Open minors
 
