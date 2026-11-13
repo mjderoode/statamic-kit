@@ -2,6 +2,12 @@
 
 Releases ship when `version` in `.claude-plugin/plugin.json` changes.
 
+## 0.4.2 — 2026-11-13
+
+- Development: a root `tsconfig.json` that extends the generated plugin types,
+  so editors resolve the `claude-code` imports in the mods; local Claude Code
+  settings are ignored by git. No change to what ships.
+
 ## 0.4.1 — 2026-11-13
 
 - README: new "What you can do" overview, components split into skills,
