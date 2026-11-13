@@ -16,8 +16,8 @@ The references this skill needs are inlined at the end of this file
 
 ### 1. Detect
 
-- Follow **Project detection** (inlined below) for the Statamic version and
-  moved paths.
+- Follow **Project detection** (inlined below) for the Statamic version,
+  moved paths and the edition.
 - Read `config/statamic/users.php` (repository, role/group paths, new-user
   defaults), `roles.yaml`, `groups.yaml`, and list the handles of every
   collection, navigation, global set, taxonomy, asset container and form.
@@ -28,6 +28,11 @@ The references this skill needs are inlined at the end of this file
 for that part by any tool**; point to the Control Panel. An `eloquent` user
 repository with `tables.roles => false` still keeps roles in `roles.yaml` —
 edit the YAML as usual.
+
+**Stop condition — Core edition.** Roles, groups and permissions are a Pro
+feature. When the site runs Core (**Project detection §7**), follow the
+**Core stop** there: say roles would be saved but not enforced, name how to
+enable Pro, and change no files until answered — even when pre-approved.
 
 ### 2. Stop on real ambiguity
 
@@ -173,6 +178,36 @@ partials, not a guess from the file tree.
   comment style; the new partial copies them.
 - **Existing handles:** if the requested set or field handle already exists, say
   so and offer to extend it.
+
+#### 7. Edition (Core or Pro)
+
+Some features only work on **Statamic Pro**. Determine the edition:
+
+- `config/statamic/editions.php` → `'pro'`. A literal `true` / `false` is
+  the answer. `env('STATAMIC_PRO_ENABLED', <default>)` → the value of
+  `STATAMIC_PRO_ENABLED` in `.env`, or the default when `.env` does not set
+  it.
+- No `editions.php` → the edition is **unknown**; do not warn about it.
+
+Pro-only on **Core** (the free edition):
+
+| Feature | Core limit |
+|---|---|
+| User roles and permissions (and the groups that grant roles) | Not enforced |
+| Forms | One form |
+| Multisite (more than one site in `resources/sites.yaml`) | One site |
+| Revisions, REST API, GraphQL, Git automation | Not available |
+| Control Panel users | One admin account |
+
+**Core stop.** When the edition is Core and the request needs a Pro-only
+feature (a role or group, a second form, a new site), say so in the plan:
+the site runs Core, what the limit is, and how to lift it — `php please
+pro:enable` (or `'pro' => true` / `STATAMIC_PRO_ENABLED=true`), free in
+development, with a license for production. Then **ask how to proceed and
+change no files** until answered, even when the plan was pre-approved; for a
+form, offer extending the existing form as the alternative. Never enable Pro
+yourself. A Core site that already uses a Pro feature (two forms, several
+sites): mention it in the plan and continue.
 
 <!-- source: skills/users/references/permissions.md -->
 ### Roles, groups and permissions

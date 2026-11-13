@@ -615,3 +615,92 @@ read a recommendation with a plan sketch as "picks one". The grader now says a
 recommendation or plan sketch still passes as long as the reply asks the user
 to choose and does not go ahead. Neither the case prompt nor the skill
 changed. Rerun of this case only: 3/3 (judge PASS ×3 every run), $0.72.
+
+## Edition check (Core vs Pro) — 2026-10-28
+
+New §7 **Edition** in `project-detection.md` (inlined into all four writing
+skills) plus a **Core edition** stop in `users` and `forms`; `templates`
+mentions the edition for a language switcher.
+
+| Case | What it checks | RED (1 run) | GREEN (3 runs) |
+|---|---|---|---|
+| `form-core-second-form` | Core (`'pro' => false`) with one form: no second form, explains the limit, asks | 0.50 (wrote the form) | 3/3 |
+| `role-core-edition` | Core via `.env` `STATAMIC_PRO_ENABLED=false`: no role written, explains Pro, asks | 1.00 (unprompted) | 3/3 |
+| `role-pro-edition` | Guard: Pro via `.env`: role written as usual | 1.00 | 3/3 |
+
+Cost: RED about $0.70, GREEN about $1.60. Full suite not run (the user now
+decides when it runs); cases without `editions.php` are unaffected by design
+(edition unknown → no warning).
+
+## Forms: file uploads — 2026-10-28
+
+New **File uploads** section in `skills/forms/references/forms.md` (inlined).
+New fixture `forms-blade` (application form, hand-written Blade `<form>`
+posting to `statamic.forms.submit`).
+
+| Case | What it checks | RED (1 run) | GREEN (3 runs) |
+|---|---|---|---|
+| `form-upload-cv-blade` | Email-only CV: `files`, `max_files: 1`, `max_filesize:5120`, `mimes`, `attachments: true`, `enctype` on the Blade form | 1.00 | 3/3 |
+| `form-upload-photos-antlers` | Kept photos: `assets` with `container: uploads`, `max_files: 3`, image rule, `name="photos[]" multiple` | 0.67 (`max:5120` as a size limit) | 3/3 |
+
+Cost: RED about $0.75, GREEN about $1.90. Full suite deferred to the end of
+the `active-work` branch.
+
+## Forms: email templates — 2026-10-28
+
+New **Email templates** section in `skills/forms/references/forms.md`
+(inlined).
+
+| Case | What it checks | RED (1 run) | GREEN (3 runs) |
+|---|---|---|---|
+| `form-email-markdown-blade` | `markdown: true`, a Blade view at the `html:` path with `<x-mail::message>`/`panel`, nothing indented | 1.00 | 3/3 |
+| `form-email-message-field` | Contact form with a `message` field: the view shows it through `fields`, not `{{ message }}`, and says why | 0.67 (`{{ message }}`) | 3/3 |
+
+Cost: RED about $0.65, GREEN about $1.80. Mod tests 30/30 (four new for the
+`template-check` email checks).
+
+## Forms: submitting without a reload — 2026-10-28
+
+New **Submitting without a page reload** section in
+`skills/forms/references/forms.md` (inlined); `forms` description gains
+triggers for uploads, email templates, AJAX and live validation.
+
+| Case | What it checks | RED (1 run) | GREEN (3 runs) |
+|---|---|---|---|
+| `form-ajax-fetch` | `FormData` to the form's action with `X-Requested-With`; 400 handled, messages from `error`; thank-you; no-JS path kept | 0.50 (guessed between `error`/`errors`, reviewer had to fix the key) | 3/3 |
+| `form-precognition-alpine` | `js="alpine_precognition"` (no hand-built `$form`), fields bound and validated, plugin registered before `Alpine.start()` | 0.50 (own `x-data="$form(…)"`) | 3/3 |
+
+Grader notes: the first GREEN attempt failed on correct code — the fixture
+loaded no JavaScript (the layout had no Vite tag, `app.js` imported a missing
+`./bootstrap`) and one long Haiku rubric judged the transcript. Fixed by
+loading `app.js` in the scaffold, splitting each rubric into focused judges
+on the files, and naming `resources/js/app.js` in the prompt. One run then
+missed `skill-fired` (content correct): fixed by the description triggers,
+AJAX 3/3 after.
+
+Cost: RED about $1.00, GREEN attempts about $7.10 (three attempts incl. the
+grader fix).
+
+## Forms: captcha — 2026-10-28 / 2026-11-12
+
+New **Spam protection and captchas** section in
+`skills/forms/references/forms.md` (inlined); captcha trigger added to the
+`forms` description.
+
+| Case | What it checks | RED (1 run) | GREEN (3 runs) |
+|---|---|---|---|
+| `form-captcha-installed` | Addon present: new `newsletter` form added to `forms` in `config/captcha.php`, `{{ captcha }}` + `error:captcha` in its template, honeypot kept | 1.00 | 3/3 |
+| `form-captcha-none` | No addon: proposes `aryehraber/statamic-captcha`, `config/captcha.php` with Turnstile and env keys, `{{ captcha:head }}` / `{{ captcha }}` / error, honeypot kept, tells how to install and get keys | 0.43 (own Turnstile listener and a new `config/services.php`) | 3/3 |
+
+GREEN ran 1/1 each on 2026-10-28; runs 2–3 stopped on the usage limit
+(infrastructure) and were rerun on 2026-11-12 (2/2 each).
+Cost: RED about $0.75, GREEN about $2.60.
+
+## `active-work` branch — full suite — 2026-11-12/13
+
+`--runs 1 --ablation none -j 3`, 90 cases: 49/49 finished on 2026-11-12
+before the usage limit stopped the other 41 (infrastructure); those 41 rerun
+on 2026-11-13: 40/41, `review-documented-dispatch` failed its
+`read-dispatcher-and-layout` judge only (reviewer untouched on this branch)
+and passed on rerun. Result: **90/90**. Cost about $25.
+

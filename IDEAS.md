@@ -5,7 +5,7 @@ covers structure (blueprints, forms, users) and template review; the gaps are
 before and after that: building pages, extending in PHP, debugging, upgrades
 and deploys.
 
-Every new area gets its own skill with a narrow description (see the roadmap
+Every new area gets its own skill with a narrow description (see "Design decisions"
 in `CLAUDE.md`), and every agent needs a skill that dispatches it.
 
 ## Suggested order
@@ -96,7 +96,8 @@ edits) are built in `mods/`.
 
 ### Handle check (new)
 
-After a template edit, report any `{{ field }}` or `$field` that is not in the
+Belongs in `mods/template-check.ts` (built 2026-10-28 for the upload
+`enctype` check). After a template edit, report any `{{ field }}` or `$field` that is not in the
 blueprint. A quick, cheap version of what the template reviewer does.
 
 ### Hard Eloquent stop (hook before an edit)

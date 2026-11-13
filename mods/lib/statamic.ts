@@ -18,6 +18,9 @@ export type ParseResult =
 
 export type Builder = { path: string; sets: string[] }
 
+/** A `max:`/`min:` rule on an upload field that reads like a size. */
+export type UploadRule = { path: string; type: string; rule: string; kind: 'max' | 'min'; value: number }
+
 const TEMPLATE = /\.(antlers\.html|antlers\.php|blade\.php|html)$/
 
 export const isYaml = (path: string) => /\.ya?ml$/i.test(path)
@@ -214,14 +217,41 @@ const setsOf = (sets: unknown): { group?: string; handle: string; fields: unknow
     : list.map(([handle, set]) => ({ handle, fields: values(record(set).fields) }))
 }
 
+// Upload fields validate an array of files, so Laravel's `max:`/`min:`
+// count files there. A count above this reads as a size in kilobytes.
+const MAX_PLAUSIBLE_FILE_COUNT = 20
+
+const rulesOf = (validate: unknown): string[] =>
+  (typeof validate === 'string' ? [validate] : values(validate))
+    .filter((rule): rule is string => typeof rule === 'string')
+    .flatMap(rule => rule.split('|'))
+    .map(rule => rule.trim())
+
+const uploadRules = (field: Record<string, unknown>, path: string): UploadRule[] => {
+  const type = field.type
+
+  if (type !== 'assets' && type !== 'files') return []
+
+  return rulesOf(field.validate).flatMap(rule => {
+    const match = rule.match(/^(max|min):(\d+)$/)
+    const value = Number(match?.[2])
+
+    return match && value > MAX_PLAUSIBLE_FILE_COUNT
+      ? [{ path, type, rule, kind: match[1] as 'max' | 'min', value }]
+      : []
+  })
+}
+
 /**
  * Duplicate field handles (per scope: the whole blueprint, a set, a grid)
- * and duplicate set handles across a builder's groups, plus every builder
- * (replicator or Bard with sets) and its set handles.
+ * and duplicate set handles across a builder's groups, every builder
+ * (replicator or Bard with sets) and its set handles, and size-like
+ * `max:`/`min:` rules on upload fields.
  */
-export const analyse = (data: unknown): { duplicates: string[]; builders: Builder[] } => {
+export const analyse = (data: unknown): { duplicates: string[]; builders: Builder[]; uploads: UploadRule[] } => {
   const duplicates: string[] = []
   const builders: Builder[] = []
+  const uploads: UploadRule[] = []
 
   const scope = (items: unknown[], where: string, path: string) => {
     const seen = new Set<string>()
@@ -235,6 +265,8 @@ export const analyse = (data: unknown): { duplicates: string[]; builders: Builde
 
       const field = record(record(item).field)
       const here = path ? `${path}.${handle}` : handle
+
+      uploads.push(...uploadRules(field, here))
 
       if (Array.isArray(field.fields) || entries(field.fields).length > 0) {
         scope(values(field.fields), `\`${here}\``, here)
@@ -260,5 +292,5 @@ export const analyse = (data: unknown): { duplicates: string[]; builders: Builde
 
   scope(topLevelFields(data), 'the top-level fields', '')
 
-  return { duplicates, builders }
+  return { duplicates, builders, uploads }
 }

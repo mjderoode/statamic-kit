@@ -1,0 +1,5 @@
+schema_version: "1.1"
+name: form-email-markdown-blade
+tags: [write, forms, email, blade]
+context:
+  scaffold_script: scaffold.sh

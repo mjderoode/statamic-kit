@@ -1,0 +1,3 @@
+title: Vacancies
+route: '/vacancies/{slug}'
+template: vacancy

@@ -1,5 +1,6 @@
 import type { Register } from 'claude-code'
 import { pairedFiles } from '../mods/paired-files.ts'
+import { templateCheck } from '../mods/template-check.ts'
 import { yamlCheck } from '../mods/yaml-check.ts'
 
 // Single hooks entry point: the engine loads one module per plugin.
@@ -8,4 +9,5 @@ import { yamlCheck } from '../mods/yaml-check.ts'
 export const register: Register = on => {
   yamlCheck(on)
   pairedFiles(on)
+  templateCheck(on)
 }

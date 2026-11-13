@@ -326,3 +326,247 @@ test('custom blueprint paths from config are followed', async ($, on) => {
 
   expect(notes(result)).toContain('cms/blueprints/forms/quote.yaml')
 })
+
+// --- upload rules (yaml check) ------------------------------------------
+
+const upload = (handle: string, type: 'assets' | 'files', validate: unknown) => ({
+  handle,
+  field: { type, display: handle, validate },
+})
+
+const FORM_BLUEPRINT = `${ROOT}/resources/blueprints/forms/contact.yaml`
+
+// A site with the contact form's config, so only the upload rule can speak.
+const formSite = (): Files => ({ ...baseFiles(), [`${ROOT}/resources/forms/contact.yaml`]: json({ title: 'Contact' }) })
+
+test('max: as a size on an assets field is reported', async ($, on) => {
+  const files = baseFiles()
+  site(on, files)
+
+  const content = blueprint([field('name'), upload('photos', 'assets', ['image', 'max:5120'])])
+  const result = await $.tool.call({ tool: 'Write', file_path: FORM_BLUEPRINT, content })
+
+  expect(notes(result)).toContain('`photos`')
+  expect(notes(result)).toContain('max:5120')
+  expect(notes(result)).toContain('max_filesize:5120')
+})
+
+test('a pipe-separated min: on a files field is reported', async ($, on) => {
+  const files = baseFiles()
+  site(on, files)
+
+  const content = blueprint([upload('cv', 'files', 'required|min:100|mimes:pdf')])
+  const result = await $.tool.call({ tool: 'Write', file_path: FORM_BLUEPRINT, content })
+
+  expect(notes(result)).toContain('min:100')
+  expect(notes(result)).toContain('min_filesize')
+})
+
+test('an upload field inside a set is checked too', async ($, on) => {
+  const files = baseFiles()
+  site(on, files)
+
+  const content = blueprint([builder({ gallery: set([upload('images', 'assets', ['max:2048'])]) })])
+  const result = await $.tool.call({ tool: 'Write', file_path: PAGE, content })
+
+  expect(notes(result)).toContain('`page_builder.gallery.images`')
+})
+
+test('a small max: on an upload field (a file count) gets no note', async ($, on) => {
+  const files = formSite()
+  site(on, files)
+
+  const content = blueprint([upload('photos', 'assets', ['max:3', 'max_filesize:5120'])])
+  const result = await $.tool.call({ tool: 'Write', file_path: FORM_BLUEPRINT, content })
+
+  expect(result.context).toBeUndefined()
+})
+
+test('max: on a text field gets no note', async ($, on) => {
+  const files = formSite()
+  site(on, files)
+
+  const content = blueprint([{ handle: 'message', field: { type: 'textarea', validate: ['max:5000'] } }])
+  const result = await $.tool.call({ tool: 'Write', file_path: FORM_BLUEPRINT, content })
+
+  expect(result.context).toBeUndefined()
+})
+
+// --- template check -----------------------------------------------------
+
+const FORM_VIEW = `${ROOT}/resources/views/partials/application-form.blade.php`
+
+test('a hand-written form with a file input and no enctype is reported', async ($, on) => {
+  const files = baseFiles()
+  site(on, files)
+
+  const content = `<form method="POST" action="{{ route('statamic.forms.submit', 'application') }}">
+    @csrf
+    <input type="file" name="cv">
+</form>`
+  const result = await $.tool.call({ tool: 'Write', file_path: FORM_VIEW, content })
+
+  expect(notes(result)).toContain('enctype="multipart/form-data"')
+  expect(notes(result)).toContain('resources/views/partials/application-form.blade.php')
+})
+
+test('a file input added by Edit to a form without enctype is reported', async ($, on) => {
+  const files = baseFiles()
+  files[FORM_VIEW] = `<form method="POST" action="/!/forms/application">
+    <input type="text" name="name">
+</form>`
+  site(on, files)
+
+  const result = await $.tool.call({
+    tool: 'Edit',
+    file_path: FORM_VIEW,
+    old_string: '<input type="text" name="name">',
+    new_string: '<input type="text" name="name">\n    <input type=file name="cv[]" multiple>',
+  })
+
+  expect(notes(result)).toContain('enctype')
+})
+
+test('a form with enctype gets no note', async ($, on) => {
+  const files = baseFiles()
+  site(on, files)
+
+  const content = `<form method="POST" enctype="multipart/form-data" action="/!/forms/application">
+    <input type="file" name="cv">
+</form>`
+  const result = await $.tool.call({ tool: 'Write', file_path: FORM_VIEW, content })
+
+  expect(result.context).toBeUndefined()
+})
+
+test('the form tag and forms without a file input get no note', async ($, on) => {
+  const files = baseFiles()
+  site(on, files)
+
+  const content = `{{ form:create in="contact" }}
+    <input type="file" name="photos[]" multiple>
+{{ /form:create }}
+<s:form:create in="quote"><input type="file" name="plan"></s:form:create>
+<form method="GET" action="/search"><input type="search" name="q"></form>`
+  const result = await $.tool.call({
+    tool: 'Write',
+    file_path: `${ROOT}/resources/views/contact.antlers.html`,
+    content,
+  })
+
+  expect(result.context).toBeUndefined()
+})
+
+// --- email views (template check) ---------------------------------------
+
+const MAIL_VIEW = `${ROOT}/resources/views/emails/application.blade.php`
+
+test('indented Markdown inside a mail message is reported', async ($, on) => {
+  const files = baseFiles()
+  site(on, files)
+
+  const content = `<x-mail::message>
+# New application from {{ $name }}
+
+    <x-mail::panel>
+        {{ $motivation }}
+    </x-mail::panel>
+</x-mail::message>`
+  const result = await $.tool.call({ tool: 'Write', file_path: MAIL_VIEW, content })
+
+  expect(notes(result)).toContain('indented')
+  expect(notes(result)).toContain('4, 5, 6')
+})
+
+test('a flush Markdown mail gets no note', async ($, on) => {
+  const files = baseFiles()
+  site(on, files)
+
+  const content = `<x-mail::message>
+# New application from {{ $name }}
+
+<x-mail::panel>
+{{ $motivation }}
+</x-mail::panel>
+</x-mail::message>`
+  const result = await $.tool.call({ tool: 'Write', file_path: MAIL_VIEW, content })
+
+  expect(result.context).toBeUndefined()
+})
+
+test('the message variable in a form email view is reported', async ($, on) => {
+  const files = baseFiles()
+  files[`${ROOT}/resources/forms/contact.yaml`] = "title: Contact\nemail:\n  -\n    to: a@example.com\n    html: emails.contact\n"
+  site(on, files)
+
+  const result = await $.tool.call({
+    tool: 'Write',
+    file_path: `${ROOT}/resources/views/emails/contact.antlers.html`,
+    content: '<table><tr><td>{{ name }}</td><td>{{ message }}</td></tr></table>',
+  })
+
+  expect(notes(result)).toContain('`message`')
+  expect(notes(result)).toContain('fields')
+})
+
+test('the message variable outside an email view is left alone', async ($, on) => {
+  const files = baseFiles()
+  site(on, files)
+
+  const result = await $.tool.call({
+    tool: 'Write',
+    file_path: `${ROOT}/resources/views/partials/flash.antlers.html`,
+    content: '<p>{{ message }}</p>',
+  })
+
+  expect(result.context).toBeUndefined()
+})
+
+// --- captcha forms list (paired files) ----------------------------------
+
+const CAPTCHA = `${ROOT}/config/captcha.php`
+const captchaConfig = (forms: string) => `<?php\n\nreturn [\n    'service' => env('CAPTCHA_SERVICE', 'Turnstile'),\n    'forms' => ${forms},\n];\n`
+
+const newForm = ($: Parameters<TestBody>[0], handle: string) =>
+  $.tool.call({ tool: 'Write', file_path: `${ROOT}/resources/forms/${handle}.yaml`, content: json({ title: handle }) })
+
+const withBlueprint = (files: Files, handle: string) => {
+  files[`${ROOT}/resources/blueprints/forms/${handle}.yaml`] = blueprint([field('email')])
+}
+
+test('a new form missing from the captcha forms list is reported', async ($, on) => {
+  const files = baseFiles()
+  files[CAPTCHA] = captchaConfig("['contact']")
+  withBlueprint(files, 'newsletter')
+  site(on, files)
+
+  const result = await newForm($, 'newsletter')
+
+  expect(notes(result)).toContain('`newsletter`')
+  expect(notes(result)).toContain('config/captcha.php')
+})
+
+test('a new form already in the captcha list gets no note', async ($, on) => {
+  const files = baseFiles()
+  files[CAPTCHA] = captchaConfig("['contact', 'newsletter']")
+  withBlueprint(files, 'newsletter')
+  site(on, files)
+
+  const result = await newForm($, 'newsletter')
+
+  expect(result.context).toBeUndefined()
+})
+
+test("captcha forms set to 'all' or no captcha config gets no note", async ($, on) => {
+  const files = baseFiles()
+  files[CAPTCHA] = captchaConfig("'all'")
+  withBlueprint(files, 'newsletter')
+  withBlueprint(files, 'quote')
+  site(on, files)
+
+  expect((await newForm($, 'newsletter')).context).toBeUndefined()
+
+  delete files[CAPTCHA]
+
+  expect((await newForm($, 'quote')).context).toBeUndefined()
+})
