@@ -2,6 +2,12 @@
 
 Releases ship when `version` in `.claude-plugin/plugin.json` changes.
 
+## 0.4.3 — 2026-11-13
+
+- Development: `tsconfig.json` allows `.ts` import paths (which the hooks
+  engine requires), so a strict `tsc` check of the mods, hooks and tests
+  passes. No change to what ships.
+
 ## 0.4.2 — 2026-11-13
 
 - Development: a root `tsconfig.json` that extends the generated plugin types,
