@@ -696,3 +696,11 @@ GREEN ran 1/1 each on 2026-10-28; runs 2–3 stopped on the usage limit
 (infrastructure) and were rerun on 2026-11-12 (2/2 each).
 Cost: RED about $0.75, GREEN about $2.60.
 
+## `active-work` branch — full suite — 2026-11-12/13
+
+`--runs 1 --ablation none -j 3`, 90 cases: 49/49 finished on 2026-11-12
+before the usage limit stopped the other 41 (infrastructure); those 41 rerun
+on 2026-11-13: 40/41, `review-documented-dispatch` failed its
+`read-dispatcher-and-layout` judge only (reviewer untouched on this branch)
+and passed on rerun. Result: **90/90**. Cost about $25.
+
