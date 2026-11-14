@@ -2,6 +2,14 @@
 
 All-in-one Statamic toolkit for Claude Code.
 
+An independent community plugin: not made, endorsed or supported by the makers
+of Statamic. "Statamic" is their trademark and is used here only to say which
+CMS the plugin works with.
+
+Built for Claude Code working in a local Statamic project; the skills and
+mods read and write that project's files, so they do little in a chat without
+one.
+
 ## Install
 
 From the [mitsol-labs](https://github.com/mjderoode/mitsol-labs) marketplace:
@@ -129,6 +137,27 @@ an FAQ block to the page builder", "create a collection for vacancies" or
 Works standalone from your project files — no Composer package needed.
 Sites that store blueprints or collections in the database (Eloquent driver) are
 detected and not edited.
+
+## What it runs and what it accesses
+
+- **No network access.** Nothing in the plugin sends, uploads or fetches
+  data, and it calls no external service or API.
+- **No data stored.** The plugin keeps no logs, caches or files of its own,
+  and collects no personal data.
+- **Project files only.** The skills read the Statamic project you have open
+  and write to it only after you approve a plan, through Claude Code's normal
+  edit permissions. The `template-reviewer` agent can only read (Read, Grep,
+  Glob).
+- **Mods read, never write.** The mods read project files after Claude
+  writes or edits one, and only return text to Claude.
+- **One local process.** `yaml-check` runs
+  `php ${CLAUDE_PLUGIN_ROOT}/mods/lib/yaml-parse.php` in the project
+  folder, with a 15-second timeout. It loads the project's own
+  `vendor/autoload.php` so that it can use the site's Symfony YAML parser,
+  which means Composer's autoloader and the project's autoloaded files run.
+  The helper only parses the YAML it is given and prints the result as JSON;
+  it writes no files. If `php` or `vendor/` is missing, the check is skipped
+  without a message.
 
 ## Layout
 

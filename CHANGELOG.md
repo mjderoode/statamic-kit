@@ -2,6 +2,14 @@
 
 Releases ship when `version` in `.claude-plugin/plugin.json` changes.
 
+## 0.4.5 — 2026-11-14
+
+- README: a note that this is an independent plugin, not affiliated with
+  Statamic, that it is built for Claude Code in a local project, and a new
+  "What it runs and what it accesses" section: no network access, no stored
+  data, mods only read, and the one local `php` process `yaml-check` starts.
+  No change to what the plugin does.
+
 ## 0.4.4 — 2026-11-14
 
 - The public repo now holds only the files that ship: the manifest, hooks,
