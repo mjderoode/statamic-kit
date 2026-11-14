@@ -2,6 +2,11 @@
 
 Releases ship when `version` in `.claude-plugin/plugin.json` changes.
 
+## 0.5.0 — 2026-11-14
+
+- A plugin icon (1254 × 1254 PNG) in the plugin manifest folder, for the
+  listing in plugin directories. No change to what the plugin does.
+
 ## 0.4.5 — 2026-11-14
 
 - README: a note that this is an independent plugin, not affiliated with
