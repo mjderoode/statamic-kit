@@ -1,5 +1,0 @@
-schema_version: "1.1"
-name: new-asset-container
-tags: [write, assets]
-context:
-  scaffold_script: scaffold.sh

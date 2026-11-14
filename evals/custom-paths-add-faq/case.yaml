@@ -1,5 +1,0 @@
-schema_version: "1.1"
-name: custom-paths-add-faq
-tags: [write, custom-paths]
-context:
-  scaffold_script: scaffold.sh

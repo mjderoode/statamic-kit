@@ -1,5 +1,0 @@
-schema_version: "1.1"
-name: multisite-new-navigation
-tags: [write, multisite, navigation]
-context:
-  scaffold_script: scaffold.sh

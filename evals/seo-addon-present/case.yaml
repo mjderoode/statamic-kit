@@ -1,5 +1,0 @@
-schema_version: "1.1"
-name: seo-addon-present
-tags: [write, templates, seo, guard]
-context:
-  scaffold_script: scaffold.sh

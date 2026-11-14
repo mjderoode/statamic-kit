@@ -1,3 +1,0 @@
-title: Blog
-route: '/blog/{slug}'
-dated: true

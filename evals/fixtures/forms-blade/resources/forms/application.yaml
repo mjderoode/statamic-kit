@@ -1,8 +1,0 @@
-title: Application
-honeypot: website
-store: true
-email:
-  -
-    to: jobs@example.com
-    subject: 'New application'
-    reply_to: '{{ email }}'

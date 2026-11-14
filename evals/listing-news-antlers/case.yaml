@@ -1,5 +1,0 @@
-schema_version: "1.1"
-name: listing-news-antlers
-tags: [write, templates, listing]
-context:
-  scaffold_script: scaffold.sh

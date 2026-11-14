@@ -1,8 +1,0 @@
-{
-    "name": "example/site",
-    "require": {
-        "php": "^8.3",
-        "laravel/framework": "^13.17",
-        "statamic/cms": "^6.0"
-    }
-}

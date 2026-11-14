@@ -1,5 +1,0 @@
-schema_version: "1.1"
-name: fieldset-blade-add-faq
-tags: [write, page-builder]
-context:
-  scaffold_script: scaffold.sh

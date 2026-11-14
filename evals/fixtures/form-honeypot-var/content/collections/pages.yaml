@@ -1,4 +1,0 @@
-title: Pages
-route: '{slug}'
-structure:
-  root: true

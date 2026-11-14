@@ -1,5 +1,0 @@
-schema_version: "1.1"
-name: seo-missing-fields
-tags: [write, templates, seo, boundary]
-context:
-  scaffold_script: scaffold.sh

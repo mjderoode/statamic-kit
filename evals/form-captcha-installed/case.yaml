@@ -1,5 +1,0 @@
-schema_version: "1.1"
-name: form-captcha-installed
-tags: [write, forms, captcha, antlers]
-context:
-  scaffold_script: scaffold.sh

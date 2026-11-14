@@ -1,8 +1,0 @@
-title: Pages
-route: '{parent_uri}/{slug}'
-sites:
-  - en
-  - nl
-propagate: true
-structure:
-  root: true

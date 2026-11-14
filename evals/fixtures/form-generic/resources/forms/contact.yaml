@@ -1,8 +1,0 @@
-title: Contact
-honeypot: winnie
-store: true
-email:
-  -
-    to: hello@example.com
-    subject: 'New contact message'
-    reply_to: '{{ email }}'

@@ -1,5 +1,0 @@
-schema_version: "1.1"
-name: multisite-new-global
-tags: [write, multisite, globals]
-context:
-  scaffold_script: scaffold.sh

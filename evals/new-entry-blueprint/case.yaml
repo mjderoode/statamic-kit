@@ -1,5 +1,0 @@
-schema_version: "1.1"
-name: new-entry-blueprint
-tags: [write, collection]
-context:
-  scaffold_script: scaffold.sh

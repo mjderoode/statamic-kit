@@ -2,6 +2,13 @@
 
 Releases ship when `version` in `.claude-plugin/plugin.json` changes.
 
+## 0.4.4 — 2026-11-14
+
+- The public repo now holds only the files that ship: the manifest, hooks,
+  mods, skills, agent, README, CHANGELOG and LICENSE. Evals, design docs,
+  tests and development scripts are no longer published. No change to what
+  the plugin does.
+
 ## 0.4.3 — 2026-11-13
 
 - Development: `tsconfig.json` allows `.ts` import paths (which the hooks

@@ -1,5 +1,0 @@
-schema_version: "1.1"
-name: multisite-new-collection
-tags: [write, multisite, collection]
-context:
-  scaffold_script: scaffold.sh

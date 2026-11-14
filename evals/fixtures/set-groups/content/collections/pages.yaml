@@ -1,5 +1,0 @@
-title: Pages
-route: '{parent_uri}/{slug}'
-template: default
-structure:
-  root: true
