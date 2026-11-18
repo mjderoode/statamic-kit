@@ -10,6 +10,11 @@ Built for Claude Code working in a local Statamic project; the skills and
 mods read and write that project's files, so they do little in a chat without
 one.
 
+**Platforms:** built and tested on macOS. The skills and the agent work
+anywhere Claude Code runs. The mods expect `/` paths, so on native Windows
+they stay silent (they find no project and report nothing). The `setup`
+skill runs a bash script and needs `bash` and `perl`, so on Windows use WSL.
+
 ## Install
 
 From the [mitsol-labs](https://github.com/mjderoode/mitsol-labs) marketplace:
@@ -57,6 +62,12 @@ Ask in plain English or Dutch. The kit reads your site first, follows the
 patterns already there (Antlers or Blade, your naming, your folders), shows a
 plan, and writes only after you approve.
 
+**New site**
+
+- **Fresh Statamic 6 site** — Antlers, Tailwind 4 + Vite, a page-builder
+  skeleton, globals, a main navigation, a contact form, a super user and a
+  first commit, on MageBox (`https://<name>.test`) or with `php artisan serve`.
+
 **Content structure**
 
 - **Collections, taxonomies, globals, navigations** — config and blueprints in
@@ -99,7 +110,8 @@ plan, and writes only after you approve.
 - **Common traps** — a file upload without `enctype`, indented Markdown in
   mails, upload limits that count files instead of size.
 
-Works from your project files alone: no Composer package, no setup.
+Works from your project files alone: no Composer package, no setup. (The
+`setup` skill is the exception: it installs a new site, see below.)
 
 ## Components
 
@@ -107,6 +119,7 @@ Works from your project files alone: no Composer package, no setup.
 
 | Skill | What it does |
 |---|---|
+| `/statamic-kit:setup` | Creates a new Statamic 6 site from scratch with a bundled scaffolder: Composer install, Antlers, Tailwind 4 + Vite (built once), a page-builder blueprint with block partials, a home page, globals, a main navigation, a contact form, a super user and a first git commit on `main`. Uses MageBox (`https://<name>.test`, mail to Mailpit) when it is installed, otherwise `php artisan serve` on port 8000 with mail to the log. Checks the machine read-only first, presents a plan, asks for the super user's email and password (no default credentials) and runs nothing until you approve. Verifies the result afterwards. Not for changing an existing site. |
 | `/statamic-kit:blueprints` | Creates and edits blueprints, fieldsets, collections (including multiple entry blueprints), taxonomies, global sets, navigations, asset containers, the user blueprint and page-builder blocks, including the block's Antlers or Blade partial, by detecting and following the project's existing pattern. Presents a plan and waits for approval before writing. |
 | `/statamic-kit:forms` | Creates and edits forms: config (storage, honeypot, email), blueprint with validation, and the Antlers or Blade front-end template, following the project's existing forms. Also covers file uploads, email templates, submitting without a page reload (AJAX or Precognition) and captchas through the Captcha addon. Stops before a second form on Statamic Core. Same plan-and-approve flow. |
 | `/statamic-kit:users` | Creates and edits user roles and groups with Statamic's exact permission strings and their parent chain (e.g. `access cp` → `view` → `edit`), asking when a request names a collection or role that does not exist. Stops on Statamic Core, where roles and groups need Pro. Same plan-and-approve flow. |
@@ -140,14 +153,42 @@ detected and not edited.
 
 ## What it runs and what it accesses
 
-- **No network access.** Nothing in the plugin sends, uploads or fetches
-  data, and it calls no external service or API.
+- **No network access of its own, except `setup`.** The mods, the other
+  skills and the agent send, upload and fetch nothing, and call no external
+  service or API. The `setup` skill runs Composer and npm, which download
+  packages (see below).
 - **No data stored.** The plugin keeps no logs, caches or files of its own,
   and collects no personal data.
 - **Project files only.** The skills read the Statamic project you have open
   and write to it only after you approve a plan, through Claude Code's normal
   edit permissions. The `template-reviewer` agent can only read (Read, Grep,
   Glob).
+- **`setup` runs local tools, only after you approve its plan.** It reads
+  `command -v`, `php -v`, `composer --version`, `npm --version` and
+  `git --version` first (the script also needs `perl`, and uses `uuidgen`,
+  or the system's UUID source or `php` if that is missing), then runs the bundled script
+  `skills/setup/scripts/new-statamic.sh` in a new directory it creates
+  (`<dir>/<name>`, by default under the current directory):
+  `composer create-project` for Statamic 6 (plus `composer show`),
+  `php artisan key:generate`, `npm install`, `php please make:user` for the
+  super user you chose, `npm run build`, `php please stache:clear`,
+  `php please cache:clear`, and `git init` with one commit. It writes the new
+  project's files, including `.env` (with a generated
+  `APP_KEY`) and a `CLAUDE.md` with the project's conventions. When
+  `gh` is installed and signed in it reads its GitHub token (`gh auth token`)
+  and hands it to the Composer commands only, through `COMPOSER_AUTH`, for that one run, to avoid
+  GitHub rate limits; the token is not written to any file. To check the
+  result it runs `php please stache:warm`, uses `lsof` to see whether port 8000 is free and to stop only the server it started (`kill`), makes HTTP
+  requests to the new site (`https://<name>.test`, or `http://localhost:8000`) and, without MageBox, starts `php artisan serve`
+  on port 8000 for that check only and stops it again. With `--bare` it
+  writes a temporary `public/setup-check.txt` with a random token to prove
+  the response comes from the new site, and deletes it afterwards.
+  **With MageBox, the site is also registered outside the project**
+  (`magebox init` and `magebox start`): an nginx vhost, a PHP-FPM pool, local
+  TLS certificates under `~/.magebox` and the `.test` domain. `magebox stop`
+  removes the vhost and the pool, but not everything: the certificates and a
+  line in MageBox's PHP ini file stay behind. It never writes into an
+  existing project directory.
 - **Mods read, never write.** The mods read project files after Claude
   writes or edits one, and only return text to Claude.
 - **One local process.** `yaml-check` runs

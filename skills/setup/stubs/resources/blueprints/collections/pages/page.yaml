@@ -1,0 +1,395 @@
+title: Page
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              validate:
+                - required
+          -
+            handle: page_builder
+            field:
+              type: replicator
+              display: 'Page Builder'
+              instructions: 'Build the page out of blocks. Drag to reorder.'
+              collapse: accordion
+              sets:
+                blocks:
+                  display: Blocks
+                  sets:
+                    hero:
+                      display: Hero
+                      instructions: 'Full-bleed banner with headline, intro copy and an optional highlighted card. Homepage only — interior pages use Page header.'
+                      icon: hero-image-above-text
+                      fields:
+                        -
+                          handle: heading
+                          field:
+                            type: text
+                            display: Heading
+                            required: true
+                        -
+                          handle: background_image
+                          field:
+                            type: assets
+                            display: 'Background image'
+                            container: assets
+                            max_files: 1
+                            mode: grid
+                        -
+                          handle: intro
+                          field:
+                            type: bard
+                            display: 'Intro copy'
+                            buttons:
+                              - bold
+                              - italic
+                              - link
+                            save_html: true
+                        -
+                          handle: cta_label
+                          field:
+                            type: text
+                            display: 'Button label'
+                        -
+                          handle: cta_url
+                          field:
+                            type: link
+                            display: 'Button URL'
+                        -
+                          handle: announcement
+                          field:
+                            type: group
+                            display: 'Highlight card'
+                            instructions: 'The card over the banner. Leave the heading empty to hide it.'
+                            fields:
+                              -
+                                handle: eyebrow
+                                field:
+                                  type: text
+                                  display: Eyebrow
+                              -
+                                handle: heading
+                                field:
+                                  type: textarea
+                                  display: Heading
+                              -
+                                handle: body
+                                field:
+                                  type: textarea
+                                  display: Body
+                              -
+                                handle: link_label
+                                field:
+                                  type: text
+                                  display: 'Link label'
+                              -
+                                handle: link_url
+                                field:
+                                  type: link
+                                  display: 'Link URL'
+                    page_header:
+                      display: 'Page header'
+                      instructions: 'Compact heading block for interior pages. Use instead of a hero.'
+                      icon: layout-header
+                      fields:
+                        -
+                          handle: eyebrow
+                          field:
+                            type: text
+                            display: Eyebrow
+                        -
+                          handle: heading
+                          field:
+                            type: text
+                            display: Heading
+                            required: true
+                        -
+                          handle: lead
+                          field:
+                            type: textarea
+                            display: 'Lead statement'
+                            instructions: 'Optional larger paragraph under the heading.'
+                    rich_text:
+                      display: 'Rich text'
+                      instructions: 'A plain block of formatted copy.'
+                      icon: fieldtype-text
+                      fields:
+                        -
+                          handle: content
+                          field:
+                            type: bard
+                            display: Content
+                            save_html: true
+                    columns:
+                      display: 'Two columns'
+                      instructions: 'Two side-by-side blocks of copy, each with its own headings. Stacks on mobile. Better than Directory for a couple of longer, uneven blocks of prose.'
+                      icon: columns
+                      fields:
+                        -
+                          handle: left
+                          field:
+                            type: bard
+                            display: 'Left column'
+                            buttons:
+                              - h2
+                              - bold
+                              - italic
+                              - link
+                            save_html: true
+                        -
+                          handle: right
+                          field:
+                            type: bard
+                            display: 'Right column'
+                            buttons:
+                              - h2
+                              - bold
+                              - italic
+                              - link
+                            save_html: true
+                    highlights:
+                      display: Highlights
+                      instructions: 'Numbered list of statements. Numbers are generated from the order, so reordering never leaves a stale label behind.'
+                      icon: list-ul
+                      fields:
+                        -
+                          handle: heading
+                          field:
+                            type: text
+                            display: Heading
+                        -
+                          handle: items
+                          field:
+                            type: grid
+                            display: Statements
+                            mode: stacked
+                            add_row: 'Add statement'
+                            fields:
+                              -
+                                handle: statement
+                                field:
+                                  type: textarea
+                                  display: Statement
+                    directory:
+                      display: Directory
+                      instructions: 'Hairline card grid of labelled detail blocks. Good for many short, evenly sized groups; for a couple of long uneven ones use Two columns.'
+                      icon: list-ol
+                      fields:
+                        -
+                          handle: groups
+                          field:
+                            type: grid
+                            display: Groups
+                            mode: stacked
+                            add_row: 'Add group'
+                            fields:
+                              -
+                                handle: label
+                                field:
+                                  type: text
+                                  display: Label
+                              -
+                                handle: lines
+                                field:
+                                  type: textarea
+                                  display: Lines
+                                  instructions: 'One line per row. Emails, URLs and bare domains are linked automatically. For a different target, write [label](/url).'
+                    people:
+                      display: People
+                      instructions: 'A group of profiles — team, board, advisors.'
+                      icon: users
+                      fields:
+                        -
+                          handle: heading
+                          field:
+                            type: text
+                            display: Heading
+                        -
+                          handle: lead
+                          field:
+                            type: textarea
+                            display: 'Lead statement'
+                        -
+                          handle: items
+                          field:
+                            type: grid
+                            display: Profiles
+                            mode: stacked
+                            add_row: 'Add profile'
+                            fields:
+                              -
+                                handle: name
+                                field:
+                                  type: text
+                                  display: Name
+                              -
+                                handle: role
+                                field:
+                                  type: text
+                                  display: Role
+                              -
+                                handle: photo
+                                field:
+                                  type: assets
+                                  display: Photo
+                                  container: assets
+                                  max_files: 1
+                                  mode: grid
+                              -
+                                handle: bio
+                                field:
+                                  type: bard
+                                  display: Bio
+                                  buttons:
+                                    - bold
+                                    - italic
+                                    - link
+                                  save_html: true
+                    image_band:
+                      display: 'Image band'
+                      instructions: 'A single full-width image.'
+                      icon: insert-image
+                      fields:
+                        -
+                          handle: image
+                          field:
+                            type: assets
+                            display: Image
+                            container: assets
+                            max_files: 1
+                            mode: grid
+                        -
+                          handle: background
+                          field:
+                            type: select
+                            display: Background
+                            instructions: 'Pick a dark background for artwork that is white or transparent.'
+                            default: white
+                            options:
+                              white: White
+                              deep: 'Dark panel'
+                              brand: 'Brand colour'
+                    video:
+                      display: Video
+                      instructions: 'Responsive YouTube embed, loaded only after the visitor clicks.'
+                      icon: fieldtype-video
+                      fields:
+                        -
+                          handle: title
+                          field:
+                            type: text
+                            display: Title
+                        -
+                          handle: youtube_id
+                          field:
+                            type: text
+                            display: 'YouTube ID'
+                            instructions: 'The part after v= in the YouTube URL.'
+                        -
+                          handle: background
+                          field:
+                            type: select
+                            display: Background
+                            default: white
+                            options:
+                              white: White
+                              deep: 'Dark panel'
+                              brand: 'Brand colour'
+                    cta_panels:
+                      display: 'CTA panels'
+                      instructions: 'Side-by-side calls to action at the foot of the page.'
+                      icon: layout-two-columns
+                      fields:
+                        -
+                          handle: panels
+                          field:
+                            type: grid
+                            display: Panels
+                            mode: stacked
+                            max_rows: 3
+                            add_row: 'Add panel'
+                            fields:
+                              -
+                                handle: title
+                                field:
+                                  type: text
+                                  display: Title
+                              -
+                                handle: body
+                                field:
+                                  type: textarea
+                                  display: Body
+                              -
+                                handle: style
+                                field:
+                                  type: select
+                                  display: Style
+                                  default: deep
+                                  options:
+                                    deep: 'Dark panel'
+                                    brand: 'Brand colour'
+                              -
+                                handle: buttons
+                                field:
+                                  type: grid
+                                  display: Buttons
+                                  mode: table
+                                  max_rows: 2
+                                  add_row: 'Add button'
+                                  fields:
+                                    -
+                                      handle: label
+                                      field:
+                                        type: text
+                                        display: Label
+                                    -
+                                      handle: url
+                                      field:
+                                        type: link
+                                        display: URL
+                    form:
+                      display: Form
+                      instructions: 'Renders one of the forms under Tools → Forms.'
+                      icon: forms
+                      fields:
+                        -
+                          handle: heading
+                          field:
+                            type: text
+                            display: Heading
+                        -
+                          handle: intro
+                          field:
+                            type: textarea
+                            display: 'Intro text'
+                        -
+                          handle: form_handle
+                          field:
+                            type: form
+                            display: Form
+                            max_items: 1
+                            required: true
+                        -
+                          handle: success_message
+                          field:
+                            type: text
+                            display: 'Success message'
+                            default: 'Thanks — we have your message and will be in touch.'
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: redirect
+            field:
+              type: link
+              display: Redirect
+              instructions: 'Send visitors straight somewhere else. Use "First child" for a section landing page that should open its first page.'

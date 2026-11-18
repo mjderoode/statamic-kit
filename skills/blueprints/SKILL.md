@@ -197,8 +197,6 @@ those for every read and write. Mention moved paths in the plan.
 - Record for each: file, field handle, tab, **inline** (in a blueprint) or
   **fieldset** (pulled into blueprints with `- import: <fieldset>`), the set
   groups (`sets: <group>: { display, sets: … }`) and the sets in each.
-- A fieldset-based builder is edited **in the fieldset**, never by copying sets
-  into a blueprint.
 - More than one candidate → stop and ask (SKILL.md step 2).
 
 #### 5. Template dispatch
@@ -226,10 +224,6 @@ partials, not a guess from the file tree.
 - **Set metadata:** add `icon:` / `instructions:` only if sibling sets have them.
 - **Ordering:** obey rules stated in YAML comments (e.g. "keep sets alphabetical");
   otherwise append at the end of the group.
-- **Closest sibling partial:** note its wrapper element, empty-field guards and
-  comment style; the new partial copies them.
-- **Existing handles:** if the requested set or field handle already exists, say
-  so and offer to extend it.
 
 #### 7. Edition (Core or Pro)
 
@@ -556,9 +550,6 @@ A global set is three things. Find the existing sets first and mirror them.
 
 - `<site>` is the site handle; a single-site install uses `default`. Multisite
   sites are listed in `resources/sites.yaml`.
-- `content/globals` can be moved via `stores.globals.directory` and
-  `stores.global-variables.directory` in `config/statamic/stache.php`
-  (**Project detection** §3).
 
 #### Adding a field to an existing set
 
@@ -594,9 +585,6 @@ A navigation is up to three files. Mirror existing navigations.
 | Config | `content/navigation/<handle>.yaml` | `title`, `collections` (which collections' entries can be linked), `max_depth`, optional `root: true`, `select_across_sites` |
 | Tree | `content/trees/navigation/<handle>.yaml` (multisite: `content/trees/navigation/<site>/<handle>.yaml`) | `tree:` — the actual links (content; created in the CP) |
 | Blueprint | `resources/blueprints/navigation/<handle>.yaml` | Extra fields per nav item (optional; may not exist yet) |
-
-Directories move via `stores.navigation.directory` and `stores.nav-trees.directory`
-in `config/statamic/stache.php`.
 
 #### Adding a field to nav items
 

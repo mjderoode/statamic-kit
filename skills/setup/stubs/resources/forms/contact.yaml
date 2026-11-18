@@ -1,0 +1,15 @@
+# Config only. The fields live in resources/blueprints/forms/contact.yaml —
+# putting them here fails silently: the form renders with a button and no inputs.
+title: Contact
+honeypot: winnow
+store: true
+
+# Submissions are stored and shown under Tools → Forms. Notification mail is off
+# on purpose: a failed send is a 500 on the visitor's submit, not a warning.
+# Switch it on once mail is reachable:
+#
+# email:
+#   -
+#     to: 'hello@example.com'
+#     subject: 'New enquiry from the __PROJECT_NAME__ website'
+#     reply_to: '{{ email }}'

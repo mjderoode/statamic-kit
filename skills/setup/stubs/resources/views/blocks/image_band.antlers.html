@@ -1,0 +1,15 @@
+<section class="{{ if background == 'deep' }}bg-deep{{ elseif background == 'brand' }}bg-brand{{ else }}bg-white{{ /if }} py-20 lg:py-24">
+    <div class="mx-auto max-w-7xl px-6 sm:px-10 lg:px-14">
+        {{ if image }}
+            <img
+                src="{{ glide:image width='1000' format='webp' quality='85' }}"
+                srcset="{{ glide:image width='700' format='webp' quality='85' }} 700w,
+                        {{ glide:image width='1000' format='webp' quality='85' }} 1000w"
+                sizes="(min-width: 1024px) 60rem, 100vw"
+                alt="{{ image:alt }}"
+                loading="lazy"
+                class="mx-auto h-auto w-full max-w-3xl"
+            >
+        {{ /if }}
+    </div>
+</section>

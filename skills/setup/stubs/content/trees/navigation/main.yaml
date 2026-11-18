@@ -1,0 +1,6 @@
+# Entries are referenced by id, never by slug (see content/trees/collections/pages.yaml).
+# After editing this file by hand run `php please stache:clear`.
+tree:
+  -
+    id: nav-home
+    entry: __HOME_ID__

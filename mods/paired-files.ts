@@ -1,5 +1,6 @@
-import type { EngineInterface, On, ToolCallResult } from 'claude-code'
+import type { EngineInterface, On } from 'claude-code'
 import {
+  withContext,
   analyse,
   basename,
   dirname,
@@ -218,11 +219,6 @@ async function check($: EngineInterface, path: string, existed: boolean, before:
     ? checkPartial($, project, path)
     : undefined
 }
-
-const withContext = (result: ToolCallResult, note: string | undefined): ToolCallResult =>
-  note === undefined || result.deny !== undefined || result.isError === true
-    ? result
-    : { ...result, context: [...(result.context ?? []), note] }
 
 const isRelevant = (path: string) => isYaml(path) || isTemplate(path)
 

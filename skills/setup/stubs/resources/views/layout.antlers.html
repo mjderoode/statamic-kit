@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="{{ site:short_locale }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ (title ?? site:name) | sanitize }}</title>
+        {{ vite src="resources/js/site.js|resources/css/site.css" }}
+    </head>
+    <body class="bg-white font-sans text-ink antialiased">
+        <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-brand focus:px-4 focus:py-2 focus:text-white">
+            Skip to content
+        </a>
+
+        {{ partial:partials/sidebar }}
+
+        <main id="main" class="lg:pl-60">
+            {{ template_content }}
+        </main>
+    </body>
+</html>

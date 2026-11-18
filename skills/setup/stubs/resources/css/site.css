@@ -1,0 +1,66 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Tailwind 4 has no config file. @tailwindcss/vite already scans the project for
+   class names; these @source lines make the template and content folders an
+   explicit part of that scan, so a class used only there is never missed. */
+@source "../views";
+@source "../../content";
+
+/* --- Brand tokens -------------------------------------------------------
+   Placeholders. Replace the values, keep the names: every block partial is
+   written against them, so the whole site restyles from this block.
+
+   Fonts are the system stack so a fresh install has nothing to 404 on. To
+   self-host, drop woff2 files in `public/fonts`, add @font-face rules here
+   and point --font-sans / --font-display at them. Do not reach for the
+   Google Fonts CDN — it costs a third-party round trip on every page.
+   ---------------------------------------------------------------------- */
+
+@theme {
+    --color-brand: #1c3d5a;       /* primary — headings, links, nav */
+    --color-brand-dark: #142c41;
+    --color-accent: #c2703d;      /* calls to action, the rule above headings */
+    --color-accent-dark: #a45c2f;
+    --color-deep: #16212b;        /* dark panels and the hero scrim */
+    --color-ink: #252525;         /* body copy */
+    --color-mute: #5b6470;        /* secondary copy */
+
+    --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-display: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+    /* Fluid headline sizes, so nothing needs per-breakpoint overrides. */
+    --text-display: clamp(2.25rem, 1.2rem + 3.6vw, 4.25rem);
+    --text-display--line-height: 1.05;
+    --text-display--letter-spacing: -0.02em;
+
+    --text-section: clamp(1.75rem, 1.2rem + 1.8vw, 2.75rem);
+    --text-section--line-height: 1.1;
+    --text-section--letter-spacing: -0.015em;
+}
+
+/* --- Base --------------------------------------------------------------- */
+
+@layer base {
+    :where(h1, h2, h3, h4) {
+        font-family: var(--font-display);
+        font-weight: 700;
+    }
+
+    :where(:focus-visible) {
+        outline: 2px solid var(--color-accent);
+        outline-offset: 3px;
+    }
+}
+
+@layer components {
+    /* The short accent rule that sits above every section heading. */
+    .rule-accent::before {
+        content: "";
+        display: block;
+        width: 2.5rem;
+        height: 4px;
+        margin-bottom: 1.25rem;
+        background: var(--color-accent);
+    }
+}

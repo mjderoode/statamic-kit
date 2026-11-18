@@ -1,0 +1,42 @@
+<section class="bg-white py-20 lg:py-28">
+    <div class="mx-auto max-w-7xl px-6 sm:px-10 lg:px-14">
+        {{ if heading }}
+            <h2 class="rule-accent text-section text-brand uppercase">{{ heading }}</h2>
+        {{ /if }}
+
+        {{ if lead }}
+            <p class="mt-7 max-w-3xl text-lg leading-relaxed text-mute text-pretty">{{ lead }}</p>
+        {{ /if }}
+
+        <div class="mt-14 grid gap-x-12 gap-y-14 md:grid-cols-2">
+            {{ items }}
+                <article class="flex flex-col gap-5 sm:flex-row">
+                    {{ if photo }}
+                        <img
+                            src="{{ glide:photo width='320' height='320' fit='crop_focal' format='webp' quality='82' }}"
+                            alt="{{ photo:alt }}"
+                            loading="lazy"
+                            class="size-32 shrink-0 object-cover"
+                        >
+                    {{ /if }}
+
+                    <div>
+                        <h3 class="font-display text-lg font-bold text-brand uppercase">{{ name }}</h3>
+
+                        {{ if role }}
+                            <p class="mt-1 font-display text-xs font-semibold tracking-[0.14em] text-accent uppercase">
+                                {{ role }}
+                            </p>
+                        {{ /if }}
+
+                        {{ if bio }}
+                            <div class="prose prose-zinc mt-4 max-w-none prose-p:text-[15px] prose-p:leading-relaxed prose-p:text-mute prose-a:text-brand">
+                                {{ bio }}
+                            </div>
+                        {{ /if }}
+                    </div>
+                </article>
+            {{ /items }}
+        </div>
+    </div>
+</section>

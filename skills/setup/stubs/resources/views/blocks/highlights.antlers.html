@@ -1,0 +1,27 @@
+{{#
+    Numbered statements, all on the page rather than behind tabs — everything
+    stays readable and indexable. Numbers come from `count`, so reordering in
+    the CP never leaves a stale label behind.
+#}}
+
+<section class="bg-zinc-50 py-24 lg:py-32">
+    <div class="mx-auto max-w-7xl px-6 sm:px-10 lg:px-14">
+        {{ if heading }}
+            <h2 class="rule-accent max-w-3xl text-section text-balance text-brand uppercase">
+                {{ heading }}
+            </h2>
+        {{ /if }}
+
+        <ol class="mt-14 grid border-t border-l border-zinc-200 sm:grid-cols-2 lg:grid-cols-3">
+            {{ items }}
+                <li class="flex flex-col gap-5 border-r border-b border-zinc-200 p-8 transition hover:bg-white">
+                    <span class="font-display text-4xl font-bold text-accent tabular-nums" aria-hidden="true">{{ count }}</span>
+
+                    <p class="text-[15px] leading-relaxed text-mute">
+                        {{ statement }}
+                    </p>
+                </li>
+            {{ /items }}
+        </ol>
+    </div>
+</section>

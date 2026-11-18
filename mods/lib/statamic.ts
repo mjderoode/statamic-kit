@@ -1,4 +1,4 @@
-import type { EngineInterface } from 'claude-code'
+import type { EngineInterface, ToolCallResult } from 'claude-code'
 
 // Shared helpers for the statamic-kit mods: find the Statamic project a file
 // belongs to, read its configured paths, parse YAML with the site's own
@@ -25,6 +25,17 @@ const TEMPLATE = /\.(antlers\.html|antlers\.php|blade\.php|html)$/
 
 export const isYaml = (path: string) => /\.ya?ml$/i.test(path)
 export const isTemplate = (path: string) => TEMPLATE.test(path)
+export const stripTemplateSuffix = (path: string) => path.replace(TEMPLATE, '')
+
+/** Adds a mod's note to a tool result, unless the call was denied or failed. */
+export const withContext = (result: ToolCallResult, note: string | undefined): ToolCallResult =>
+  note === undefined || result.deny !== undefined || result.isError === true
+    ? result
+    : { ...result, context: [...(result.context ?? []), note] }
+
+// The Write and Edit hooks stay in each mod: the engine only lets `$` reach
+// functions named statically, so a shared hook taking the check as an
+// argument does not load.
 
 export const dirname = (path: string) => path.slice(0, path.lastIndexOf('/')) || '/'
 export const basename = (path: string) => path.slice(path.lastIndexOf('/') + 1)
@@ -37,7 +48,7 @@ export const relative = (project: Project, path: string) =>
 // `_hero.antlers.html`, `hero-banner.blade.php` and the handle `hero_banner`
 // all compare as `hero_banner`.
 export const normalize = (name: string) =>
-  name.replace(TEMPLATE, '').replace(/\.ya?ml$/i, '').replace(/^_/, '').replace(/-/g, '_').toLowerCase()
+  stripTemplateSuffix(name).replace(/\.ya?ml$/i, '').replace(/^_/, '').replace(/-/g, '_').toLowerCase()
 
 /**
  * The Statamic project holding `file`: the nearest folder above it with a

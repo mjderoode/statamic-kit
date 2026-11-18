@@ -1,0 +1,23 @@
+{{#
+    Hairline card grid of labelled detail blocks. `lines` is a plain textarea in
+    the CP; auto_link turns emails, URLs and bare domains in it into anchors, so
+    editors never have to touch markup. nl2br keeps the line breaks they typed.
+#}}
+
+<section class="bg-white py-20 lg:py-28">
+    <div class="mx-auto max-w-7xl px-6 sm:px-10 lg:px-14">
+        <div class="grid border-t border-l border-zinc-200 sm:grid-cols-2 lg:grid-cols-3">
+            {{ groups }}
+                <div class="border-r border-b border-zinc-200 p-8">
+                    <p class="font-display text-xs font-semibold tracking-[0.14em] text-accent uppercase">
+                        {{ label }}
+                    </p>
+
+                    <p class="mt-4 text-[15px] leading-relaxed text-mute">
+                        {{ lines | auto_link | nl2br }}
+                    </p>
+                </div>
+            {{ /groups }}
+        </div>
+    </div>
+</section>

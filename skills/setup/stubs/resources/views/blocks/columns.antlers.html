@@ -1,0 +1,19 @@
+{{#
+    Two columns of headed copy. Headings sit inside the prose, so they get no
+    accent rule — that stays with the page header above them.
+#}}
+
+<section class="bg-white pt-4 pb-20 lg:pb-28">
+    <div class="mx-auto max-w-7xl px-6 sm:px-10 lg:px-14">
+        <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
+            {{# `[&>h2:first-child]:mt-0` keeps both columns' first heading on the same baseline. #}}
+            <div class="prose prose-zinc max-w-none prose-headings:font-display prose-headings:text-brand prose-headings:uppercase prose-h2:mt-12 prose-h2:mb-5 prose-h2:text-2xl prose-p:text-[15px] prose-p:leading-relaxed prose-p:text-mute prose-strong:text-ink prose-a:text-brand prose-a:underline-offset-2 hover:prose-a:text-accent [&>h2:first-child]:mt-0">
+                {{ left }}
+            </div>
+
+            <div class="prose prose-zinc max-w-none prose-headings:font-display prose-headings:text-brand prose-headings:uppercase prose-h2:mt-12 prose-h2:mb-5 prose-h2:text-2xl prose-p:text-[15px] prose-p:leading-relaxed prose-p:text-mute prose-strong:text-ink prose-a:text-brand prose-a:underline-offset-2 hover:prose-a:text-accent [&>h2:first-child]:mt-0">
+                {{ right }}
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,82 @@
+{{#
+    Full-bleed banner. The copy sits in its own column over a scrim rather than
+    straight on the photo, so contrast holds whatever image gets uploaded.
+#}}
+
+<section class="relative isolate flex min-h-[85vh] items-center overflow-hidden bg-deep">
+    {{ if background_image }}
+        {{# Glide generates the variants at request time — never commit pre-sized copies. #}}
+        <img
+            src="{{ glide:background_image width='1920' format='webp' quality='80' }}"
+            srcset="{{ glide:background_image width='960' format='webp' quality='78' }} 960w,
+                    {{ glide:background_image width='1440' format='webp' quality='80' }} 1440w,
+                    {{ glide:background_image width='1920' format='webp' quality='80' }} 1920w"
+            sizes="100vw"
+            alt=""
+            fetchpriority="high"
+            class="absolute inset-0 -z-10 size-full object-cover"
+        >
+    {{ /if }}
+
+    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-deep/95 via-deep/85 to-deep/65"></div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-t from-deep/90 via-transparent to-deep/40"></div>
+
+    <div class="mx-auto w-full max-w-7xl px-6 py-24 sm:px-10 lg:px-14 lg:py-32">
+        <h1 class="max-w-4xl text-display text-balance text-white uppercase">
+            {{ heading }}
+        </h1>
+
+        <div class="mt-14 grid gap-10 lg:grid-cols-12 lg:gap-14">
+            {{ if announcement:heading }}
+                <div class="lg:col-span-5">
+                    <div class="border-t-4 border-accent bg-brand/85 p-7 backdrop-blur-sm sm:p-8">
+                        {{ if announcement:eyebrow }}
+                            <p class="font-display text-xs font-semibold tracking-[0.18em] text-accent uppercase">
+                                {{ announcement:eyebrow }}
+                            </p>
+                        {{ /if }}
+
+                        <h2 class="mt-4 font-display text-lg leading-snug font-semibold text-white uppercase sm:text-xl">
+                            {{ announcement:heading }}
+                        </h2>
+
+                        {{ if announcement:body }}
+                            <p class="mt-4 text-[15px] leading-relaxed text-white/80">
+                                {{ announcement:body }}
+                            </p>
+                        {{ /if }}
+
+                        {{ if announcement:link_url }}
+                            <a
+                                href="{{ announcement:link_url }}"
+                                class="mt-6 inline-flex items-center gap-2 font-display text-sm font-semibold text-accent transition hover:text-white"
+                            >
+                                {{ announcement:link_label ?? 'Read more' }}
+                                <svg class="size-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path stroke-linecap="square" d="M5 12h14m-6-6 6 6-6 6" />
+                                </svg>
+                            </a>
+                        {{ /if }}
+                    </div>
+                </div>
+            {{ /if }}
+
+            <div class="lg:col-span-6 lg:col-start-7">
+                {{ if intro }}
+                    <div class="prose prose-invert max-w-none prose-p:text-[15px] prose-p:leading-relaxed prose-p:text-white/85 sm:prose-p:text-base">
+                        {{ intro }}
+                    </div>
+                {{ /if }}
+
+                {{ if cta_url }}
+                    <a
+                        href="{{ cta_url }}"
+                        class="mt-9 inline-block bg-accent px-9 py-4 font-display text-sm font-bold tracking-[0.12em] text-white uppercase transition hover:bg-white hover:text-ink"
+                    >
+                        {{ cta_label ?? 'Discover more' }}
+                    </a>
+                {{ /if }}
+            </div>
+        </div>
+    </div>
+</section>

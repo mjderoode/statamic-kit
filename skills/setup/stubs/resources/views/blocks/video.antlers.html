@@ -1,0 +1,35 @@
+{{#
+    Click-to-load embed: the thumbnail loads from i.ytimg.com with the page; the
+    player (an iframe on youtube-nocookie.com) loads only after a click.
+    The swap is handled by `.video-embed` in resources/js/site.js.
+#}}
+
+<section class="{{ if background == 'deep' }}bg-deep{{ elseif background == 'brand' }}bg-brand{{ else }}bg-white{{ /if }} py-20 lg:py-28">
+    <div class="mx-auto max-w-7xl px-6 sm:px-10 lg:px-14">
+        {{ if title }}
+            <h2 class="rule-accent text-section uppercase {{ if background == 'deep' or background == 'brand' }}text-white{{ else }}text-brand{{ /if }}">
+                {{ title }}
+            </h2>
+        {{ /if }}
+
+        {{ if youtube_id }}
+            <div class="video-embed relative mt-12 aspect-video w-full max-w-4xl bg-deep" data-youtube-id="{{ youtube_id }}">
+                <img
+                    src="https://i.ytimg.com/vi/{{ youtube_id }}/hqdefault.jpg"
+                    alt=""
+                    loading="lazy"
+                    class="absolute inset-0 size-full object-cover opacity-70"
+                >
+
+                <button type="button" class="group absolute inset-0 flex items-center justify-center">
+                    <span class="sr-only">Play {{ title ?? 'video' }}</span>
+                    <span class="flex size-20 items-center justify-center bg-accent transition group-hover:bg-white" aria-hidden="true">
+                        <svg class="size-8 text-white transition group-hover:text-ink" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    </span>
+                </button>
+            </div>
+        {{ /if }}
+    </div>
+</section>

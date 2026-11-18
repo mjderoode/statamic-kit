@@ -1,0 +1,25 @@
+title: Social
+fields:
+  -
+    handle: profiles
+    field:
+      type: grid
+      display: 'Social profiles'
+      mode: table
+      add_row: 'Add profile'
+      fields:
+        -
+          handle: network
+          field:
+            type: select
+            display: Network
+            options:
+              facebook: Facebook
+              instagram: Instagram
+              linkedin: LinkedIn
+              x: X
+        -
+          handle: url
+          field:
+            type: text
+            display: URL

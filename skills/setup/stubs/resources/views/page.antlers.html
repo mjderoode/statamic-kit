@@ -1,0 +1,12 @@
+{{#
+    The whole page is its page_builder. One set in the blueprint maps to one
+    partial in resources/views/blocks, named after the set handle — adding a
+    section means adding both, and never touching this file or the layout.
+
+    Sets with `enabled: false` are dropped from the output automatically, so a
+    block that is switched off in the CP needs no guard here.
+#}}
+
+{{ page_builder }}
+    {{ partial src="blocks/{type}" }}
+{{ /page_builder }}

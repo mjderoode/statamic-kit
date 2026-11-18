@@ -1,0 +1,24 @@
+{{#
+    Interior-page counterpart to the hero: same typographic voice at a weight
+    that suits a content page.
+#}}
+
+<section class="border-b border-zinc-200 bg-white pt-16 pb-14 lg:pt-24 lg:pb-20">
+    <div class="mx-auto max-w-7xl px-6 sm:px-10 lg:px-14">
+        {{ if eyebrow }}
+            <p class="font-display text-xs font-semibold tracking-[0.18em] text-accent uppercase">
+                {{ eyebrow }}
+            </p>
+        {{ /if }}
+
+        <h1 class="mt-5 max-w-4xl text-section text-balance text-brand uppercase">
+            {{ heading }}
+        </h1>
+
+        {{ if lead }}
+            <p class="mt-8 max-w-3xl text-lg leading-relaxed text-mute text-pretty sm:text-xl">
+                {{ lead }}
+            </p>
+        {{ /if }}
+    </div>
+</section>

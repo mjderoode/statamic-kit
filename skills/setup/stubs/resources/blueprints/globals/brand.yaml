@@ -1,0 +1,21 @@
+title: Brand
+fields:
+  -
+    handle: logo
+    field:
+      type: assets
+      display: Logo
+      container: assets
+      max_files: 1
+      mode: grid
+  -
+    handle: logo_alt
+    field:
+      type: text
+      display: 'Logo alt text'
+  -
+    handle: wordmark
+    field:
+      type: text
+      display: Wordmark
+      instructions: 'Shown when no logo is uploaded.'

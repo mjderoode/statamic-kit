@@ -1,0 +1,7 @@
+# Entries are referenced by *id*, never by slug. `entry: home` appears to work
+# for top-level pages, but any `children:` under a slug-referenced item is
+# silently flattened — the child lands at /child instead of /parent/child.
+# After editing this file by hand run `php please stache:clear`.
+tree:
+  -
+    entry: __HOME_ID__

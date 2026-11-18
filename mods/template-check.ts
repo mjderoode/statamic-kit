@@ -1,5 +1,15 @@
-import type { EngineInterface, On, ToolCallResult } from 'claude-code'
-import { findProject, isInside, isTemplate, isYaml, listFiles, relative, type Project } from './lib/statamic.ts'
+import type { EngineInterface, On } from 'claude-code'
+import {
+  findProject,
+  isInside,
+  isTemplate,
+  isYaml,
+  listFiles,
+  relative,
+  stripTemplateSuffix,
+  withContext,
+  type Project,
+} from './lib/statamic.ts'
 
 // After Claude writes or edits a Statamic template, check what the browser
 // would silently get wrong:
@@ -43,8 +53,6 @@ export const indentedMailLines = (text: string): number[] =>
   })
 
 const MESSAGE_OUTPUT = /\{\{\s*\$?message\s*(\}\}|\|)|\{!!\s*\$message\s*!!\}/
-
-const stripTemplateSuffix = (path: string) => path.replace(/\.(antlers\.html|antlers\.php|blade\.php|html)$/, '')
 
 // The views named by `html:` / `text:` in any form config, as paths without
 // their template suffix.
@@ -99,11 +107,6 @@ export async function checkTemplate($: EngineInterface, path: string): Promise<s
 
   return notes.length > 0 ? notes.join('\n\n') : undefined
 }
-
-const withContext = (result: ToolCallResult, note: string | undefined): ToolCallResult =>
-  note === undefined || result.deny !== undefined || result.isError === true
-    ? result
-    : { ...result, context: [...(result.context ?? []), note] }
 
 export const templateCheck = (on: On) => {
   on('tool.call', { tool: 'Write' }, async ($, e, next) => {

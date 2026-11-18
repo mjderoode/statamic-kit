@@ -1,0 +1,108 @@
+{{# Fixed rail on desktop, collapsing top bar + drawer on mobile. #}}
+
+<header class="sticky top-0 z-40 flex items-center justify-between border-b border-zinc-200 bg-white px-5 py-3 lg:hidden">
+    <a href="/" class="block">
+        {{ if brand:logo }}
+            {{ brand:logo }}
+                <img src="{{ url }}" alt="{{ brand:logo_alt ?? site:name }}" class="h-9 w-auto">
+            {{ /brand:logo }}
+        {{ else }}
+            <span class="font-display text-base font-bold tracking-tight text-brand uppercase">
+                {{ brand:wordmark ?? site:name }}
+            </span>
+        {{ /if }}
+    </a>
+
+    <button
+        type="button"
+        id="nav-toggle"
+        aria-controls="site-nav"
+        aria-expanded="false"
+        class="-mr-2 inline-flex items-center justify-center p-2 text-brand"
+    >
+        <span class="sr-only">Toggle navigation</span>
+        <svg class="size-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="square" d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
+    </button>
+</header>
+
+<div
+    id="site-nav"
+    class="max-lg:hidden fixed inset-x-0 top-[57px] bottom-0 z-30 overflow-y-auto border-b border-zinc-200 bg-white px-5 py-6 lg:static lg:z-auto lg:border-0 lg:p-0 max-lg:data-[open]:block"
+>
+    <nav aria-label="Main" class="lg:fixed lg:inset-y-0 lg:left-0 lg:flex lg:w-60 lg:flex-col lg:gap-10 lg:overflow-y-auto lg:border-r lg:border-zinc-200 lg:bg-white lg:px-7 lg:py-10">
+        <a href="/" class="hidden lg:block">
+            {{ if brand:logo }}
+                {{ brand:logo }}
+                    <img src="{{ url }}" alt="{{ brand:logo_alt ?? site:name }}" class="h-12 w-auto">
+                {{ /brand:logo }}
+            {{ else }}
+                <span class="font-display text-lg leading-tight font-bold tracking-tight text-brand uppercase">
+                    {{ brand:wordmark ?? site:name }}
+                </span>
+            {{ /if }}
+        </a>
+
+        <ul class="flex flex-col gap-1">
+            {{ nav:main }}
+                <li>
+                    <a
+                        href="{{ url }}"
+                        {{ if is_current }}aria-current="page"{{ /if }}
+                        class="block border-l-2 py-2 pl-3 font-display text-[13px] font-semibold tracking-wide uppercase transition {{ if is_current }}border-accent text-accent{{ else }}border-transparent text-brand hover:border-accent hover:text-accent{{ /if }}"
+                    >
+                        {{ title }}
+                    </a>
+
+                    {{ if children }}
+                        <ul class="ml-3 border-l border-zinc-200">
+                            {{ children }}
+                                <li>
+                                    <a
+                                        href="{{ url }}"
+                                        {{ if is_current }}aria-current="page"{{ /if }}
+                                        class="block border-l-2 py-1.5 pl-3 font-display text-[12px] font-medium tracking-wide uppercase transition {{ if is_current }}border-accent text-accent{{ else }}border-transparent text-mute hover:border-accent hover:text-accent{{ /if }}"
+                                    >
+                                        {{ title }}
+                                    </a>
+                                </li>
+                            {{ /children }}
+                        </ul>
+                    {{ /if }}
+                </li>
+            {{ /nav:main }}
+        </ul>
+
+        {{ if social:profiles }}
+            <div class="mt-8 lg:mt-0">
+                <span class="block h-1 w-10 bg-brand"></span>
+
+                <ul class="mt-6 flex flex-wrap gap-2">
+                    {{ social:profiles }}
+                        <li>
+                            <a
+                                href="{{ url }}"
+                                rel="noopener noreferrer"
+                                target="_blank"
+                                class="flex size-8 items-center justify-center bg-accent text-white transition hover:bg-brand"
+                            >
+                                <span class="sr-only">{{ network:label }} (opens in a new tab)</span>
+
+                                {{ if network == 'facebook' }}
+                                    <svg class="size-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.33-.04-1.55-.14-2.84-.14C12 2 10.5 3.66 10.5 6.7v2.8H8v4h2.5V22H14v-8.5Z"/></svg>
+                                {{ elseif network == 'instagram' }}
+                                    <svg class="size-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16Zm0 5.68a4.16 4.16 0 1 0 0 8.32 4.16 4.16 0 0 0 0-8.32Zm0 6.86a2.7 2.7 0 1 1 0-5.4 2.7 2.7 0 0 1 0 5.4Zm5.3-7.02a.97.97 0 1 1-1.94 0 .97.97 0 0 1 1.94 0Z"/></svg>
+                                {{ elseif network == 'x' }}
+                                    <svg class="size-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82-5.97 6.82H1.66l7.73-8.84L1.25 2.25h6.83l4.71 6.23 5.45-6.23Zm-1.16 17.52h1.83L7.08 4.13H5.11l11.97 15.64Z"/></svg>
+                                {{ elseif network == 'linkedin' }}
+                                    <svg class="size-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM2.4 21.5h5.16V9.75H2.4V21.5Zm7.4-11.75h4.94v1.61h.07c.69-1.24 2.37-2.55 4.88-2.55 5.22 0 6.18 3.24 6.18 7.45v6.24h-5.15v-5.53c0-1.32-.02-3.02-1.9-3.02-1.9 0-2.2 1.44-2.2 2.93v5.62H9.8V9.75Z"/></svg>
+                                {{ /if }}
+                            </a>
+                        </li>
+                    {{ /social:profiles }}
+                </ul>
+            </div>
+        {{ /if }}
+    </nav>
+</div>

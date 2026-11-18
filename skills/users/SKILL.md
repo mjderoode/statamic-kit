@@ -145,8 +145,6 @@ those for every read and write. Mention moved paths in the plan.
 - Record for each: file, field handle, tab, **inline** (in a blueprint) or
   **fieldset** (pulled into blueprints with `- import: <fieldset>`), the set
   groups (`sets: <group>: { display, sets: … }`) and the sets in each.
-- A fieldset-based builder is edited **in the fieldset**, never by copying sets
-  into a blueprint.
 - More than one candidate → stop and ask (SKILL.md step 2).
 
 #### 5. Template dispatch
@@ -174,10 +172,6 @@ partials, not a guess from the file tree.
 - **Set metadata:** add `icon:` / `instructions:` only if sibling sets have them.
 - **Ordering:** obey rules stated in YAML comments (e.g. "keep sets alphabetical");
   otherwise append at the end of the group.
-- **Closest sibling partial:** note its wrapper element, empty-field guards and
-  comment style; the new partial copies them.
-- **Existing handles:** if the requested set or field handle already exists, say
-  so and offer to extend it.
 
 #### 7. Edition (Core or Pro)
 

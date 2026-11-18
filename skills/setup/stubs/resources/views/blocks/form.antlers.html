@@ -1,0 +1,133 @@
+{{#
+    Statamic form. Statamic's built-in honeypot does the spam filtering, so there
+    is no third-party script and nothing for a real visitor to solve.
+    Submissions land under Tools → Forms and in storage/forms/.
+
+    Three things this block depends on:
+
+    - `form_handle` is a `form` fieldtype, which augments to a Form *object*, not
+      a string. The tag therefore binds it: `:in="form_handle:handle"`.
+      Writing `in="{ form_handle }"` throws "A form handle is required".
+    - `nocache` re-renders just this region per request. Without it, static
+      caching freezes the page and neither the success message nor the
+      validation errors — both session-backed — ever show.
+    - `{{ honeypot }}` is only the *name* of the trap field. The input has to be
+      rendered below or the `honeypot:` line in resources/forms/<handle>.yaml
+      does nothing at all, silently.
+#}}
+
+<section class="bg-white py-20 lg:py-28">
+    <div class="mx-auto max-w-7xl px-6 sm:px-10 lg:px-14">
+        {{ if heading }}
+            <h2 class="rule-accent text-section text-brand uppercase">
+                {{ heading }}
+            </h2>
+        {{ /if }}
+
+        {{ if intro }}
+            <p class="mt-7 max-w-2xl text-lg leading-relaxed text-mute text-pretty">
+                {{ intro }}
+            </p>
+        {{ /if }}
+
+        <div class="mt-12 max-w-2xl">
+            {{ if form_handle }}
+            {{ nocache }}
+            {{ form:create :in="form_handle:handle" class="space-y-7" }}
+                {{ if success }}
+                    <p class="border-l-4 border-accent bg-zinc-50 p-5 text-[15px] text-ink" role="status">
+                        {{ success_message }}
+                    </p>
+                {{ /if }}
+
+                {{ if errors }}
+                    <div class="border-l-4 border-red-600 bg-red-50 p-5" role="alert">
+                        <p class="font-display text-sm font-semibold text-red-800">
+                            Please check the form and try again.
+                        </p>
+
+                        <ul class="mt-2 space-y-1 text-[15px] text-red-800">
+                            {{ errors }}
+                                <li>{{ value }}</li>
+                            {{ /errors }}
+                        </ul>
+                    </div>
+                {{ /if }}
+
+                {{# The spam trap. Hidden from people, inviting to bots. #}}
+                <div class="hidden" aria-hidden="true">
+                    <label for="field-{{ honeypot }}">Leave this field blank</label>
+                    <input type="text" id="field-{{ honeypot }}" name="{{ honeypot }}" tabindex="-1" autocomplete="off">
+                </div>
+
+                {{ fields }}
+                    <div>
+                        {{ if type != 'toggle' }}
+                            <label for="field-{{ handle }}" class="mb-2 block font-display text-xs font-semibold tracking-[0.14em] text-brand uppercase">
+                                {{ display }}
+                                {{ if validate | contains('required') }}
+                                    <span class="text-accent" aria-hidden="true">*</span>
+                                    <span class="sr-only">(required)</span>
+                                {{ /if }}
+                            </label>
+                        {{ /if }}
+
+                        {{ if type == 'textarea' }}
+                            <textarea
+                                id="field-{{ handle }}"
+                                name="{{ handle }}"
+                                rows="6"
+                                {{ if error }}aria-invalid="true" aria-describedby="error-{{ handle }}"{{ /if }}
+                                class="w-full border border-zinc-300 bg-white px-4 py-3 text-[15px] text-ink transition focus:border-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                            >{{ old | sanitize }}</textarea>
+                        {{ elseif type == 'toggle' }}
+                            {{# Label sentence lives in `instructions`; `display` stays short
+                                because validation messages interpolate it. #}}
+                            <div class="flex items-start gap-3">
+                                <input
+                                    id="field-{{ handle }}"
+                                    type="checkbox"
+                                    name="{{ handle }}"
+                                    value="1"
+                                    {{ if old }}checked{{ /if }}
+                                    {{ if error }}aria-invalid="true" aria-describedby="error-{{ handle }}"{{ /if }}
+                                    class="mt-1 size-4 shrink-0 accent-brand"
+                                >
+                                <label for="field-{{ handle }}" class="text-[15px] leading-relaxed text-mute">
+                                    {{ instructions ?? display }}
+                                    {{ if validate | contains('accepted') or validate | contains('required') }}
+                                        <span class="text-accent" aria-hidden="true">*</span>
+                                        <span class="sr-only">(required)</span>
+                                    {{ /if }}
+                                </label>
+                            </div>
+                        {{ else }}
+                            <input
+                                id="field-{{ handle }}"
+                                type="{{ input_type ?? 'text' }}"
+                                name="{{ handle }}"
+                                value="{{ old | sanitize }}"
+                                {{ if handle == 'email' }}autocomplete="email"{{ elseif handle == 'name' }}autocomplete="name"{{ /if }}
+                                {{ if error }}aria-invalid="true" aria-describedby="error-{{ handle }}"{{ /if }}
+                                class="w-full border border-zinc-300 bg-white px-4 py-3 text-[15px] text-ink transition focus:border-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                            >
+                        {{ /if }}
+
+                        {{ if error }}
+                            <p id="error-{{ handle }}" class="mt-2 text-sm text-red-700">{{ error }}</p>
+                        {{ /if }}
+                    </div>
+                {{ /fields }}
+
+                <button
+                    type="submit"
+                    class="bg-accent px-9 py-4 font-display text-sm font-bold tracking-[0.12em] text-white uppercase transition hover:bg-brand"
+                >
+                    Send message
+                </button>
+            {{ /form:create }}
+            {{ /nocache }}
+            {{ /if }}
+        </div>
+    </div>
+</section>

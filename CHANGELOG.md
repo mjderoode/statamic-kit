@@ -2,6 +2,25 @@
 
 Releases ship when `version` in `.claude-plugin/plugin.json` changes.
 
+## 0.6.0 — 2026-11-18
+
+- New skill `setup`: creates a new Statamic 6 site with Antlers, Tailwind 4 +
+  Vite, a page-builder skeleton, globals, a main navigation, a contact form,
+  a super user and a first commit. Runs on MageBox when installed, otherwise
+  on `php artisan serve`. Asks for the plan and the super user's
+  credentials before it runs anything. It runs Composer and npm, so the
+  README's "What it runs and what it accesses" section now lists it.
+- `setup` installs fixed major versions (Statamic `^6.0`, Tailwind 4, Vite 8,
+  `laravel-vite-plugin` 3), so a new major release cannot break the stubs.
+- The README says which platforms are supported (macOS; the mods stay silent
+  on native Windows, and `setup` needs WSL there).
+- Skills: removed rules that appeared twice within one skill (moved paths for
+  globals, navigations and forms; the fieldset-builder, closest-sibling and
+  existing-handle rules in project detection). Nothing was dropped that is
+  not stated elsewhere in the same skill.
+- Mods: shared helpers moved to `mods/lib/statamic.ts`; no change in
+  behaviour.
+
 ## 0.5.0 — 2026-11-14
 
 - A plugin icon (1254 × 1254 PNG) in the plugin manifest folder, for the

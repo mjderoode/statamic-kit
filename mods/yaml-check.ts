@@ -1,4 +1,4 @@
-import type { EngineInterface, On, ToolCallResult } from 'claude-code'
+import type { EngineInterface, On } from 'claude-code'
 import {
   analyse,
   findProject,
@@ -7,6 +7,7 @@ import {
   looksLikeBlueprint,
   parseTexts,
   relative,
+  withContext,
   type Project,
 } from './lib/statamic.ts'
 
@@ -66,11 +67,6 @@ export async function checkYaml($: EngineInterface, path: string): Promise<strin
 
   return notes.length > 0 ? notes.join('\n\n') : undefined
 }
-
-const withContext = (result: ToolCallResult, note: string | undefined): ToolCallResult =>
-  note === undefined || result.deny !== undefined || result.isError === true
-    ? result
-    : { ...result, context: [...(result.context ?? []), note] }
 
 export const yamlCheck = (on: On) => {
   on('tool.call', { tool: 'Write' }, async ($, e, next) => {

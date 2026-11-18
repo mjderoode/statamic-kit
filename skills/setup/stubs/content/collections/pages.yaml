@@ -1,0 +1,8 @@
+title: Pages
+# root: true makes the first item in the tree the home page at `/`. That entry
+# cannot have children — nesting under it throws "Root page cannot have children"
+# as a 500 on every page.
+structure:
+  root: true
+route: '{parent_uri}/{slug}'
+template: page
